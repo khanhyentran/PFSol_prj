@@ -1,0 +1,294 @@
+From 9e1fb50da392c555c2514b13b7f4da0e80cfb638 Mon Sep 17 00:00:00 2001
+From: root <root@UBT-14.04-LB00>
+Date: Thu, 12 Apr 2018 11:05:58 +0700
+Subject: [PATCH] RZ/A1 RSK: Convert OSTM to driver model From u-boot 2018.05,
+ change timer_ostm.c to support driver model follow timer uclass upstream
+
+---
+ arch/arm/mach-rmobile/timer_ostm.c    | 60 ++++++-----------------------------
+ board/renesas/rskrza1/rskrza1.c       | 14 ++++++++
+ drivers/timer/timer-uclass.c          |  7 ++--
+ include/configs/rskrza1.h             |  5 +++
+ include/dm/platform_data/timer_ostm.h | 27 ++++++++++++++++
+ 5 files changed, 60 insertions(+), 53 deletions(-)
+ create mode 100755 include/dm/platform_data/timer_ostm.h
+
+diff --git a/arch/arm/mach-rmobile/timer_ostm.c b/arch/arm/mach-rmobile/timer_ostm.c
+index 6686d36..581a9a0 100644
+--- a/arch/arm/mach-rmobile/timer_ostm.c
++++ b/arch/arm/mach-rmobile/timer_ostm.c
+@@ -28,13 +28,10 @@
+ #include <asm/io.h>
+ #include <asm/arch/rmobile.h>
+ #include <asm/processor.h>
+-
+-#ifdef CONFIG_TIMER
+ #include <dm/platform_data/timer_ostm.h>
+ #include <dm.h>
+ #include <errno.h>
+ #include <timer.h>
+-#endif
+ 
+ DECLARE_GLOBAL_DATA_PTR;
+ 
+@@ -57,43 +54,28 @@ static void ost_timer_stop(unsigned int timer)
+ int timer_init(void)
+ {
+ 	ost0_timer = 0;
+-
+-#ifdef CONFIG_TIMER
+ 	int ret;
++
+ 	if (!gd->timer) {
+ 		ret = dm_timer_init();
+ 		if (ret)
+ 			return ret;
+ 	}
+-#else
+-	readb(OSTM0CTL);
+-	writeb(OSTM0CTL_D, OSTM0CTL);
+-
+-	/* User Device 0 only */
+-	ost_timer_stop(0);
+-	writel(OST_TIMER_RESET, OSTM0CMP);
+-	ost_timer_start(0);
+-#endif
+ 
+ 	return 0;
+ }
+ 
+ unsigned long long __weak get_ticks(void)
+ {
+-#ifndef TIMER
+-	return ost0_timer;
+-#else
+ 	int ret;
++
+ 	if (!gd->timer) {
+-		int ret;
+ 		ret = dm_timer_init();
+ 		if (ret)
+ 			return ret;
+ 	}
+ 
+ 	return (ulong) (timer_get_count(gd->timer, 0));
+-
+-#endif
+ }
+ 
+ static vu_long cmcnt = 0;
+@@ -122,8 +104,8 @@ static unsigned long get_usec (void)
+ ulong get_timer(ulong base)
+ {
+ 	const ulong timecnt = OST_TIMER_RESET / (CONFIG_SYS_CLK_FREQ / 2 / 1000);
+-#ifdef CONFIG_TIMER
+ 	int ret;
++
+ 	if (!gd->timer) {
+ 		ret = dm_timer_init();
+ 		if (ret)
+@@ -131,9 +113,7 @@ ulong get_timer(ulong base)
+ 	}
+ 	
+ 	ulong now = (ulong) timer_get_count(gd->timer, 0)/1000;
+-#else
+-	ulong now = (get_usec() / 1000);
+-#endif
++
+ 	if (now >= base)
+ 		return now - base;
+ 	else
+@@ -150,9 +130,6 @@ void __udelay(unsigned long usec)
+ 
+ unsigned long __weak get_tbclk(void)
+ {
+-#ifndef TIMER
+-	return CONFIG_SYS_HZ;
+-#else
+ 	if (!gd->timer) {
+ 		int ret;
+ 		ret = dm_timer_init();
+@@ -161,12 +138,9 @@ unsigned long __weak get_tbclk(void)
+ 	}
+ 
+ 	return timer_get_rate(gd->timer);
+-#endif
+ }
+ 
+-#ifdef CONFIG_TIMER
+-
+-unsigned long get_count(struct udevice *dev, u64 *count)
++static int ostm_get_count(struct udevice *dev, u64 *count)
+ {
+ 	struct ost_timer_platdata *plat = dev_get_platdata(dev);
+ 	ulong data = readl(OSTM0CNT);
+@@ -206,10 +180,10 @@ static int ost_timer_probe(struct udevice *dev)
+ 	if (!uc_priv->clock_rate)
+ 		uc_priv->clock_rate = CONFIG_SYS_HZ;
+ 
+-	priv->base = ((unsigned char *) plat->base + 0x000);
++	priv->base = plat->base + 0x000;
+ 	priv->clk = plat->clk;
+-	priv->ctl = ((unsigned char *) plat->base + 0x020);
+-	priv->cnt = ((unsigned char *) plat->base + 0x004);
++	priv->ctl = plat->base + 0x020;
++	priv->cnt = plat->base + 0x004;
+ 	priv->reset = plat->reset;
+ 	
+ 	ost0_timer = 0;
+@@ -226,7 +200,7 @@ static int ost_timer_probe(struct udevice *dev)
+ }
+ 
+ static const struct timer_ops ost_timer_ops = {
+-	.get_count 	= get_count,
++	.get_count 	= ostm_get_count,
+ };
+ 
+ static const struct udevice_id ost_timer_ids[] = {
+@@ -234,21 +208,6 @@ static const struct udevice_id ost_timer_ids[] = {
+ 	{ },
+ };
+ 
+-#ifdef CONFIG_OF_CONTROL
+-static const struct udevice_id ost_timer_ids[] ={
+-	{.compatible = "renesas,rskrza_ostm"},
+-	{}
+-};
+-
+-static int ost_timer_ofdata_to_platdata(struct udevice *dev)
+-{
+-	struct ost_timer_platdata *plat = dev_get_platdata(dev);
+-	struct ost_timer_priv *priv = dev_get_priv(dev);
+-	
+-	return 0;
+-}
+-#endif
+-
+ U_BOOT_DRIVER(timer_ostm) = {
+ 	.name	= "timer_ostm",
+ 	.id	= UCLASS_TIMER,
+@@ -261,4 +220,3 @@ U_BOOT_DRIVER(timer_ostm) = {
+ 	.priv_auto_alloc_size = sizeof(struct ost_timer_priv),
+ };
+ 
+-#endif
+\ No newline at end of file
+diff --git a/board/renesas/rskrza1/rskrza1.c b/board/renesas/rskrza1/rskrza1.c
+index 72a6324..89770aa 100644
+--- a/board/renesas/rskrza1/rskrza1.c
++++ b/board/renesas/rskrza1/rskrza1.c
+@@ -10,6 +10,7 @@
+ #include <asm/arch/r7s72100.h>
+ #include <asm/arch/sys_proto.h>
+ #include <dm/platform_data/serial_sh.h>
++#include <dm/platform_data/timer_ostm.h>
+ #include <i2c.h>
+ #include <spi_flash.h>
+ #include <netdev.h>
+@@ -20,6 +21,19 @@
+ 
+ DECLARE_GLOBAL_DATA_PTR;
+ 
++/* OSTM */
++static const struct ost_timer_platdata timer_platdata = {
++	.base = RZA1_OST_BASE,	/* OSTimer_BASE */
++	.clk = CONFIG_SYS_CLK_FREQ,		/* P1 Clock */
++	.reset = OST_TIMER_RESET,
++	.max_cnt = OST_MAX_COUNTER,
++	.run_mode = OSTM0CTL_D,
++};
++U_BOOT_DEVICE(rskrza1_timer) = {
++	.name = "timer_ostm",
++	.platdata = &timer_platdata,
++};
++
+ /* Serial Console */
+ static const struct sh_serial_platdata serial_platdata = {
+ 	.base = SCIF_CONSOLE_BASE,	/* SCIFx_BASE */
+diff --git a/drivers/timer/timer-uclass.c b/drivers/timer/timer-uclass.c
+index 45397b2..f146981 100644
+--- a/drivers/timer/timer-uclass.c
++++ b/drivers/timer/timer-uclass.c
+@@ -55,10 +55,12 @@ static int timer_pre_probe(struct udevice *dev)
+ 		if (IS_ERR_VALUE(ret))
+ 			return ret;
+ 		uc_priv->clock_rate = ret;
+-	} else {
++	} else if(CONFIG_IS_ENABLED(OF_CONTROL)){
+ 		uc_priv->clock_rate =
+ 			dev_read_u32_default(dev, "clock-frequency", 0);
+ 	}
++	else 
++		uc_priv->clock_rate = CONFIG_SYS_HZ;
+ #endif
+ 
+ 	return 0;
+@@ -98,7 +100,7 @@ int notrace dm_timer_init(void)
+ 	 */
+ 	if (gd->dm_root == NULL)
+ 		return -EAGAIN;
+-
++if (CONFIG_IS_ENABLED(OF_CONTROL)){
+ #if !CONFIG_IS_ENABLED(OF_PLATDATA)
+ 	/* Check for a chosen timer to be used for tick */
+ 	node = ofnode_get_chosen_node("tick-timer");
+@@ -116,6 +118,7 @@ int notrace dm_timer_init(void)
+ 		}
+ 	}
+ #endif
++}
+ 
+ 	if (!dev) {
+ 		/* Fall back to the first available timer */
+diff --git a/include/configs/rskrza1.h b/include/configs/rskrza1.h
+index b417d2e..5336e11 100644
+--- a/include/configs/rskrza1.h
++++ b/include/configs/rskrza1.h
+@@ -204,6 +204,11 @@
+ #define WTCSR_D		0xA518
+ #define WTCNT_D		0x5A00
+ 
++/*OSTM*/
++#define OSTM0CTL_D	0x02	/* free run mode, disable interrupt */
++#define OST_MAX_COUNTER (0xFFFFFFFF)
++#define OST_TIMER_RESET (0xFFFFFFFF)
++
+ /* Enable all peripheral clocks */
+ #define STBCR3_D	0x00000000
+ #define STBCR4_D	0x00000000
+diff --git a/include/dm/platform_data/timer_ostm.h b/include/dm/platform_data/timer_ostm.h
+new file mode 100755
+index 0000000..1b61f87
+--- /dev/null
++++ b/include/dm/platform_data/timer_ostm.h
+@@ -0,0 +1,27 @@
++/*
++ * Copyright (c) 2014  Nobuhiro Iwamatsu <nobuhiro.iwamatsu.yj@renesas.com>
++ * Copyright (c) 2014  Renesas Electronics Corporation
++ *
++ * SPDX-License-Identifier:	GPL-2.0+
++ */
++
++#ifndef __timer_h
++#define __timer_h
++
++/*
++ * Information about OSTM module
++ *
++ * @base:	Register base address
++ * @clk:	Input clock rate, used for calculating the baud rate divisor
++ * @reset:	Reset address
++ * @max_cnt:	Max counter
++ * @run_mode:	free run mode, disable interrupt
++ */
++struct ost_timer_platdata {
++	unsigned long base;
++	unsigned int clk;
++	unsigned long reset;
++	unsigned long max_cnt;
++	unsigned int run_mode;
++};
++#endif
+-- 
+1.9.1
+
