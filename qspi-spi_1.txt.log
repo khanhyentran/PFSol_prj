@@ -1,0 +1,97 @@
+/* FRQCR */
+=> mw.w 0xfcfe0010 0x1212
+=> md.w 0xfcfe0010 1
+fcfe0010: 1212                                       ..
+
+/* SCLKSEL */
+=> mw.w 0xfcfe0104 0x0032
+=> md.w 0xfcfe0104 1
+fcfe0104: 0032                                       2.
+
+/* STBCR8 */
+=> mw.b 0xfcfe0434 0xf7
+=> md.b 0xfcfe0434 1
+fcfe0434: f7                                                 .
+
+/* PHYCNT */
+=> mw.l 0x1f80007c 0x00030260
+=> md.l 0x1f80007c 1
+1f80007c: 00030260                               `...
+
+/* CMNCR */
+=> mw.l 0x1f800000 0x81fff300
+=> md.l 0x1f800000 1
+1f800000: 81fff300                               ....
+
+/* PHYOFFSET1 */ <-- additional add 
+=> mw.l 0x1f800080 0x31511144
+=> md.l 0x1f800080
+1f800080: 31511144                               D.Q1
+
+/* SSLDR */
+=> mw.l 0x1f800004 0
+=> md.l 0x1f800004 1
+1f800004: 00000000                               ....
+
+/* SMCR */
+=> mw.l 0x1f800020 4
+=> md.l 0x1f800020 1
+1f800020: 00000004                               ....
+
+/* SMCMR */
+=> mw.l 0x1f800024 0x009f0000
+=> md.l 0x1f800024 1
+1f800024: 009f0000                               ....
+
+/* SMADR */
+=> mw.l 0x1f800028 0
+=> md.l 0x1f800028 1
+1f800028: 00000000                               ....
+
+/* SMOPR */
+=> mw.l 0x1f80002c 0
+=> md.l 0x1f80002c 1
+1f80002c: 00000000                               ....
+
+/* SMENR */
+=> mw.l 0x1f800030 0x4008
+=> md.l 0x1f800030 1
+1f800030: 00004008                               .@..
+
+/* SMWDR0 */
+=> mw.l 0x1f800040 0
+=> md.l 0x1f800040 1
+1f800040: 00000000                               ....
+
+/* SMWDR1 */
+=> mw.l 0x1f800044 0
+=> md.l 0x1f800044 1
+1f800044: 00000000                               ....
+
+/* SMDMCR */
+=> mw.l 0x1f800060 0
+=> md.l 0x1f800060 1
+1f800060: 00000000                               ....
+
+/* SMDRENR */
+=> mw.l 0x1f800064 0
+=> md.l 0x1f800064 1
+1f800064: 00000000                               ....
+
+/* PHYCNT */
+=> mw.l 0x1f80007c 0x80030260
+=> md.l 0x1f80007c 1
+1f80007c: 00030260                               `...
+
+/* SMCR */
+=> mw.l 0x1f800020 5
+/*RVC: this register is writable only, do not read to check*/
+
+/* CMNSR */
+=> md.l 0x1f800048 1
+1f800048: 00000001                               ....
+
+/* SMRDR0 */
+=> md 0x1f800038 1
+1f800038: c2c2c2c2                               ....
+/*RVC: expectation is c2201a ?*/
