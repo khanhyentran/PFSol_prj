@@ -1,0 +1,434 @@
+U-Boot 2017.05-g2124de1-dirty (May 16 2018 - 16:18:06 +0700)
+
+CPU: Renesas Electronics CPU rev 0.0
+Board: RZA2MEVB
+I2C:   ready
+DRAM:  4 MiB
+call spi_setup_slave: bus(0) cs(0) maxhz(1000000) mode(3))
+call qspi_set_config_register:
+call spi_claim_bus: bus(0) cs(0)
+call spi_xfer: bus(0) cs(0) bitlen(8) dout=(0x80314e4f) din=(0x00000000), flag=(1)
+call qspi_set_ope_mode: mode=1(SPI)
+Already in correct mode
+call qspi_send_data:
+send cmd :  9f
+call spi_xfer: bus(0) cs(0) bitlen(48) dout=(0x00000000) din=(0x80314e68), flag=(2)
+call qspi_recv_data:
+recv :  c2 20 1a c2 20 1a <END>
+call qspi_set_ope_mode: mode=0(XIP)
+call spi_claim_bus: bus(0) cs(0)
+call spi_xfer: bus(0) cs(0) bitlen(8) dout=(0x80314e1f) din=(0x00000000), flag=(3)
+call qspi_set_ope_mode: mode=1(SPI)
+call qspi_send_data:
+send cmd :  06 <END>
+call qspi_set_ope_mode: mode=0(XIP)
+call spi_xfer: bus(0) cs(0) bitlen(8) dout=(0x80314e68) din=(0x00000000), flag=(1)
+call qspi_set_ope_mode: mode=1(SPI)
+call qspi_send_data:
+send cmd :  01
+call spi_xfer: bus(0) cs(0) bitlen(8) dout=(0x80314e65) din=(0x00000000), flag=(2)
+call qspi_send_data:
+send dat :  00 <END>
+call qspi_set_ope_mode: mode=0(XIP)
+call spi_claim_bus: bus(0) cs(0)
+call spi_xfer: bus(0) cs(0) bitlen(8) dout=(0x80314e1f) din=(0x00000000), flag=(1)
+call qspi_set_ope_mode: mode=1(SPI)
+call qspi_send_data:
+send cmd :  05
+call spi_xfer: bus(0) cs(0) bitlen(8) dout=(0x00000000) din=(0x80314e37), flag=(2)
+call qspi_recv_data:
+recv :  00 <END>
+call qspi_set_ope_mode: mode=0(XIP)
+call spi_release_bus: bus(0) cs(0)
+call spi_release_bus: bus(0) cs(0)
+call spi_claim_bus: bus(0) cs(0)
+call spi_xfer: bus(0) cs(0) bitlen(8) dout=(0x803551d4) din=(0x00000000), flag=(1)
+call qspi_set_ope_mode: mode=1(SPI)
+call qspi_send_data:
+send cmd :  c8
+call spi_xfer: bus(0) cs(0) bitlen(8) dout=(0x00000000) din=(0x80314e68), flag=(2)
+call qspi_recv_data:
+recv :  00 <END>
+call qspi_set_ope_mode: mode=0(XIP)
+call spi_release_bus: bus(0) cs(0)
+SF: Detected mx25l51235f with page size 256 Bytes, erase size 64 KiB, total 64 MiB
+call spi_release_bus: bus(0) cs(0)
+call spi_claim_bus: bus(0) cs(0)
+call spi_xfer: bus(0) cs(0) bitlen(40) dout=(0x80355200) din=(0x00000000), flag=(1)
+call qspi_set_ope_mode: mode=1(SPI)
+call qspi_send_data:
+send cmd :  0b 08 00 00 00
+call spi_xfer: bus(0) cs(0) bitlen(2097152) dout=(0x00000000) din=(0x80315180), flag=(2)
+call qspi_recv_data:
+recv :  61 74 65 3d 6f 74 61 72 5f 6c 6f 67 74 64 65 6c 69 6e 65 5f 6e 6f 72 65 20 65 61 72 65 61 70
+        Stopped after displaying 100 bytes
+ <END>
+call qspi_set_ope_mode: mode=0(XIP)
+call spi_release_bus: bus(0) cs(0)
+*** Warning - bad CRC, using default environment
+
+call spi_free_slave: bus(0) cs(0)
+In:    serial_sh
+Out:   serial_sh
+Err:   serial_sh
+                      SPI Flash Memory Map
+                ------------------------------------
+                         Start      Size     SPI
+                u-boot:  0x00000000 0x080000 0
+                   env:  0x00080000 0x040000 0
+                    DT:  0x000C0000 0x040000 0
+                Kernel:  0x00100000 0x280000 0+1 (size*=2)
+                rootfs:  0x00400000 0x1C00000 0+1 (size*=2)
+Net:   Please set MAC address
+sh_eth
+Error: sh_eth address not set.
+
+=> 
+=> 
+=> 
+=> set ethaddr 74:90:50:C0:FE:46
+Unknown command 'set' - try 'help'
+=> env set ethaddr 74:90:50:C0:FE:46
+=> printenv
+baudrate=115200
+bootargs=ignore_loglevel
+bootdelay=3
+cmdline_common=ignore_loglevel earlyprintk earlycon=scif,0xE8009000
+dtb_lcdfb_dyn=fdt set /display@fcff7400 fb_phys_addr <0x00000000>
+dtb_lcdfb_fixed=fdt set /display@fcff7400 fb_phys_addr <0x60000000>
+dtb_mem_ram=fdt memory 0x20000000 0x00A00000
+dtb_mem_sdram=fdt memory 0x08000000 0x02000000
+dtb_read_ram=sf probe 0; sf read 20500000 C0000 8000; fdt addr 20500000 ; setenv addr_dtb 20500000
+dtb_read_sdram=sf probe 0; sf read 09800000 C0000 8000; fdt addr 09800000 ; setenv addr_dtb 09800000
+ethact=sh_eth
+ethaddr=74:90:50:C0:FE:46
+fs_axfs=rootfstype=axfs rootflags=physaddr=0x18800000
+fs_mtd=root=/dev/mtdblock0
+ipaddr=192.168.0.55
+s_boot=run dtb_read_sdram; run dtb_mem_sdram; run dtb_lcdfb_fixed; setenv bootargs ${cmdline_commong
+sa_boot=run dtb_read_sdram; run dtb_mem_sdram; run dtb_lcdfb_fixed; setenv bootargs ${cmdline_commog
+serverip=192.168.0.1
+stderr=serial_sh
+stdin=serial_sh
+stdout=serial_sh
+uImg=qspi dual; cp.b 0x18200000 09000000 0x400000; bootm start 09000000 - 09800000; bootm loados ; o
+xImg=qspi dual; setenv cmd bootx 0x18200000 ${addr_dtb}; run cmd
+xa_boot=run dtb_read_ram; run dtb_mem_ram; run dtb_lcdfb_dyn; setenv bootargs ${cmdline_common} ${fg
+xsa_boot=run dtb_read_sdram; run dtb_mem_sdram; run dtb_lcdfb_fixed; setenv bootargs ${cmdline_commg
+
+Environment size: 1516/262140 bytes
+=> ping 192.168.0.55
+sh_eth Waiting for PHY auto negotiation to complete......... TIMEOUT !
+sh_eth: phy startup failure
+ping failed; host 192.168.0.55 is not alive
+=> ping 192.168.0.1 
+sh_eth Waiting for PHY auto negotiation to complete......... TIMEOUT !
+sh_eth: phy startup failure
+ping failed; host 192.168.0.1 is not alive
+=> env set ipaddr 169.254.11.1
+=> printenv
+baudrate=115200
+bootargs=ignore_loglevel
+bootdelay=3
+cmdline_common=ignore_loglevel earlyprintk earlycon=scif,0xE8009000
+dtb_lcdfb_dyn=fdt set /display@fcff7400 fb_phys_addr <0x00000000>
+dtb_lcdfb_fixed=fdt set /display@fcff7400 fb_phys_addr <0x60000000>
+dtb_mem_ram=fdt memory 0x20000000 0x00A00000
+dtb_mem_sdram=fdt memory 0x08000000 0x02000000
+dtb_read_ram=sf probe 0; sf read 20500000 C0000 8000; fdt addr 20500000 ; setenv addr_dtb 20500000
+dtb_read_sdram=sf probe 0; sf read 09800000 C0000 8000; fdt addr 09800000 ; setenv addr_dtb 09800000
+ethact=sh_eth
+ethaddr=74:90:50:C0:FE:46
+fs_axfs=rootfstype=axfs rootflags=physaddr=0x18800000
+fs_mtd=root=/dev/mtdblock0
+ipaddr=169.254.11.1
+s_boot=run dtb_read_sdram; run dtb_mem_sdram; run dtb_lcdfb_fixed; setenv bootargs ${cmdline_commong
+sa_boot=run dtb_read_sdram; run dtb_mem_sdram; run dtb_lcdfb_fixed; setenv bootargs ${cmdline_commog
+serverip=192.168.0.1
+stderr=serial_sh
+stdin=serial_sh
+stdout=serial_sh
+uImg=qspi dual; cp.b 0x18200000 09000000 0x400000; bootm start 09000000 - 09800000; bootm loados ; o
+xImg=qspi dual; setenv cmd bootx 0x18200000 ${addr_dtb}; run cmd
+xa_boot=run dtb_read_ram; run dtb_mem_ram; run dtb_lcdfb_dyn; setenv bootargs ${cmdline_common} ${fg
+xsa_boot=run dtb_read_sdram; run dtb_mem_sdram; run dtb_lcdfb_fixed; setenv bootargs ${cmdline_commg
+
+Environment size: 1516/262140 bytes
+=> ping 169.254.11.193
+sh_eth Waiting for PHY auto negotiation to complete......... TIMEOUT !
+sh_eth: phy startup failure
+ping failed; host 169.254.11.193 is not alive
+=> mii dump 0 0-5
+0.     (0000)                 -- PHY control register --
+  (8000:0000) 0.15    =     0    reset
+  (4000:0000) 0.14    =     0    loopback
+  (2040:0000) 0. 6,13 =   b00    speed selection = 10 Mbps
+  (1000:0000) 0.12    =     0    A/N enable
+  (0800:0000) 0.11    =     0    power-down
+  (0400:0000) 0.10    =     0    isolate
+  (0200:0000) 0. 9    =     0    restart A/N
+  (0100:0000) 0. 8    =     0    duplex = half
+  (0080:0000) 0. 7    =     0    collision test enable
+  (003f:0000) 0. 5- 0 =     0    (reserved)
+
+1.     (0000)                 -- PHY status register --
+  (8000:0000) 1.15    =     0    100BASE-T4 able
+  (4000:0000) 1.14    =     0    100BASE-X  full duplex able
+  (2000:0000) 1.13    =     0    100BASE-X  half duplex able
+  (1000:0000) 1.12    =     0    10 Mbps    full duplex able
+  (0800:0000) 1.11    =     0    10 Mbps    half duplex able
+  (0400:0000) 1.10    =     0    100BASE-T2 full duplex able
+  (0200:0000) 1. 9    =     0    100BASE-T2 half duplex able
+  (0100:0000) 1. 8    =     0    extended status
+  (0080:0000) 1. 7    =     0    (reserved)
+  (0040:0000) 1. 6    =     0    MF preamble suppression
+  (0020:0000) 1. 5    =     0    A/N complete
+  (0010:0000) 1. 4    =     0    remote fault
+  (0008:0000) 1. 3    =     0    A/N able
+  (0004:0000) 1. 2    =     0    link status
+  (0002:0000) 1. 1    =     0    jabber detect
+  (0001:0000) 1. 0    =     0    extended capabilities
+
+2.     (0000)                 -- PHY ID 1 register --
+  (ffff:0000) 2.15- 0 =     0    OUI portion
+
+3.     (0000)                 -- PHY ID 2 register --
+  (fc00:0000) 3.15-10 =     0    OUI portion
+  (03f0:0000) 3. 9- 4 =     0    manufacturer part number
+  (000f:0000) 3. 3- 0 =     0    manufacturer rev. number
+
+4.     (0000)                 -- Autonegotiation advertisement register --
+  (8000:0000) 4.15    =     0    next page able
+  (4000:0000) 4.14    =     0    (reserved)
+  (2000:0000) 4.13    =     0    remote fault
+  (1000:0000) 4.12    =     0    (reserved)
+  (0800:0000) 4.11    =     0    asymmetric pause
+  (0400:0000) 4.10    =     0    pause enable
+  (0200:0000) 4. 9    =     0    100BASE-T4 able
+  (0100:0000) 4. 8    =     0    100BASE-TX full duplex able
+  (0080:0000) 4. 7    =     0    100BASE-TX able
+  (0040:0000) 4. 6    =     0    10BASE-T   full duplex able
+  (0020:0000) 4. 5    =     0    10BASE-T   able
+  (001f:0000) 4. 4- 0 =     0    selector = ???
+
+5.     (0000)                 -- Autonegotiation partner abilities register --
+  (8000:0000) 5.15    =     0    next page able
+  (4000:0000) 5.14    =     0    acknowledge
+  (2000:0000) 5.13    =     0    remote fault
+  (1000:0000) 5.12    =     0    (reserved)
+  (0800:0000) 5.11    =     0    asymmetric pause able
+  (0400:0000) 5.10    =     0    pause able
+  (0200:0000) 5. 9    =     0    100BASE-T4 able
+  (0100:0000) 5. 8    =     0    100BASE-X full duplex able
+  (0080:0000) 5. 7    =     0    100BASE-TX able
+  (0040:0000) 5. 6    =     0    10BASE-T full duplex able
+  (0020:0000) 5. 5    =     0    10BASE-T able
+  (001f:0000) 5. 4- 0 =     0    selector = ???
+
+
+=> 
+0.     (0000)                 -- PHY control register --
+  (8000:0000) 0.15    =     0    reset
+  (4000:0000) 0.14    =     0    loopback
+  (2040:0000) 0. 6,13 =   b00    speed selection = 10 Mbps
+  (1000:0000) 0.12    =     0    A/N enable
+  (0800:0000) 0.11    =     0    power-down
+  (0400:0000) 0.10    =     0    isolate
+  (0200:0000) 0. 9    =     0    restart A/N
+  (0100:0000) 0. 8    =     0    duplex = half
+  (0080:0000) 0. 7    =     0    collision test enable
+  (003f:0000) 0. 5- 0 =     0    (reserved)
+
+1.     (0000)                 -- PHY status register --
+  (8000:0000) 1.15    =     0    100BASE-T4 able
+  (4000:0000) 1.14    =     0    100BASE-X  full duplex able
+  (2000:0000) 1.13    =     0    100BASE-X  half duplex able
+  (1000:0000) 1.12    =     0    10 Mbps    full duplex able
+  (0800:0000) 1.11    =     0    10 Mbps    half duplex able
+  (0400:0000) 1.10    =     0    100BASE-T2 full duplex able
+  (0200:0000) 1. 9    =     0    100BASE-T2 half duplex able
+  (0100:0000) 1. 8    =     0    extended status
+  (0080:0000) 1. 7    =     0    (reserved)
+  (0040:0000) 1. 6    =     0    MF preamble suppression
+  (0020:0000) 1. 5    =     0    A/N complete
+  (0010:0000) 1. 4    =     0    remote fault
+  (0008:0000) 1. 3    =     0    A/N able
+  (0004:0000) 1. 2    =     0    link status
+  (0002:0000) 1. 1    =     0    jabber detect
+  (0001:0000) 1. 0    =     0    extended capabilities
+
+2.     (0000)                 -- PHY ID 1 register --
+  (ffff:0000) 2.15- 0 =     0    OUI portion
+
+3.     (0000)                 -- PHY ID 2 register --
+  (fc00:0000) 3.15-10 =     0    OUI portion
+  (03f0:0000) 3. 9- 4 =     0    manufacturer part number
+  (000f:0000) 3. 3- 0 =     0    manufacturer rev. number
+
+4.     (0000)                 -- Autonegotiation advertisement register --
+  (8000:0000) 4.15    =     0    next page able
+  (4000:0000) 4.14    =     0    (reserved)
+  (2000:0000) 4.13    =     0    remote fault
+  (1000:0000) 4.12    =     0    (reserved)
+  (0800:0000) 4.11    =     0    asymmetric pause
+  (0400:0000) 4.10    =     0    pause enable
+  (0200:0000) 4. 9    =     0    100BASE-T4 able
+  (0100:0000) 4. 8    =     0    100BASE-TX full duplex able
+  (0080:0000) 4. 7    =     0    100BASE-TX able
+  (0040:0000) 4. 6    =     0    10BASE-T   full duplex able
+  (0020:0000) 4. 5    =     0    10BASE-T   able
+  (001f:0000) 4. 4- 0 =     0    selector = ???
+
+5.     (0000)                 -- Autonegotiation partner abilities register --
+  (8000:0000) 5.15    =     0    next page able
+  (4000:0000) 5.14    =     0    acknowledge
+  (2000:0000) 5.13    =     0    remote fault
+  (1000:0000) 5.12    =     0    (reserved)
+  (0800:0000) 5.11    =     0    asymmetric pause able
+  (0400:0000) 5.10    =     0    pause able
+  (0200:0000) 5. 9    =     0    100BASE-T4 able
+  (0100:0000) 5. 8    =     0    100BASE-X full duplex able
+  (0080:0000) 5. 7    =     0    100BASE-TX able
+  (0040:0000) 5. 6    =     0    10BASE-T full duplex able
+  (0020:0000) 5. 5    =     0    10BASE-T able
+  (001f:0000) 5. 4- 0 =     0    selector = ???
+
+
+=> 
+0.     (0000)                 -- PHY control register --
+  (8000:0000) 0.15    =     0    reset
+  (4000:0000) 0.14    =     0    loopback
+  (2040:0000) 0. 6,13 =   b00    speed selection = 10 Mbps
+  (1000:0000) 0.12    =     0    A/N enable
+  (0800:0000) 0.11    =     0    power-down
+  (0400:0000) 0.10    =     0    isolate
+  (0200:0000) 0. 9    =     0    restart A/N
+  (0100:0000) 0. 8    =     0    duplex = half
+  (0080:0000) 0. 7    =     0    collision test enable
+  (003f:0000) 0. 5- 0 =     0    (reserved)
+
+1.     (0000)                 -- PHY status register --
+  (8000:0000) 1.15    =     0    100BASE-T4 able
+  (4000:0000) 1.14    =     0    100BASE-X  full duplex able
+  (2000:0000) 1.13    =     0    100BASE-X  half duplex able
+  (1000:0000) 1.12    =     0    10 Mbps    full duplex able
+  (0800:0000) 1.11    =     0    10 Mbps    half duplex able
+  (0400:0000) 1.10    =     0    100BASE-T2 full duplex able
+  (0200:0000) 1. 9    =     0    100BASE-T2 half duplex able
+  (0100:0000) 1. 8    =     0    extended status
+  (0080:0000) 1. 7    =     0    (reserved)
+  (0040:0000) 1. 6    =     0    MF preamble suppression
+  (0020:0000) 1. 5    =     0    A/N complete
+  (0010:0000) 1. 4    =     0    remote fault
+  (0008:0000) 1. 3    =     0    A/N able
+  (0004:0000) 1. 2    =     0    link status
+  (0002:0000) 1. 1    =     0    jabber detect
+  (0001:0000) 1. 0    =     0    extended capabilities
+
+2.     (0000)                 -- PHY ID 1 register --
+  (ffff:0000) 2.15- 0 =     0    OUI portion
+
+3.     (0000)                 -- PHY ID 2 register --
+  (fc00:0000) 3.15-10 =     0    OUI portion
+  (03f0:0000) 3. 9- 4 =     0    manufacturer part number
+  (000f:0000) 3. 3- 0 =     0    manufacturer rev. number
+
+4.     (0000)                 -- Autonegotiation advertisement register --
+  (8000:0000) 4.15    =     0    next page able
+  (4000:0000) 4.14    =     0    (reserved)
+  (2000:0000) 4.13    =     0    remote fault
+  (1000:0000) 4.12    =     0    (reserved)
+  (0800:0000) 4.11    =     0    asymmetric pause
+  (0400:0000) 4.10    =     0    pause enable
+  (0200:0000) 4. 9    =     0    100BASE-T4 able
+  (0100:0000) 4. 8    =     0    100BASE-TX full duplex able
+  (0080:0000) 4. 7    =     0    100BASE-TX able
+  (0040:0000) 4. 6    =     0    10BASE-T   full duplex able
+  (0020:0000) 4. 5    =     0    10BASE-T   able
+  (001f:0000) 4. 4- 0 =     0    selector = ???
+
+5.     (0000)                 -- Autonegotiation partner abilities register --
+  (8000:0000) 5.15    =     0    next page able
+  (4000:0000) 5.14    =     0    acknowledge
+  (2000:0000) 5.13    =     0    remote fault
+  (1000:0000) 5.12    =     0    (reserved)
+  (0800:0000) 5.11    =     0    asymmetric pause able
+  (0400:0000) 5.10    =     0    pause able
+  (0200:0000) 5. 9    =     0    100BASE-T4 able
+  (0100:0000) 5. 8    =     0    100BASE-X full duplex able
+  (0080:0000) 5. 7    =     0    100BASE-TX able
+  (0040:0000) 5. 6    =     0    10BASE-T full duplex able
+  (0020:0000) 5. 5    =     0    10BASE-T able
+  (001f:0000) 5. 4- 0 =     0    selector = ???
+
+
+=> 
+0.     (0000)                 -- PHY control register --
+  (8000:0000) 0.15    =     0    reset
+  (4000:0000) 0.14    =     0    loopback
+  (2040:0000) 0. 6,13 =   b00    speed selection = 10 Mbps
+  (1000:0000) 0.12    =     0    A/N enable
+  (0800:0000) 0.11    =     0    power-down
+  (0400:0000) 0.10    =     0    isolate
+  (0200:0000) 0. 9    =     0    restart A/N
+  (0100:0000) 0. 8    =     0    duplex = half
+  (0080:0000) 0. 7    =     0    collision test enable
+  (003f:0000) 0. 5- 0 =     0    (reserved)
+
+1.     (0000)                 -- PHY status register --
+  (8000:0000) 1.15    =     0    100BASE-T4 able
+  (4000:0000) 1.14    =     0    100BASE-X  full duplex able
+  (2000:0000) 1.13    =     0    100BASE-X  half duplex able
+  (1000:0000) 1.12    =     0    10 Mbps    full duplex able
+  (0800:0000) 1.11    =     0    10 Mbps    half duplex able
+  (0400:0000) 1.10    =     0    100BASE-T2 full duplex able
+  (0200:0000) 1. 9    =     0    100BASE-T2 half duplex able
+  (0100:0000) 1. 8    =     0    extended status
+  (0080:0000) 1. 7    =     0    (reserved)
+  (0040:0000) 1. 6    =     0    MF preamble suppression
+  (0020:0000) 1. 5    =     0    A/N complete
+  (0010:0000) 1. 4    =     0    remote fault
+  (0008:0000) 1. 3    =     0    A/N able
+  (0004:0000) 1. 2    =     0    link status
+  (0002:0000) 1. 1    =     0    jabber detect
+  (0001:0000) 1. 0    =     0    extended capabilities
+
+2.     (0000)                 -- PHY ID 1 register --
+  (ffff:0000) 2.15- 0 =     0    OUI portion
+
+3.     (0000)                 -- PHY ID 2 register --
+  (fc00:0000) 3.15-10 =     0    OUI portion
+  (03f0:0000) 3. 9- 4 =     0    manufacturer part number
+  (000f:0000) 3. 3- 0 =     0    manufacturer rev. number
+
+4.     (0000)                 -- Autonegotiation advertisement register --
+  (8000:0000) 4.15    =     0    next page able
+  (4000:0000) 4.14    =     0    (reserved)
+  (2000:0000) 4.13    =     0    remote fault
+  (1000:0000) 4.12    =     0    (reserved)
+  (0800:0000) 4.11    =     0    asymmetric pause
+  (0400:0000) 4.10    =     0    pause enable
+  (0200:0000) 4. 9    =     0    100BASE-T4 able
+  (0100:0000) 4. 8    =     0    100BASE-TX full duplex able
+  (0080:0000) 4. 7    =     0    100BASE-TX able
+  (0040:0000) 4. 6    =     0    10BASE-T   full duplex able
+  (0020:0000) 4. 5    =     0    10BASE-T   able
+  (001f:0000) 4. 4- 0 =     0    selector = ???
+
+5.     (0000)                 -- Autonegotiation partner abilities register --
+  (8000:0000) 5.15    =     0    next page able
+  (4000:0000) 5.14    =     0    acknowledge
+  (2000:0000) 5.13    =     0    remote fault
+  (1000:0000) 5.12    =     0    (reserved)
+  (0800:0000) 5.11    =     0    asymmetric pause able
+  (0400:0000) 5.10    =     0    pause able
+  (0200:0000) 5. 9    =     0    100BASE-T4 able
+  (0100:0000) 5. 8    =     0    100BASE-X full duplex able
+  (0080:0000) 5. 7    =     0    100BASE-TX able
+  (0040:0000) 5. 6    =     0    10BASE-T full duplex able
+  (0020:0000) 5. 5    =     0    10BASE-T able
+  (001f:0000) 5. 4- 0 =     0    selector = ???
+
+
+=>   
+
