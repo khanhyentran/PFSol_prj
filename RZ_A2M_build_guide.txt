@@ -1,5 +1,5 @@
 RZ/A2M
-
+May 21
 $ git clone https://USERNAME:PASSWORD@github.com/renesas-rz/rza_u-boot-2017.05_misano
 $ cd rza_u-boot-2017.05_misano
 $ git checkout misano
