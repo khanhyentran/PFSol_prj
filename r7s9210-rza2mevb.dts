@@ -1,0 +1,205 @@
+/*
+ * Device Tree Source for the RZA2MEVB board
+ *
+ * Copyright (C) 2018 Renesas Electronics
+ *
+ * This file is dual-licensed: you can use it either under the terms
+ * of the GPL or the X11 license, at your option. Note that this dual
+ * licensing only applies to this file, and not this project as a
+ * whole.
+ *
+ *  a) This file is free software; you can redistribute it and/or
+ *     modify it under the terms of the GNU General Public License as
+ *     published by the Free Software Foundation; either version 2 of the
+ *     License, or (at your option) any later version.
+ *
+ *     This file is distributed in the hope that it will be useful,
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     GNU General Public License for more details.
+ *
+ * Or, alternatively,
+ *
+ *  b) Permission is hereby granted, free of charge, to any person
+ *     obtaining a copy of this software and associated documentation
+ *     files (the "Software"), to deal in the Software without
+ *     restriction, including without limitation the rights to use,
+ *     copy, modify, merge, publish, distribute, sublicense, and/or
+ *     sell copies of the Software, and to permit persons to whom the
+ *     Software is furnished to do so, subject to the following
+ *     conditions:
+ *
+ *     The above copyright notice and this permission notice shall be
+ *     included in all copies or substantial portions of the Software.
+ *
+ *     THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ *     EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+ *     OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ *     NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+ *     HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+ *     WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+ *     FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+ *     OTHER DEALINGS IN THE SOFTWARE.
+ */
+
+
+/dts-v1/;
+#include "r7s9210.dtsi"
+#include <dt-bindings/gpio/gpio.h>
+
+/ {
+	model = "RZA2MEVB";
+	compatible = "renesas,rza2mevb", "renesas,r7s9210";
+
+	aliases {
+		/* It is recommended to always map the serial console as /dev/ttySC0
+		 * in you system regardless of the actual SCIF channel used */
+		serial0 = &scif4;
+	};
+
+	chosen {
+		/* Keep extra spaces at the end in case you want to add additional command line options from u-boot */
+		//bootargs = "ignore_loglevel earlyprintk earlycon=scif,0xE8009000 rootfstype=axfs root=/dev/null rootflags=physaddr=0x20800000     ";
+		//bootargs = "ignore_loglevel earlyprintk                                                                                             ";
+		bootargs = "ignore_loglevel earlyprintk rootfstype=axfs root=/dev/null rootflags=physaddr=0x20800000     ";
+		stdout-path = "serial0:115200n8";
+	};
+
+	memory@80000000 {
+		device_type = "memory";
+		reg = <0x80000000 0x00400000>;	 /* 4Mbyte of Internal RAM only */
+		//reg = <0x40000000 0x00400000>;	 /* 4Mbyte of HyperRAM only */
+	};
+
+	lbsc {
+		#address-cells = <1>;
+		#size-cells = <1>;
+	};
+
+#if 0 /* LED (GPIO) as an example */
+	leds {
+		status = "okay";
+		compatible = "gpio-leds";
+
+		led0 {
+			gpios = <&port7 1 GPIO_ACTIVE_LOW>;
+		};
+	};
+#endif
+
+#if 1
+	/* File System in XIP QSPI */
+	/* Remember, we'll be in QSPI XIP mode at this point */
+	/* Requires CONFIG_MTD_ROM=y */
+	qspi@18000000 {
+		compatible = "mtd-rom";
+		probe-type = "map_rom";
+		reg = <0x20000000 0x4000000>;	/* 64 MB*/
+		bank-width = <4>;
+		device-width = <1>;
+
+		#address-cells = <1>;
+		#size-cells = <1>;
+
+		partition@800000 {
+			label ="user";
+			reg = <0x0800000 0x1000000>; /* 16MB @ 0x20800000 */
+			read-only;
+		};
+	};
+#endif
+};
+
+/* EXTAL (remove if not populated) */
+&extal_clk {
+	clock-frequency = <12000000>;	/* 12MHz */
+};
+
+/* RTC_X1 (remove if not populated) */
+&rtc_x1_clk {
+	clock-frequency = <32768>;
+};
+
+/* Define your pin settings here
+ *
+ */
+
+
+/* High resolution System tick timers */
+&ostm0 {
+	status = "okay";
+};
+
+&ostm1 {
+	status = "okay";
+};
+
+
+/* Serial Console */
+&scif4 {
+	pinctrl-names = "default";
+	//pinctrl-0 = <&scif4_pins>;
+
+	//uart-has-rtscts;	/* uncomment to use RTS/CTS, but you will also need to set up the pins */
+	status = "okay";
+};
+
+
+/* RIIC3 (Touchscreen, EEPROM) */
+&i2c3 {
+	//pinctrl-names = "default";
+	status = "okay";
+	clock-frequency = <400000>;
+
+	ft5x06_ts@38 {
+		compatible = "focaltech,ft5x06";
+		reg = <0x38>;
+
+		//pinctrl-names = "default";
+		//pinctrl-0 = <&irq1_pins>;
+		interrupts = <GIC_SPI (39-32) IRQ_TYPE_LEVEL_LOW>; /* IRQ3 */
+
+		touchscreen-size-x = <800>;
+		touchscreen-size-y = <480>;
+
+		/* The touchscreen on the RSK LCD is backwards for some reason */
+		touchscreen-inverted-x;
+		touchscreen-inverted-y;
+	};
+
+	/* Renesas R1EX24128 EEPROM */
+	/* 'eeprom' will show up under:
+	 * /sys/bus/i2c/devices/3-0050/
+	 */
+        eeprom@50 {
+                compatible = "renesas,24c128", "atmel,24c128";
+                reg = <0x50>;
+                pagesize = <64>;
+        };
+};
+
+&sdhi0 {
+        pinctrl-names = "default";
+        bus-width = <4>;
+        status = "okay";
+};
+
+&csi20 {
+	status = "okay";
+/*
+*	ports {
+*		port@0 {
+*			reg = <0>;
+*
+*			csi40_in: endpoint {
+*				clock-lanes = <0>;
+*				data-lanes = <1 2>;
+*				remote-endpoint = <&adv7482_txa_cp>;
+*			};
+*		};
+	};*/
+};
+
+&vin0 {
+	status = "okay";
+};
