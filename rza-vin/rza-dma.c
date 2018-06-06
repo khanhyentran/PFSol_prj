@@ -41,19 +41,21 @@
 #define VNEPPRC_REG	0x18	/* Video n End Pixel Pre-Clip Register */
 #define VNIS_REG	0x2C	/* Video n Image Stride Register */
 #define VNMB_REG(m)	(0x30 + ((m) << 2)) /* Video n Memory Base m Register */
+#define VNLC		0x3C//RVC add
 #define VNIE_REG	0x40	/* Video n Interrupt Enable Register */
 #define VNINTS_REG	0x44	/* Video n Interrupt Status Register */
 #define VNSI_REG	0x48	/* Video n Scanline Interrupt Register */
-#define VNMTC_REG	0x4C	/* Video n Memory Transfer Control Register */
+//#define VNMTC_REG	0x4C	/* Video n Memory Transfer Control Register */
 #define VNDMR_REG	0x58	/* Video n Data Mode Register */
 #define VNDMR2_REG	0x5C	/* Video n Data Mode Register 2 */
 #define VNUVAOF_REG	0x60	/* Video n UV Address Offset Register */
+#define VNCSCC_REG(m)	(0x60 + ((m) << 2)) /* Video n Memory Base m Register *///RVC add
 #define VNUDS_CTRL_REG		0x80	/* Scaling Control Registers */
 #define VNUDS_SCALE_REG		0x84	/* Scaling Factor Register */
 #define VNUDS_PASS_BWIDTH_REG	0x90	/* Passband Registers */
-#define VNUDS_IPC_REG		0x98	/* 2D IPC Setting Register */
+//#define VNUDS_IPC_REG		0x98	/* 2D IPC Setting Register */
 #define VNUDS_CLIP_SIZE_REG	0xA4	/* UDS Output Size Clipping Register */
-
+#if 0//RVC removed
 /* Register offsets specific for Gen2 */
 #define VNSLPOC_REG	0x1C	/* Video n Start Line Post-Clip Register */
 #define VNELPOC_REG	0x20	/* Video n End Line Post-Clip Register */
@@ -85,27 +87,27 @@
 #define VNC8A_REG	0xF0	/* Video n Coefficient Set C8A Register */
 #define VNC8B_REG	0xF4	/* Video n Coefficient Set C8B Register */
 #define VNC8C_REG	0xF8	/* Video n Coefficient Set C8C Register */
-
+#endif
 /* Register offsets specific for Gen3 */
 #define VNCSI_IFMD_REG		0x20 /* Video n CSI2 Interface Mode Register */
 
 /* Register bit fields for R-Car VIN */
 /* Video n Main Control Register bits */
-#define VNMC_DPINE		(1 << 27) /* Gen3 specific */
+//#define VNMC_DPINE		(1 << 27) /* Gen3 specific */RVC
 #define VNMC_SCLE		(1 << 26) /* Gen3 specific */
-#define VNMC_FOC		(1 << 21)
+//#define VNMC_FOC		(1 << 21)//RVC
 #define VNMC_YCAL		(1 << 19)
-#define VNMC_INF_YUV8_BT656	(0 << 16)
+//#define VNMC_INF_YUV8_BT656	(0 << 16)
 #define VNMC_INF_YUV8_BT601	(1 << 16)
-#define VNMC_INF_YUV10_BT656	(2 << 16)
+//#define VNMC_INF_YUV10_BT656	(2 << 16)
 #define VNMC_INF_YUV10_BT601	(3 << 16)
-#define VNMC_INF_YUV16		(5 << 16)
+//#define VNMC_INF_YUV16		(5 << 16)
 #define VNMC_INF_RGB888		(6 << 16)
-#define VNMC_VUP		(1 << 10)
+//#define VNMC_VUP		(1 << 10)
 #define VNMC_IM_ODD		(0 << 3)
 #define VNMC_IM_ODD_EVEN	(1 << 3)
 #define VNMC_IM_EVEN		(2 << 3)
-#define VNMC_IM_FULL		(3 << 3)
+//#define VNMC_IM_FULL		(3 << 3)
 #define VNMC_IM_MASK		0x18
 #define VNMC_BPS		(1 << 1)
 #define VNMC_ME			(1 << 0)
@@ -139,16 +141,16 @@
 #define VNDMR_DTMD_YCSEP_YCBCR420	(3 << 0)
 
 /* Video n Data Mode Register 2 bits */
-#define VNDMR2_VPS		(1 << 30)
-#define VNDMR2_HPS		(1 << 29)
+//#define VNDMR2_VPS		(1 << 30)//RVC
+//#define VNDMR2_HPS		(1 << 29)//RVC
 #define VNDMR2_FTEV		(1 << 17)
 #define VNDMR2_VLV(n)		((n & 0xf) << 12)
 
 /* Video n CSI2 Interface Mode Register (Gen3) */
-#define VNCSI_IFMD_DES1		(1 << 26)
+//#define VNCSI_IFMD_DES1		(1 << 26)//RVC
 #define VNCSI_IFMD_DES0		(1 << 25)
-#define VNCSI_IFMD_CSI_CHSEL(n) ((n & 0xf) << 0)
-#define VNCSI_IFMD_CSI_CHSEL_MASK 0xf
+//#define VNCSI_IFMD_CSI_CHSEL(n) ((n & 0xf) << 0)
+//#define VNCSI_IFMD_CSI_CHSEL_MASK 0xf
 
 struct rvin_buffer {
 	struct vb2_v4l2_buffer vb;
@@ -546,7 +548,7 @@ static void rvin_set_coeff(struct rvin_dev *vin, unsigned short xs)
 	if (p_prev_set && p_set &&
 	    xs - p_prev_set->xs_value < p_set->xs_value - xs)
 		p_set = p_prev_set;
-
+#if 0
 	/* Set coefficient registers */
 	rvin_write(vin, p_set->coeff_set[0], VNC1A_REG);
 	rvin_write(vin, p_set->coeff_set[1], VNC1B_REG);
@@ -579,8 +581,9 @@ static void rvin_set_coeff(struct rvin_dev *vin, unsigned short xs)
 	rvin_write(vin, p_set->coeff_set[21], VNC8A_REG);
 	rvin_write(vin, p_set->coeff_set[22], VNC8B_REG);
 	rvin_write(vin, p_set->coeff_set[23], VNC8C_REG);
+#endif
 }
-
+#if 0
 static void rvin_crop_scale_comp_gen2(struct rvin_dev *vin)
 {
 	u32 xs, ys;
@@ -628,7 +631,7 @@ static void rvin_crop_scale_comp_gen2(struct rvin_dev *vin)
 		vin->crop.top, ys, xs, vin->format.width, vin->format.height,
 		0, 0);
 }
-
+#endif
 static unsigned long rvin_get_bwidth(unsigned long ratio)
 {
 	unsigned long bwidth;
@@ -719,9 +722,9 @@ static void rvin_crop_scale_comp(struct rvin_dev *vin)
 		break;
 	}
 
-	if (vin->info->chip != RCAR_GEN3)
-		rvin_crop_scale_comp_gen2(vin);
-	else
+	//if (vin->info->chip != RCAR_GEN3)
+	//	rvin_crop_scale_comp_gen2(vin);
+	//else
 		rvin_crop_scale_comp_gen3(vin);
 
 	if (vin->format.pixelformat == V4L2_PIX_FMT_NV16 ||
@@ -761,19 +764,19 @@ static int rvin_setup(struct rvin_dev *vin)
 		break;
 	case V4L2_FIELD_INTERLACED:
 		/* Default to TB */
-		vnmc = VNMC_IM_FULL;
+		vnmc = VNMC_IM_EVEN;//VNMC_IM_FULL;RVC
 		/* Use BT if video standard can be read and is 60 Hz format */
 		if (!vin->info->use_mc &&
 		    !v4l2_subdev_call(vin_to_source(vin), video, g_std, &std)) {
 			if (std & V4L2_STD_525_60)
-				vnmc = VNMC_IM_FULL | VNMC_FOC;
+				vnmc = VNMC_IM_EVEN;//VNMC_IM_FULL | VNMC_FOC;RVC
 		}
 		break;
 	case V4L2_FIELD_INTERLACED_TB:
-		vnmc = VNMC_IM_FULL;
+		vnmc =VNMC_IM_EVEN;// VNMC_IM_FULL;RVC
 		break;
 	case V4L2_FIELD_INTERLACED_BT:
-		vnmc = VNMC_IM_FULL | VNMC_FOC;
+		vnmc = VNMC_IM_EVEN;//VNMC_IM_FULL | VNMC_FOC;RVC
 		break;
 	case V4L2_FIELD_SEQ_TB:
 		vnmc = VNMC_IM_ODD;
@@ -800,13 +803,14 @@ static int rvin_setup(struct rvin_dev *vin)
 	switch (vin->code) {
 	case MEDIA_BUS_FMT_YUYV8_1X16:
 		/* BT.601/BT.1358 16bit YCbCr422 */
-		vnmc |= VNMC_INF_YUV16;
+		//printf("RVC do not support MEDIA_BUS_FMT_YUYV8_1X16\n");//RVC
+		vnmc |= 0;//VNMC_INF_YUV16;//RVC
 		input_is_yuv = true;
 		break;
 	case MEDIA_BUS_FMT_UYVY8_2X8:
 		/* BT.656 8bit YCbCr422 or BT.601 8bit YCbCr422 */
-		vnmc |= vin->mbus_cfg.type == V4L2_MBUS_BT656 ?
-			VNMC_INF_YUV8_BT656 : VNMC_INF_YUV8_BT601;
+		vnmc |= vin->mbus_cfg.type == VNMC_INF_YUV8_BT601;//V4L2_MBUS_BT656 ?
+			//VNMC_INF_YUV8_BT656 : VNMC_INF_YUV8_BT601;//RVC
 		input_is_yuv = true;
 		break;
 	case MEDIA_BUS_FMT_RGB888_1X24:
@@ -814,8 +818,8 @@ static int rvin_setup(struct rvin_dev *vin)
 		break;
 	case MEDIA_BUS_FMT_UYVY10_2X10:
 		/* BT.656 10bit YCbCr422 or BT.601 10bit YCbCr422 */
-		vnmc |= vin->mbus_cfg.type == V4L2_MBUS_BT656 ?
-			VNMC_INF_YUV10_BT656 : VNMC_INF_YUV10_BT601;
+		vnmc |= vin->mbus_cfg.type == VNMC_INF_YUV10_BT601;//V4L2_MBUS_BT656 ?
+			//VNMC_INF_YUV10_BT656 : VNMC_INF_YUV10_BT601;//RVC
 		input_is_yuv = true;
 		break;
 	default:
@@ -830,11 +834,11 @@ static int rvin_setup(struct rvin_dev *vin)
 
 	/* Hsync Signal Polarity Select */
 	if (!(vin->mbus_cfg.flags & V4L2_MBUS_HSYNC_ACTIVE_LOW))
-		dmr2 |= VNDMR2_HPS;
+		//dmr2 |= VNDMR2_HPS;
 
 	/* Vsync Signal Polarity Select */
 	if (!(vin->mbus_cfg.flags & V4L2_MBUS_VSYNC_ACTIVE_LOW))
-		dmr2 |= VNDMR2_VPS;
+		//dmr2 |= VNDMR2_VPS;
 
 	/*
 	 * Output format
@@ -882,20 +886,20 @@ static int rvin_setup(struct rvin_dev *vin)
 	}
 
 	/* Always update on field change */
-	vnmc |= VNMC_VUP;
+	//vnmc |= VNMC_VUP;RVC
 
 	/* If input and output use the same colorspace, use bypass mode */
 	if (input_is_yuv == output_is_yuv)
 		vnmc |= VNMC_BPS;
-
+#if 0
 	if (vin->info->chip == RCAR_GEN3) {
 		/* Select between CSI-2 and Digital input */
 		if (vin->mbus_cfg.type == V4L2_MBUS_CSI2)
 			vnmc &= ~VNMC_DPINE;
 		else
-			vnmc |= VNMC_DPINE;
+			vnmc |= VNMC_This bit is used to select the source of the field signal.;
 	}
-
+#endif //RVC removed VNMC_DPINE(This bit is used to select the source of the field signal.)
 	if (vin->format.pixelformat != V4L2_PIX_FMT_NV12 &&
 	    rvin_is_scaling(vin))
 		vnmc |= VNMC_SCLE;
@@ -1075,7 +1079,7 @@ static void rvin_capture_stop(struct rvin_dev *vin)
 		u32 vnmc;
 
 		vnmc = rvin_read(vin, VNMC_REG);
-		rvin_write(vin, vnmc & ~(VNMC_SCLE | VNMC_VUP), VNMC_REG);
+		rvin_write(vin, vnmc & ~(VNMC_SCLE /*| VNMC_VUP*/), VNMC_REG);//RVC
 	}
 
 	/* Disable module */
@@ -1651,11 +1655,11 @@ void rvin_set_chsel(struct rvin_dev *vin, u8 chsel)
 	pm_runtime_get_sync(vin->dev);
 
 	/* Make register writes take effect immediately */
-	vnmc = rvin_read(vin, VNMC_REG) & ~VNMC_VUP;
+	vnmc = rvin_read(vin, VNMC_REG);// & ~VNMC_VUP;RVC
 	rvin_write(vin, vnmc, VNMC_REG);
 
-	ifmd = VNCSI_IFMD_DES1 | VNCSI_IFMD_DES0 |
-		VNCSI_IFMD_CSI_CHSEL(chsel);
+	ifmd = /*VNCSI_IFMD_DES1 | */VNCSI_IFMD_DES0;/* |
+		VNCSI_IFMD_CSI_CHSEL(chsel);*///RVC
 
 	rvin_write(vin, ifmd, VNCSI_IFMD_REG);
 
@@ -1670,7 +1674,7 @@ int rvin_get_chsel(struct rvin_dev *vin)
 
 	pm_runtime_get_sync(vin->dev);
 
-	chsel = rvin_read(vin, VNCSI_IFMD_REG) & VNCSI_IFMD_CSI_CHSEL_MASK;
+	chsel = rvin_read(vin, VNCSI_IFMD_REG);// & VNCSI_IFMD_CSI_CHSEL_MASK;RVC
 
 	pm_runtime_put(vin->dev);
 

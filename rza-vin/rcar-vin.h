@@ -36,10 +36,10 @@
 #define HW_BUFFER_MASK 0x7f
 
 /* Max number on VIN instances that can be in a system */
-#define RCAR_VIN_NUM 8
+#define RCAR_VIN_NUM 1//8  RVC changed
 
 /* Max number of CHSEL values for any Gen3 SoC */
-#define RCAR_CHSEL_MAX 6
+#define RCAR_CHSEL_MAX 1//6 RVC changed
 
 /* Time until source device reconnects */
 #define CONNECTION_TIME 2000
@@ -52,6 +52,7 @@ enum chip_id {
 	RCAR_M1,
 	RCAR_GEN2,
 	RCAR_GEN3,
+	RZ_A2M,//RVC add
 };
 
 enum rvin_csi_id {
@@ -120,7 +121,7 @@ struct rvin_group;
 struct rvin_group_chsel {
 	enum rvin_csi_id csi;
 	unsigned int chan;
-};
+};//RVC: NO need
 
 /**
  * struct rvin_info - Information about the particular VIN implementation
@@ -140,8 +141,8 @@ struct rvin_info {
 	unsigned int max_width;
 	unsigned int max_height;
 
-	unsigned int num_chsels;
-	struct rvin_group_chsel chsels[RCAR_VIN_NUM][RCAR_CHSEL_MAX];
+	unsigned int num_chsels;//RVC no need
+	struct rvin_group_chsel chsels[RCAR_VIN_NUM][RCAR_CHSEL_MAX];//RVC no need
 };
 
 /**
@@ -223,8 +224,8 @@ struct rvin_dev {
 	wait_queue_head_t setup_wait;
 	bool suspend;
 
-	unsigned int chsel;
-	unsigned int index;
+	unsigned int chsel;//RVC no need
+	unsigned int index;//RVC no need
 };
 
 #define vin_to_source(vin)		((vin)->digital->subdev)

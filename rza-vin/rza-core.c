@@ -82,7 +82,7 @@ static int rvin_group_entity_to_csi_num(struct rvin_group *group,
 
 	sd = media_entity_to_v4l2_subdev(entity);
 
-	for (i = 0; i < RVIN_CSI_MAX; i++)
+	for (i = 0; i < RVIN_CSI_MAX; i++)//RVC no need
 		if (group->csi[i].subdev == sd)
 			return i;
 
@@ -542,7 +542,7 @@ err:
 	return ret;
 }
 
-static const struct v4l2_async_notifier rvin_digital_notify_ops = {
+static const struct v4l2_async_notifier_operations rvin_digital_notify_ops = {
 	.bound = rvin_digital_notify_bound,
 	.unbind = rvin_digital_notify_unbind,
 	.complete = rvin_digital_notify_complete,
@@ -579,7 +579,7 @@ static int rvin_digital_parse_v4l2(struct device *dev,
 
 	return 0;
 }
-#if 0
+
 static int rvin_digital_graph_init(struct rvin_dev *vin)
 {
 	int ret;
@@ -616,7 +616,7 @@ static int rvin_digital_graph_init(struct rvin_dev *vin)
 
 	return 0;
 }
-#endif
+
 /* -----------------------------------------------------------------------------
  * Group async notifier
  */
@@ -740,7 +740,7 @@ static int rvin_group_notify_bound(struct v4l2_async_notifier *notifier,
 	return 0;
 }
 
-static const struct v4l2_async_notifier rvin_group_notify_ops = {
+static const struct v4l2_async_notifier_operations rvin_group_notify_ops = {
 	.bound = rvin_group_notify_bound,
 	.unbind = rvin_group_notify_unbind,
 	.complete = rvin_group_notify_complete,
@@ -949,274 +949,6 @@ error_group:
  * Platform Device Driver
  */
 
-static const struct rvin_info rcar_info_h1 = {
-	.chip = RCAR_H1,
-	.use_mc = false,
-	.max_width = 2048,
-	.max_height = 2048,
-};
-
-static const struct rvin_info rcar_info_m1 = {
-	.chip = RCAR_M1,
-	.use_mc = false,
-	.max_width = 2048,
-	.max_height = 2048,
-};
-
-static const struct rvin_info rcar_info_gen2 = {
-	.chip = RCAR_GEN2,
-	.use_mc = false,
-	.max_width = 2048,
-	.max_height = 2048,
-};
-
-static const struct rvin_info rcar_info_r8a7795 = {
-	.chip = RCAR_GEN3,
-	.use_mc = true,
-	.max_width = 4096,
-	.max_height = 4096,
-
-	.num_chsels = 5,
-	.chsels = {
-		{
-			{ .csi = RVIN_CSI40, .chan = 0 },
-			{ .csi = RVIN_CSI20, .chan = 0 },
-			{ .csi = RVIN_CSI40, .chan = 1 },
-			{ .csi = RVIN_CSI40, .chan = 0 },
-			{ .csi = RVIN_CSI20, .chan = 0 },
-		}, {
-			{ .csi = RVIN_CSI20, .chan = 0 },
-			{ .csi = RVIN_CSI40, .chan = 1 },
-			{ .csi = RVIN_CSI40, .chan = 0 },
-			{ .csi = RVIN_CSI40, .chan = 1 },
-			{ .csi = RVIN_CSI20, .chan = 1 },
-		}, {
-			{ .csi = RVIN_CSI20, .chan = 1 },
-			{ .csi = RVIN_CSI40, .chan = 0 },
-			{ .csi = RVIN_CSI20, .chan = 0 },
-			{ .csi = RVIN_CSI40, .chan = 2 },
-			{ .csi = RVIN_CSI20, .chan = 2 },
-		}, {
-			{ .csi = RVIN_CSI40, .chan = 1 },
-			{ .csi = RVIN_CSI20, .chan = 1 },
-			{ .csi = RVIN_CSI20, .chan = 1 },
-			{ .csi = RVIN_CSI40, .chan = 3 },
-			{ .csi = RVIN_CSI20, .chan = 3 },
-		}, {
-			{ .csi = RVIN_CSI41, .chan = 0 },
-			{ .csi = RVIN_CSI20, .chan = 0 },
-			{ .csi = RVIN_CSI41, .chan = 1 },
-			{ .csi = RVIN_CSI41, .chan = 0 },
-			{ .csi = RVIN_CSI20, .chan = 0 },
-		}, {
-			{ .csi = RVIN_CSI20, .chan = 0 },
-			{ .csi = RVIN_CSI41, .chan = 1 },
-			{ .csi = RVIN_CSI41, .chan = 0 },
-			{ .csi = RVIN_CSI41, .chan = 1 },
-			{ .csi = RVIN_CSI20, .chan = 1 },
-		}, {
-			{ .csi = RVIN_CSI20, .chan = 1 },
-			{ .csi = RVIN_CSI41, .chan = 0 },
-			{ .csi = RVIN_CSI20, .chan = 0 },
-			{ .csi = RVIN_CSI41, .chan = 2 },
-			{ .csi = RVIN_CSI20, .chan = 2 },
-		}, {
-			{ .csi = RVIN_CSI41, .chan = 1 },
-			{ .csi = RVIN_CSI20, .chan = 1 },
-			{ .csi = RVIN_CSI20, .chan = 1 },
-			{ .csi = RVIN_CSI41, .chan = 3 },
-			{ .csi = RVIN_CSI20, .chan = 3 },
-		},
-	},
-};
-
-static const struct rvin_info rcar_info_r8a7795es1 = {
-	.chip = RCAR_GEN3,
-	.use_mc = true,
-	.max_width = 4096,
-	.max_height = 4096,
-
-	.num_chsels = 6,
-	.chsels = {
-		{
-			{ .csi = RVIN_CSI40, .chan = 0 },
-			{ .csi = RVIN_CSI20, .chan = 0 },
-			{ .csi = RVIN_CSI21, .chan = 0 },
-			{ .csi = RVIN_CSI40, .chan = 0 },
-			{ .csi = RVIN_CSI20, .chan = 0 },
-			{ .csi = RVIN_CSI21, .chan = 0 },
-		}, {
-			{ .csi = RVIN_CSI20, .chan = 0 },
-			{ .csi = RVIN_CSI21, .chan = 0 },
-			{ .csi = RVIN_CSI40, .chan = 0 },
-			{ .csi = RVIN_CSI40, .chan = 1 },
-			{ .csi = RVIN_CSI20, .chan = 1 },
-			{ .csi = RVIN_CSI21, .chan = 1 },
-		}, {
-			{ .csi = RVIN_CSI21, .chan = 0 },
-			{ .csi = RVIN_CSI40, .chan = 0 },
-			{ .csi = RVIN_CSI20, .chan = 0 },
-			{ .csi = RVIN_CSI40, .chan = 2 },
-			{ .csi = RVIN_CSI20, .chan = 2 },
-			{ .csi = RVIN_CSI21, .chan = 2 },
-		}, {
-			{ .csi = RVIN_CSI40, .chan = 1 },
-			{ .csi = RVIN_CSI20, .chan = 1 },
-			{ .csi = RVIN_CSI21, .chan = 1 },
-			{ .csi = RVIN_CSI40, .chan = 3 },
-			{ .csi = RVIN_CSI20, .chan = 3 },
-			{ .csi = RVIN_CSI21, .chan = 3 },
-		}, {
-			{ .csi = RVIN_CSI41, .chan = 0 },
-			{ .csi = RVIN_CSI20, .chan = 0 },
-			{ .csi = RVIN_CSI21, .chan = 0 },
-			{ .csi = RVIN_CSI41, .chan = 0 },
-			{ .csi = RVIN_CSI20, .chan = 0 },
-			{ .csi = RVIN_CSI21, .chan = 0 },
-		}, {
-			{ .csi = RVIN_CSI20, .chan = 0 },
-			{ .csi = RVIN_CSI21, .chan = 0 },
-			{ .csi = RVIN_CSI41, .chan = 0 },
-			{ .csi = RVIN_CSI41, .chan = 1 },
-			{ .csi = RVIN_CSI20, .chan = 1 },
-			{ .csi = RVIN_CSI21, .chan = 1 },
-		}, {
-			{ .csi = RVIN_CSI21, .chan = 0 },
-			{ .csi = RVIN_CSI41, .chan = 0 },
-			{ .csi = RVIN_CSI20, .chan = 0 },
-			{ .csi = RVIN_CSI41, .chan = 2 },
-			{ .csi = RVIN_CSI20, .chan = 2 },
-			{ .csi = RVIN_CSI21, .chan = 2 },
-		}, {
-			{ .csi = RVIN_CSI41, .chan = 1 },
-			{ .csi = RVIN_CSI20, .chan = 1 },
-			{ .csi = RVIN_CSI21, .chan = 1 },
-			{ .csi = RVIN_CSI41, .chan = 3 },
-			{ .csi = RVIN_CSI20, .chan = 3 },
-			{ .csi = RVIN_CSI21, .chan = 3 },
-		},
-	},
-};
-
-static const struct rvin_info rcar_info_r8a7796 = {
-	.chip = RCAR_GEN3,
-	.use_mc = true,
-	.max_width = 4096,
-	.max_height = 4096,
-
-	.num_chsels = 5,
-	.chsels = {
-		{
-			{ .csi = RVIN_CSI40, .chan = 0 },
-			{ .csi = RVIN_CSI20, .chan = 0 },
-			{ .csi = RVIN_NC, .chan = 0 },
-			{ .csi = RVIN_CSI40, .chan = 0 },
-			{ .csi = RVIN_CSI20, .chan = 0 },
-		}, {
-			{ .csi = RVIN_CSI20, .chan = 0 },
-			{ .csi = RVIN_NC, .chan = 0 },
-			{ .csi = RVIN_CSI40, .chan = 0 },
-			{ .csi = RVIN_CSI40, .chan = 1 },
-			{ .csi = RVIN_CSI20, .chan = 1 },
-		}, {
-			{ .csi = RVIN_NC, .chan = 0 },
-			{ .csi = RVIN_CSI40, .chan = 0 },
-			{ .csi = RVIN_CSI20, .chan = 0 },
-			{ .csi = RVIN_CSI40, .chan = 2 },
-			{ .csi = RVIN_CSI20, .chan = 2 },
-		}, {
-			{ .csi = RVIN_CSI40, .chan = 1 },
-			{ .csi = RVIN_CSI20, .chan = 1 },
-			{ .csi = RVIN_NC, .chan = 1 },
-			{ .csi = RVIN_CSI40, .chan = 3 },
-			{ .csi = RVIN_CSI20, .chan = 3 },
-		}, {
-			{ .csi = RVIN_CSI40, .chan = 0 },
-			{ .csi = RVIN_CSI20, .chan = 0 },
-			{ .csi = RVIN_NC, .chan = 0 },
-			{ .csi = RVIN_CSI40, .chan = 0 },
-			{ .csi = RVIN_CSI20, .chan = 0 },
-		}, {
-			{ .csi = RVIN_CSI20, .chan = 0 },
-			{ .csi = RVIN_NC, .chan = 0 },
-			{ .csi = RVIN_CSI40, .chan = 0 },
-			{ .csi = RVIN_CSI40, .chan = 1 },
-			{ .csi = RVIN_CSI20, .chan = 1 },
-		}, {
-			{ .csi = RVIN_NC, .chan = 0 },
-			{ .csi = RVIN_CSI40, .chan = 0 },
-			{ .csi = RVIN_CSI20, .chan = 0 },
-			{ .csi = RVIN_CSI40, .chan = 2 },
-			{ .csi = RVIN_CSI20, .chan = 2 },
-		}, {
-			{ .csi = RVIN_CSI40, .chan = 1 },
-			{ .csi = RVIN_CSI20, .chan = 1 },
-			{ .csi = RVIN_NC, .chan = 1 },
-			{ .csi = RVIN_CSI40, .chan = 3 },
-			{ .csi = RVIN_CSI20, .chan = 3 },
-		},
-	},
-};
-
-static const struct rvin_info rcar_info_r8a77965 = {
-	.chip = RCAR_GEN3,
-	.use_mc = true,
-	.max_width = 4096,
-	.max_height = 4096,
-
-	.num_chsels = 5,
-	.chsels = {
-		{
-			{ .csi = RVIN_CSI40, .chan = 0 },
-			{ .csi = RVIN_CSI20, .chan = 0 },
-			{ .csi = RVIN_CSI40, .chan = 1 },
-			{ .csi = RVIN_CSI40, .chan = 0 },
-			{ .csi = RVIN_CSI20, .chan = 0 },
-		}, {
-			{ .csi = RVIN_CSI20, .chan = 0 },
-			{ .csi = RVIN_CSI40, .chan = 1 },
-			{ .csi = RVIN_CSI40, .chan = 0 },
-			{ .csi = RVIN_CSI40, .chan = 1 },
-			{ .csi = RVIN_CSI20, .chan = 1 },
-		}, {
-			{ .csi = RVIN_CSI20, .chan = 1 },
-			{ .csi = RVIN_CSI40, .chan = 0 },
-			{ .csi = RVIN_CSI20, .chan = 0 },
-			{ .csi = RVIN_CSI40, .chan = 2 },
-			{ .csi = RVIN_CSI20, .chan = 2 },
-		}, {
-			{ .csi = RVIN_CSI40, .chan = 1 },
-			{ .csi = RVIN_CSI20, .chan = 1 },
-			{ .csi = RVIN_CSI20, .chan = 1 },
-			{ .csi = RVIN_CSI40, .chan = 3 },
-			{ .csi = RVIN_CSI20, .chan = 3 },
-		}, {
-			{ .csi = RVIN_CSI40, .chan = 0 },
-			{ .csi = RVIN_CSI20, .chan = 0 },
-			{ .csi = RVIN_CSI40, .chan = 1 },
-			{ .csi = RVIN_CSI40, .chan = 0 },
-			{ .csi = RVIN_CSI20, .chan = 0 },
-		}, {
-			{ .csi = RVIN_CSI20, .chan = 0 },
-			{ .csi = RVIN_CSI40, .chan = 1 },
-			{ .csi = RVIN_CSI40, .chan = 0 },
-			{ .csi = RVIN_CSI40, .chan = 1 },
-			{ .csi = RVIN_CSI20, .chan = 1 },
-		}, {
-			{ .csi = RVIN_CSI20, .chan = 1 },
-			{ .csi = RVIN_CSI40, .chan = 0 },
-			{ .csi = RVIN_CSI20, .chan = 0 },
-			{ .csi = RVIN_CSI40, .chan = 2 },
-			{ .csi = RVIN_CSI20, .chan = 2 },
-		}, {
-			{ .csi = RVIN_CSI40, .chan = 1 },
-			{ .csi = RVIN_CSI20, .chan = 1 },
-			{ .csi = RVIN_CSI20, .chan = 1 },
-			{ .csi = RVIN_CSI40, .chan = 3 },
-			{ .csi = RVIN_CSI20, .chan = 3 },
-		},
-	},
-};
 
 static const struct rvin_info rcar_info_r8a77995 = {
 	.chip = RCAR_GEN3,
@@ -1247,47 +979,20 @@ static const struct rvin_info rcar_info_r8a77990 = {
 	},
 };
 
+static const struct rvin_info rza_info_r7s9210 = {
+	.chip = RCAR_GEN3,
+	.use_mc = false,//true,RVC
+	.max_width = 2048,
+	.max_height = 2048,
+
+	.num_chsels = 1,
+	.chsels = {
+		{
+			{ .csi = RVIN_CSI20, .chan = 0 },
+		}, 
+	},//RVC
+};
 static const struct of_device_id rvin_of_id_table[] = {
-	{
-		.compatible = "renesas,vin-r8a7778",
-		.data = &rcar_info_m1,
-	},
-	{
-		.compatible = "renesas,vin-r8a7779",
-		.data = &rcar_info_h1,
-	},
-	{
-		.compatible = "renesas,vin-r8a7790",
-		.data = &rcar_info_gen2,
-	},
-	{
-		.compatible = "renesas,vin-r8a7791",
-		.data = &rcar_info_gen2,
-	},
-	{
-		.compatible = "renesas,vin-r8a7793",
-		.data = &rcar_info_gen2,
-	},
-	{
-		.compatible = "renesas,vin-r8a7794",
-		.data = &rcar_info_gen2,
-	},
-	{
-		.compatible = "renesas,rcar-gen2-vin",
-		.data = &rcar_info_gen2,
-	},
-	{
-		.compatible = "renesas,vin-r8a7795",
-		.data = &rcar_info_r8a7795,
-	},
-	{
-		.compatible = "renesas,vin-r8a7796",
-		.data = &rcar_info_r8a7796,
-	},
-	{
-		.compatible = "renesas,vin-r8a77965",
-		.data = &rcar_info_r8a77965,
-	},
 	{
 		.compatible = "renesas,vin-r8a77995",
 		.data = &rcar_info_r8a77995,
@@ -1296,10 +1001,14 @@ static const struct of_device_id rvin_of_id_table[] = {
 		.compatible = "renesas,vin-r8a77990",
 		.data = &rcar_info_r8a77990,
 	},
+	{
+		.compatible = "renesas,vin-r7s9210",
+		.data = &rza_info_r7s9210,
+	},
 	{ },
 };
 MODULE_DEVICE_TABLE(of, rvin_of_id_table);
-
+#if 0
 static const struct soc_device_attribute r8a7795es1[] = {
 	{
 		.soc_id = "r8a7795", .revision = "ES1.*",
@@ -1307,10 +1016,10 @@ static const struct soc_device_attribute r8a7795es1[] = {
 	},
 	{ /* sentinel */ }
 };
-
+#endif
 static int rcar_vin_probe(struct platform_device *pdev)
 {
-	const struct soc_device_attribute *attr;
+	//const struct soc_device_attribute *attr;//RVC
 	struct rvin_dev *vin;
 	struct resource *mem;
 	int irq, ret;
@@ -1326,10 +1035,10 @@ static int rcar_vin_probe(struct platform_device *pdev)
 	 * Special care is needed on r8a7795 ES1.x since it
 	 * uses different routing than r8a7795 ES2.0.
 	 */
-	attr = soc_device_match(r8a7795es1);
+	/*attr = soc_device_match(r8a7795es1);
 	if (attr)
 		vin->info = attr->data;
-
+	*///RVC
 	mem = platform_get_resource(pdev, IORESOURCE_MEM, 0);
 	if (mem == NULL)
 		return -EINVAL;
@@ -1349,8 +1058,8 @@ static int rcar_vin_probe(struct platform_device *pdev)
 	platform_set_drvdata(pdev, vin);
 	if (vin->info->use_mc)
 		ret = rvin_group_init(vin);
-	//else
-	//	ret = rvin_digital_graph_init(vin);
+	else
+		ret = rvin_digital_graph_init(vin);
 	if (ret < 0)
 		goto error;
 
@@ -1383,7 +1092,7 @@ static int rcar_vin_probe(struct platform_device *pdev)
 	return 0;
 error:
 	rvin_dma_remove(vin);
-	//v4l2_async_notifier_cleanup(&vin->notifier);
+	v4l2_async_notifier_cleanup(&vin->notifier);
 
 	return ret;
 }
@@ -1395,7 +1104,7 @@ static int rcar_vin_remove(struct platform_device *pdev)
 	pm_runtime_disable(&pdev->dev);
 
 	v4l2_async_notifier_unregister(&vin->notifier);
-	//v4l2_async_notifier_cleanup(&vin->notifier);
+	v4l2_async_notifier_cleanup(&vin->notifier);
 
 	/* Checks internaly if handlers have been init or not */
 	if (!vin->info->use_mc)
