@@ -76,6 +76,7 @@
 			clocks = <&extal_clk>;
 			clock-output-names = "pll", "i", "g", "b", "p1", "p1c", "p0";
 			#power-domain-cells = <0>;
+			#reset-cells = <0>;
 		};
 
 		/* MSTP clocks */
@@ -122,27 +123,38 @@
 			clock-output-names = ;
 		};
 */
-/* VIN*/
+
 		mstp6_clks: mstp6_clks@fcfe042c {
 			#clock-cells = <1>;
 			compatible = "renesas,r7s9210-mstp-clocks", "renesas,cpg-mstp-clocks";
 			reg = <0xfcfe042c 4>;
 			clocks = <&cpg_clocks R7S9210_CLK_P1>;
-			clock-indices = <R7S9210_CLK_VIN0>;
+			clock-indices = <R7S9210_CLK_VIN>;
 			clock-output-names = "vin0";
 
 		};
 
-/* MIPI*/
+
 		mstp7_clks: mstp7_clks@fcfe0430 {
 			#clock-cells = <1>;
 			compatible = "renesas,r7s9210-mstp-clocks", "renesas,cpg-mstp-clocks";
 			reg = <0xfcfe0430 4>;
 			clocks = <&cpg_clocks R7S9210_CLK_P1>;
-			clock-indices = <R7S9210_CLK_MIPI0>;;
+			clock-indices = <R7S9210_CLK_MIPI>;
 			clock-output-names = "csi20";
 
 		};
+/*
+mstp7_clks: mstp7_clks@fcfe0430 {
+            #clock-cells = &lt;1&gt;;
+            compatible = "renesas,r7s9210-mstp-clocks", "renesas,cpg-mstp-clocks";
+            reg = &lt;0xfcfe0430 4&gt;;
+            clocks = &lt;&cpg_clocks R7S9210_CLK_B&gt;;
+            clock-indices = &lt;R7S9210_CLK_MIPI&gt;;
+            clock-output-names = "mipi";
+};
+*/
+
 
 		mstp8_clks: mstp8_clks@fcfe0434 {
 			#clock-cells = <1>;
@@ -544,13 +556,14 @@
 		power-domains = <&cpg_clocks>;
 		status = "disabled";
 	};
+
 	csi20: csi2@e8209000 {
 		compatible = "renesas,r7s9210-csi2", "renesas,r8a77990-csi2", "renesas,rcar-gen3-csi2";
-		reg = <0 0xe8209000 0 0x10000>;
+		reg = <0xe8209000 0x26C>;
 		interrupts = <GIC_SPI 55 IRQ_TYPE_LEVEL_HIGH>;
-		clocks = <&mstp7_clks R7S9210_CLK_MIPI0>;;
+		clocks = <&mstp7_clks R7S9210_CLK_MIPI>;
 		power-domains = <&cpg_clocks>;
-		resets = <&cpg_clocks>;
+		resets = <&cpg_clocks 23>;
 		status = "disabled";
 
 		ports {
@@ -570,15 +583,33 @@
 			};
 		};
 	};
-	
+
+/*
+csi20: csi2@e8209000 {
+        compatible = "renesas,r7s9210-csi2", "renesas,r8a77990-csi2", "renesas,rcar-gen3-csi2";
+        reg = &lt;0 0xe8209000 0 0x10000&gt;;
+        interrupts = &lt;GIC_SPI 55 IRQ_TYPE_LEVEL_HIGH&gt;;
+        clocks = &lt;&mstp7_clks R7S9210_CLK_MIPI&gt;;
+        //power-domains = &lt;&sysc R8A77990_PD_ALWAYS_ON&gt;;
+        resets = &lt;&cpg_clocks 23&gt;;
+        status = "disabled";
+ports {
+            #address-cells = &lt;1&gt;;
+            #size-cells = &lt;0&gt;;
+port@1 {
+                #address-cells = &lt;1&gt;;
+                #size-cells = &lt;0&gt;;
+		reg = &lt;1&gt;;
+
+}*/	
 	vin0: video@e803f000 {
 		compatible = "renesas,vin-r7s9210";
-		reg = <0 0xe803f000 0 0x1000>;
+		reg = <0xe803f000 0x30C>;
 		interrupts = <GIC_SPI 440 IRQ_TYPE_LEVEL_HIGH>;
-		clocks = <&mstp6_clks R7S9210_CLK_VIN0>;;
+		clocks = <&mstp6_clks R7S9210_CLK_VIN>;
 		power-domains = <&cpg_clocks>;
-		resets = <&cpg_clocks>;
-		/*renesas,id = <4>;*/
+		resets = <&cpg_clocks 25>;
+		renesas,id = <0>;
 		status = "disabled";
 
 		ports {

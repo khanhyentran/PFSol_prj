@@ -186,18 +186,18 @@
 
 &csi20 {
 	status = "okay";
-/*
-*	ports {
-*		port@0 {
-*			reg = <0>;
-*
-*			csi40_in: endpoint {
-*				clock-lanes = <0>;
-*				data-lanes = <1 2>;
-*				remote-endpoint = <&adv7482_txa_cp>;
-*			};
-*		};
-	};*/
+
+	ports {
+		port@0 {
+			reg = <0>;
+
+			csi20_in: endpoint {
+				clock-lanes = <0>;
+				data-lanes = <1 2>;
+				/*remote-endpoint = <&adv7482_txa_cp>;*/
+			};
+		};
+	};
 };
 
 &vin0 {
