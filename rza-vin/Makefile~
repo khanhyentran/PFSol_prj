@@ -1,4 +1,0 @@
-rza-vin-objs = rza-core.o rza-dma.o rza-v4l2.o
-
-//obj-$(CONFIG_VIDEO_RZA_CSI2) += rza-csi2.o
-obj-$(CONFIG_VIDEO_RZA_VIN) += rza-vin.o
