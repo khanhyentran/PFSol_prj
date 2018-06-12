@@ -1,0 +1,108 @@
+From 64fe5a566b4a1099ee01fe03823687dcc91c7ada Mon Sep 17 00:00:00 2001
+From: Chien Nguyen <chien.nguyen.eb@rvc.renesas.com>
+Date: Tue, 12 Jun 2018 13:49:38 +0700
+Subject: [PATCH 2/2] Stream It modify device tree to support CEU driver
+
+Modify device tree to support CEU driver on Linux 4.14 for Stream It board
+
+Signed-off-by: Chien Nguyen <chien.nguyen.eb@rvc.renesas.com>
+---
+ arch/arm/boot/dts/r7s72100-streamit.dts | 20 ++++++++++++++++++++
+ arch/arm/boot/dts/r7s72100.dtsi         | 32 +++++++++++++++++++++++++++++---
+ 2 files changed, 49 insertions(+), 3 deletions(-)
+
+diff --git a/arch/arm/boot/dts/r7s72100-streamit.dts b/arch/arm/boot/dts/r7s72100-streamit.dts
+index e1de5eb..79a181f 100644
+--- a/arch/arm/boot/dts/r7s72100-streamit.dts
++++ b/arch/arm/boot/dts/r7s72100-streamit.dts
+@@ -231,6 +231,21 @@
+ 			<RZA1_PINMUX(7, 4, 6)>;	/* LCD0_CLK */
+ 	};
+ 
++	vio_pins: vio {
++		/* CEU pins: VIO_D[0-10], VIO_VD, VIO_HD, VIO_CLK */
++		pinmux = <RZA1_PINMUX(4, 0, 2)>, /* VIO_VD */
++			 <RZA1_PINMUX(4, 1, 2)>, /* VIO_HD */
++			 <RZA1_PINMUX(1, 4, 4)>, /* VIO_D0 */
++			 <RZA1_PINMUX(1, 5, 4)>, /* VIO_D1 */
++			 <RZA1_PINMUX(1, 6, 4)>, /* VIO_D2 */
++			 <RZA1_PINMUX(1, 7, 4)>, /* VIO_D3 */
++			 <RZA1_PINMUX(1, 12, 4)>, /* VIO_D4 */
++			 <RZA1_PINMUX(1, 13, 4)>, /* VIO_D5 */
++			 <RZA1_PINMUX(1, 14, 4)>, /* VIO_D6 */
++			 <RZA1_PINMUX(1, 15, 4)>, /* VIO_D7 */
++			 <RZA1_PINMUX(3, 14, 2)>; /* VIO_CLK */
++	};
++
+ };
+ 
+ /* High resolution System tick timers */
+@@ -410,3 +425,8 @@
+ 	};
+ }; /* LCD end */
+ 
++&ceu {
++	pinctrl-names = "default";
++	pinctrl-0 = <&vio_pins>;
++	status = "okay";
++};
+diff --git a/arch/arm/boot/dts/r7s72100.dtsi b/arch/arm/boot/dts/r7s72100.dtsi
+index 6706dac..3fbd9e9 100644
+--- a/arch/arm/boot/dts/r7s72100.dtsi
++++ b/arch/arm/boot/dts/r7s72100.dtsi
+@@ -150,9 +150,9 @@
+ 			#clock-cells = <1>;
+ 			compatible = "renesas,r7s72100-mstp-clocks", "renesas,cpg-mstp-clocks";
+ 			reg = <0xfcfe042c 4>;
+-			clocks = <&p0_clk>;
+-			clock-indices = <R7S72100_CLK_RTC>;
+-			clock-output-names = "rtc";
++			clocks = <&b_clk>, <&p0_clk>;
++			clock-indices = <R7S72100_CLK_CEU R7S72100_CLK_RTC>;
++			clock-output-names = "ceu", "rtc";
+ 		};
+ 
+ 		mstp7_clks: mstp7_clks@fcfe0430 {
+@@ -528,6 +528,20 @@
+ 		cache-level = <2>;
+ 	};
+ 
++	ceu: ceu@e8210000 {
++		reg = <0xe8210000 0x209c>;
++		compatible = "renesas,r7s72100-ceu";
++		interrupts = <GIC_SPI 332 IRQ_TYPE_LEVEL_HIGH>;
++		status = "disable";
++		port {
++			ceu_in: endpoint {
++				remote-endpoint = <&ov7670_out>;
++				hsync-active = <1>;
++				vsync-active = <0>;
++				};
++		};
++	};
++
+ 	wdt: watchdog@fcfe0000 {
+ 		compatible = "renesas,r7s72100-wdt", "renesas,rza-wdt";
+ 		reg = <0xfcfe0000 0x6>;
+@@ -571,6 +585,18 @@
+ 		clock-frequency = <100000>;
+ 		power-domains = <&cpg_clocks>;
+ 		status = "disabled";
++
++		ov7670: camera@21 {
++			compatible = "ovti,ov7670";
++			reg = <0x21>;
++			port {
++				ov7670_out: endpoint {
++					remote-endpoint = <&ceu_in>;
++					hsync-active = <1>;
++					vsync-active = <0>;
++				};
++			};
++		};
+ 	};
+ 
+ 	i2c2: i2c@fcfee800 {
+-- 
+1.9.1
+
