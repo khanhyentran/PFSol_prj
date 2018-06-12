@@ -31,3 +31,6 @@ Device topology
         pad0: Sink
 
 $ 
+$ media-ctl -d /dev/media0 -l "'rza-csi2 e8209000.csi2':1 -> 'rza_vin e803f000.v
+ideo':0 [1]"
+Unable to parse link: Invalid argument (22)
