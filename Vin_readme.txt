@@ -12,3 +12,22 @@ https://kernel.googlesource.com/pub/scm/linux/kernel/git/horms/renesas-bsp/+/v4.
 [    2.966281] rcar-vin e803f000.video: failed to get cpg reset e803f000.video
 [    2.984565] rcar-vin: probe of e803f000.video failed with error -524
 
+$ media-ctl -d /dev/media0 -p
+Media controller API version 4.14.43
+
+Media device information
+------------------------
+driver          Renesas VIN
+model           video
+serial          
+bus info        /video@e803f000
+hw revision     0x0
+driver version  4.14.43
+
+Device topology
+- entity 1: rza_vin e803f000.video (1 pad, 0 link)
+            type Node subtype V4L flags 0
+            device node name /dev/video0
+        pad0: Sink
+
+$ 
