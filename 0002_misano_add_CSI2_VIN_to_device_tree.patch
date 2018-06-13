@@ -1,0 +1,145 @@
+From b07078485212af865d640ed1fd2e4eca2c4246e9 Mon Sep 17 00:00:00 2001
+From: root <khanh.tran.te@renesas.com>
+Date: Wed, 13 Jun 2018 11:40:06 +0700
+Subject: [PATCH] misano: Add CSI2/VIN support
+
+---
+ arch/arm/boot/dts/r7s9210-rza2mevb.dts | 20 +++++++++
+ arch/arm/boot/dts/r7s9210.dtsi         | 74 +++++++++++++++++++++++++++++-----
+ 2 files changed, 84 insertions(+), 10 deletions(-)
+
+diff --git a/arch/arm/boot/dts/r7s9210-rza2mevb.dts b/arch/arm/boot/dts/r7s9210-rza2mevb.dts
+index ad2cb68..e51d34b 100644
+--- a/arch/arm/boot/dts/r7s9210-rza2mevb.dts
++++ b/arch/arm/boot/dts/r7s9210-rza2mevb.dts
+@@ -259,3 +259,23 @@
+         bus-width = <4>;
+         status = "okay";
+ };
++
++&csi20 {
++	status = "okay";
++
++	ports {
++		port@0 {
++			reg = <0>;
++
++			csi20_in: endpoint {
++				clock-lanes = <0>;
++				data-lanes = <1 2>;
++				/*remote-endpoint = <&adv7482_txa_cp>;*/
++			};
++		};
++	};
++};
++
++&vin0 {
++	status = "okay";
++};
+diff --git a/arch/arm/boot/dts/r7s9210.dtsi b/arch/arm/boot/dts/r7s9210.dtsi
+index cc4ebba..108d276 100644
+--- a/arch/arm/boot/dts/r7s9210.dtsi
++++ b/arch/arm/boot/dts/r7s9210.dtsi
+@@ -121,28 +121,27 @@
+ 			clock-output-names = ;
+ 		};
+ */
+-/*
+ 		mstp6_clks: mstp6_clks@fcfe042c {
+ 			#clock-cells = <1>;
+ 			compatible = "renesas,r7s9210-mstp-clocks", "renesas,cpg-mstp-clocks";
+ 			reg = <0xfcfe042c 4>;
+-			clocks = ;
+-			clock-indices = ;
+-			clock-output-names = ;
++			clocks = <&cpg_clocks R7S9210_CLK_B>;
++			clock-indices = <R7S9210_CLK_VIN>;
++			clock-output-names = "vin0";
+ 
+ 		};
+-*/
+-/*
++
++
+ 		mstp7_clks: mstp7_clks@fcfe0430 {
+ 			#clock-cells = <1>;
+ 			compatible = "renesas,r7s9210-mstp-clocks", "renesas,cpg-mstp-clocks";
+ 			reg = <0xfcfe0430 4>;
+-			clocks = ;
+-			clock-indices = ;
+-			clock-output-names = ;
++			clocks = <&cpg_clocks R7S9210_CLK_B>;
++			clock-indices = <R7S9210_CLK_MIPI>;
++			clock-output-names = "csi20";
+ 
+ 		};
+-*/
++
+ 		mstp8_clks: mstp8_clks@fcfe0434 {
+ 			#clock-cells = <1>;
+ 			compatible = "renesas,r7s9210-mstp-clocks", "renesas,cpg-mstp-clocks";
+@@ -543,6 +542,61 @@
+ 		power-domains = <&cpg_clocks>;
+ 		status = "disabled";
+ 	};
++
++	csi20: csi2@e8209000 {
++		compatible = "renesas,r7s9210-csi2", "renesas,r8a77990-csi2", "renesas,rcar-gen3-csi2";
++		reg = <0xe8209000 0x26C>;
++		interrupts = <GIC_SPI 55 IRQ_TYPE_LEVEL_HIGH>;
++		clocks = <&mstp7_clks R7S9210_CLK_MIPI>;
++		power-domains = <&cpg_clocks>;
++		resets = <&cpg_clocks 23>;
++		status = "disabled";
++
++		ports {
++			#address-cells = <1>;
++			#size-cells = <0>;
++
++			port@1 {
++				#address-cells = <1>;
++				#size-cells = <0>;
++
++				reg = <1>;
++
++				csi20vin0: endpoint@0 {
++					reg = <0>;
++					remote-endpoint = <&vin0csi20>;
++				};
++			};
++		};
++	};
++
++	vin0: video@e803f000 {
++		compatible = "renesas,vin-r7s9210";
++		reg = <0xe803f000 0x30C>;
++		interrupts = <GIC_SPI 440 IRQ_TYPE_LEVEL_HIGH>;
++		clocks = <&mstp6_clks R7S9210_CLK_VIN>;
++		power-domains = <&cpg_clocks>;
++		resets = <&cpg_clocks 25>;
++		renesas,id = <0>;
++		status = "disabled";
++
++		ports {
++			#address-cells = <1>;
++			#size-cells = <0>;
++
++			port@0 {
++				#address-cells = <1>;
++				#size-cells = <0>;
++
++				reg = <0>;
++
++				vin0csi20: endpoint@0 {
++					reg = <0>;
++					remote-endpoint= <&csi20vin0>;
++				};
++			};
++		};
++	};
+ /*
+ 	rtc: rtc@fcff1000 {
+ 		compatible = "renesas,r7s9210-rtc", "renesas,sh-rtc";
+-- 
+2.7.4
+
