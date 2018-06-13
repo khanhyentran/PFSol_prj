@@ -1,0 +1,347 @@
+From b4ea9ba071f59b839740b871559be8d0b8228b2a Mon Sep 17 00:00:00 2001
+From: Nghia Tran <nghia.tran.hx@rvc.renesas.com>
+Date: Wed, 13 Jun 2018 11:33:22 +0700
+Subject: [PATCH] Add Ethernet channel 0
+
+---
+ board/renesas/rza2mevb/rza2mevb.c | 96 +++++++++++++++++++++++++++++++--------
+ drivers/net/sh_eth.c              | 18 ++++----
+ drivers/net/sh_eth.h              | 74 +++++++++++++++++++++++++-----
+ include/configs/rza2mevb.h        |  4 +-
+ 4 files changed, 150 insertions(+), 42 deletions(-)
+
+diff --git a/board/renesas/rza2mevb/rza2mevb.c b/board/renesas/rza2mevb/rza2mevb.c
+index 222fb61..41e9a02 100644
+--- a/board/renesas/rza2mevb/rza2mevb.c
++++ b/board/renesas/rza2mevb/rza2mevb.c
+@@ -362,26 +362,78 @@ int board_early_init_f(void)
+ #endif
+ 
+ 	/* Ethernet */
+-#if 0 /*** PLEASE configure pins and 'ALTx' according to Tables 54.xx in the Hardware Manual ***/
+-	pfc_set_pin_function(1, 14, ALT4, 0, 0); /* P1_14 = ET_COL */
+-	pfc_set_pin_function(5, 9, ALT2, 0, 0);	/* P5_9 = ET_MDC */
+-	pfc_set_pin_function(3, 3, ALT2, 0, 1);	/* P3_3 = ET_MDIO (bi dir) */
+-	pfc_set_pin_function(3, 4, ALT2, 0, 0);	/* P3_4 = ET_RXCLK */
+-	pfc_set_pin_function(3, 5, ALT2, 0, 0);	/* P3_5 = ET_RXER */
+-	pfc_set_pin_function(3, 6, ALT2, 0, 0);	/* P3_6 = ET_RXDV */
+-	pfc_set_pin_function(2, 0, ALT2, 0, 0);	/* P2_0 = ET_TXCLK */
+-	pfc_set_pin_function(2, 1, ALT2, 0, 0);	/* P2_1 = ET_TXER */
+-	pfc_set_pin_function(2, 2, ALT2, 0, 0);	/* P2_2 = ET_TXEN */
+-	pfc_set_pin_function(2, 3, ALT2, 0, 0);	/* P2_3 = ET_CRS */
+-	pfc_set_pin_function(2, 4, ALT2, 0, 0);	/* P2_4 = ET_TXD0 */
+-	pfc_set_pin_function(2, 5, ALT2, 0, 0);	/* P2_5 = ET_TXD1 */
+-	pfc_set_pin_function(2, 6, ALT2, 0, 0);	/* P2_6 = ET_TXD2 */
+-	pfc_set_pin_function(2, 7, ALT2, 0, 0);	/* P2_7 = ET_TXD3 */
+-	pfc_set_pin_function(2, 8, ALT2, 0, 0);	/* P2_8 = ET_RXD0 */
+-	pfc_set_pin_function(2, 9, ALT2, 0, 0);	/* P2_9 = ET_RXD1 */
+-	pfc_set_pin_function(2, 10, ALT2, 0, 0); /* P2_10 = ET_RXD2 */
+-	pfc_set_pin_function(2, 11, ALT2, 0, 0); /* P2_11 = ET_RXD3 */
+-	//pfc_set_pin_function(4, 14, ALT8, 0, 0); /* P4_14 = IRQ6 (ET_IRQ) */ /* NOTE: u-boot doesn't enable interrupts */
++#if 1
++	#if 0 /** MII mode **/
++		/* Channel 0 */
++		pfc_set_pin_function(PG, 0, 1);
++		pfc_set_pin_function(PG, 1, 1);
++		pfc_set_pin_function(PG, 2, 1);
++		pfc_set_pin_function(PG, 3, 1);
++		pfc_set_pin_function(PG, 4, 1);
++		pfc_set_pin_function(PG, 5, 1);
++		pfc_set_pin_function(PG, 6, 1);
++		pfc_set_pin_function(PG, 7, 1);
++		pfc_set_pin_function(PE, 0, 1);
++		pfc_set_pin_function(PE, 1, 1);
++		pfc_set_pin_function(PE, 2, 1);
++		pfc_set_pin_function(PE, 3, 1);
++		pfc_set_pin_function(PE, 4, 1);
++		pfc_set_pin_function(PE, 5, 1);
++		pfc_set_pin_function(PE, 6, 1);
++		pfc_set_pin_function(P6, 1, 1);
++		pfc_set_pin_function(P6, 2, 1);
++		pfc_set_pin_function(P6, 3, 1);
++		pfc_set_pin_function(P4, 5, 1);
++		pfc_set_pin_function(P4, 6, 1);
++		pfc_set_pin_function(P4, 7, 1);
++		/* Channel 1 */
++		pfc_set_pin_function(PC, 0, 3);
++		pfc_set_pin_function(PK, 3, 1);
++		pfc_set_pin_function(PK, 0, 1);
++		pfc_set_pin_function(PK, 1, 1);
++		pfc_set_pin_function(PK, 2, 1);
++		pfc_set_pin_function(PC, 1, 3);
++		pfc_set_pin_function(PC, 2, 3);
++		pfc_set_pin_function(PC, 4, 3);
++		pfc_set_pin_function(PC, 5, 3);
++		pfc_set_pin_function(PK, 4, 1);
++		pfc_set_pin_function(P3, 5, 1);
++		pfc_set_pin_function(PC, 6, 3);
++		pfc_set_pin_function(PC, 7, 3);
++		pfc_set_pin_function(P3, 1, 1);
++		pfc_set_pin_function(P3, 2, 1);
++		pfc_set_pin_function(PC, 3, 3);
++		pfc_set_pin_function(P3, 3, 1);
++		pfc_set_pin_function(P3, 4, 1);
++		pfc_set_pin_function(P3, 0, 3);
++		pfc_set_pin_function(PH, 5, 3);
++		pfc_set_pin_function(PH, 6, 3);
++	#endif
++	#if 1 /** RMII mode **/
++		/* Channel 0 */
++		pfc_set_pin_function(PE, 0, 7); /* REF50CK0 */
++		pfc_set_pin_function(P6, 1, 7); /* RMMI0_TXDEN */
++		pfc_set_pin_function(P6, 2, 7); /* RMII0_TXD0 */
++		pfc_set_pin_function(P6, 3, 7); /* RMII0_TXD1 */
++		pfc_set_pin_function(PE, 4, 7); /* RMII0_CRSDV */
++		pfc_set_pin_function(PE, 1, 7); /* RMII0_RXD0 */
++		pfc_set_pin_function(PE, 2, 7); /* RMII0_RXD1 */
++		pfc_set_pin_function(PE, 3, 7); /* RMII0_RXER */
++		pfc_set_pin_function(PE, 5, 1); /* ET0_MDC */
++		pfc_set_pin_function(PE, 6, 1); /* ET0_MDIO */
++
++		/* Channel 1 */
++		pfc_set_pin_function(PK, 3, 7); /* REF50CK1 */
++		pfc_set_pin_function(PK, 0, 7); /* RMMI1_TXDEN */
++		pfc_set_pin_function(PK, 1, 7); /* RMII1_TXD0 */
++		pfc_set_pin_function(PK, 2, 7); /* RMII1_TXD1 */
++		pfc_set_pin_function(P3, 2, 7); /* RMII1_CRSDV */
++		pfc_set_pin_function(PK, 4, 7); /* RMII1_RXD0 */
++		pfc_set_pin_function(P3, 5, 7); /* RMII1_RXD1 */
++		pfc_set_pin_function(P3, 1, 7); /* RMII1_RXER */
++		pfc_set_pin_function(P3, 3, 1); /* ET1_MDC */
++		pfc_set_pin_function(P3, 4, 1); /* ET1_MDIO */
++	#endif
+ #endif
+ 
+ 	/* MMC */
+@@ -563,6 +615,10 @@ int board_mmc_init(bd_t *bis)
+ 
+ int board_late_init(void)
+ {
++	u8 mac[6]={0x74, 0x90, 0x50, 0xC0, 0xFE, 0x06};
++	if (is_valid_ethaddr(mac))
++		eth_setenv_enetaddr("ethaddr", mac);
++
+ #if !defined(CONFIG_BOOT_MODE0)
+ 	printf(	"\t\t      SPI Flash Memory Map\n"
+ 		"\t\t------------------------------------\n"
+diff --git a/drivers/net/sh_eth.c b/drivers/net/sh_eth.c
+index ad3f437..24b63f2 100644
+--- a/drivers/net/sh_eth.c
++++ b/drivers/net/sh_eth.c
+@@ -158,9 +158,6 @@ static int sh_eth_reset(struct sh_eth_dev *eth)
+ #if defined(SH_ETH_TYPE_GETHER) || defined(SH_ETH_TYPE_RZ)
+ 	int ret = 0, i;
+ 
+-	/* Start e-dmac transmitter and receiver */
+-	sh_eth_write(eth, EDSR_ENALL, EDSR);
+-
+ 	/* Perform a software reset and wait for it to complete */
+ 	sh_eth_write(eth, EDMR_SRST, EDMR);
+ 	for (i = 0; i < TIMEOUT_CNT; i++) {
+@@ -227,8 +224,6 @@ static int sh_eth_tx_desc_init(struct sh_eth_dev *eth)
+ 	sh_eth_write(eth, ADDR_TO_PHY(port_info->tx_desc_base), TDLAR);
+ #if defined(SH_ETH_TYPE_GETHER) || defined(SH_ETH_TYPE_RZ)
+ 	sh_eth_write(eth, ADDR_TO_PHY(port_info->tx_desc_base), TDFAR);
+-	sh_eth_write(eth, ADDR_TO_PHY(cur_tx_desc), TDFXR);
+-	sh_eth_write(eth, 0x01, TDFFR);/* Last discriptor bit */
+ #endif
+ 
+ err:
+@@ -294,8 +289,6 @@ static int sh_eth_rx_desc_init(struct sh_eth_dev *eth)
+ 	sh_eth_write(eth, ADDR_TO_PHY(port_info->rx_desc_base), RDLAR);
+ #if defined(SH_ETH_TYPE_GETHER) || defined(SH_ETH_TYPE_RZ)
+ 	sh_eth_write(eth, ADDR_TO_PHY(port_info->rx_desc_base), RDFAR);
+-	sh_eth_write(eth, ADDR_TO_PHY(cur_rx_desc), RDFXR);
+-	sh_eth_write(eth, RDFFR_RDLF, RDFFR);
+ #endif
+ 
+ 	return ret;
+@@ -376,6 +369,7 @@ static int sh_eth_config(struct sh_eth_dev *eth, bd_t *bd)
+ 	int port = eth->port, ret = 0;
+ 	u32 val;
+ 	struct sh_eth_info *port_info = &eth->port_info[port];
++	struct eth_device *dev = port_info->dev;
+ 	struct phy_device *phy;
+ 
+ 	/* Configure e-dmac registers */
+@@ -395,6 +389,14 @@ static int sh_eth_config(struct sh_eth_dev *eth, bd_t *bd)
+ 	/* Configure e-mac registers */
+ 	sh_eth_write(eth, 0, ECSIPR);
+ 
++	/* Set Mac address */
++	val = dev->enetaddr[0] << 24 | dev->enetaddr[1] << 16 |
++	    dev->enetaddr[2] << 8 | dev->enetaddr[3];
++	sh_eth_write(eth, val, MAHR);
++
++	val = dev->enetaddr[4] << 8 | dev->enetaddr[5];
++	sh_eth_write(eth, val, MALR);
++
+ 	sh_eth_write(eth, RFLR_RFL_MIN, RFLR);
+ #if defined(SH_ETH_TYPE_GETHER)
+ 	sh_eth_write(eth, 0, PIPR);
+@@ -435,7 +437,7 @@ static int sh_eth_config(struct sh_eth_dev *eth, bd_t *bd)
+ 		sh_eth_write(eth, 1, RTRATE);
+ #elif defined(CONFIG_CPU_SH7724) || defined(CONFIG_R8A7790) || \
+ 		defined(CONFIG_R8A7791) || defined(CONFIG_R8A7793) || \
+-		defined(CONFIG_R8A7794)
++		defined(CONFIG_R8A7794) || defined(CONFIG_R7S9210)
+ 		val = ECMR_RTM;
+ #endif
+ 	} else if (phy->speed == 10) {
+diff --git a/drivers/net/sh_eth.h b/drivers/net/sh_eth.h
+index fbe051f..6c828bb 100644
+--- a/drivers/net/sh_eth.h
++++ b/drivers/net/sh_eth.h
+@@ -124,6 +124,7 @@ enum {
+ 	EDOCR,
+ 	TFUCR,
+ 	RFOCR,
++	IOSR,
+ 	FCFTR,
+ 	RPADIR,
+ 	TRIMD,
+@@ -228,8 +229,8 @@ static const u16 sh_eth_offset_gigabit[SH_ETH_MAX_REGISTER_OFFSET] = {
+ 	[RMII_MII] =  0x0790,
+ };
+ 
+-// #if defined(SH_ETH_TYPE_RZ)   NOTE: SH_ETH_TYPE_RZ is not defined until later in this file
+ static const u16 sh_eth_offset_rz[SH_ETH_MAX_REGISTER_OFFSET] = {
++#ifdef defined(CONFIG_R7S72100)
+ 	[EDSR]	= 0x0000,
+ 	[EDMR]	= 0x0400,
+ 	[EDTRR]	= 0x0408,
+@@ -281,8 +282,59 @@ static const u16 sh_eth_offset_rz[SH_ETH_MAX_REGISTER_OFFSET] = {
+ 	[CEECR]	= 0x0770,
+ 	[MAFCR]	= 0x0778,
+ 	[RMII_MII] =  0x0790,
++#elif defined(CONFIG_R7S9210)
++	[EDMR]	= 0x0000,
++	[EDTRR]	= 0x0008,
++	[EDRRR]	= 0x0010,
++	[TDLAR]	= 0x0018,
++	[RDLAR]	= 0x0020,
++	[EESR]	= 0x0028,
++	[EESIPR]	= 0x0030,
++	[TRSCER]	= 0x0038,
++	[RMFCR]	= 0x0040,
++	[TFTR]	= 0x0048,
++	[FDR]	= 0x0050,
++	[RMCR]	= 0x0058,
++	[TFUCR]	= 0x0064,
++	[RFOCR]	= 0x0068,
++	[IOSR]	= 0x006C,
++	[FCFTR]	= 0x0070,
++	[RPADIR]	= 0x0078,
++	[TRIMD]	= 0x007C,
++	[RBWAR]	= 0x00C8,
++	[RDFAR]	= 0x00CC,
++	[TBRAR]	= 0x00D4,
++	[TDFAR]	= 0x00D8,
++
++	[ECMR]	= 0x0100,
++	[RFLR]	= 0x0108,
++	[ECSR]	= 0x0110,
++	[ECSIPR]	= 0x0118,
++	[PIR]	= 0x0120,
++	[PSR]	= 0x0128,
++	[RDMLR]	= 0x0140,
++	[IPGR]	= 0x0150,
++	[APR]	= 0x0154,
++	[MPR]	= 0x0158,
++	[RFCF]	= 0x0160,
++	[TPAUSER]	= 0x0164,
++	[TPAUSECR]	= 0x0168,
++	[BCFRR]	= 0x016C,
++	[MAHR]	= 0x01C0,
++	[MALR]	= 0x01C8,
++	[TROCR]	= 0x01D0,
++	[CDCR]	= 0x01D4,
++	[LCCR]	= 0x01D8,
++	[CNDCR]	= 0x01DC,
++	[CEFCR]	= 0x01E4,
++	[FRECR]	= 0x01E8,
++	[TSFRCR]	= 0x01EC,
++	[TLFRCR]	= 0x01F0,
++	[RFCR]	= 0x01F4,
++	[MAFCR]	= 0x01F8,
++#endif
+ };
+-//#endif
++
+ 
+ static const u16 sh_eth_offset_fast_sh4[SH_ETH_MAX_REGISTER_OFFSET] = {
+ 	[ECMR]	= 0x0100,
+@@ -366,8 +418,8 @@ static const u16 sh_eth_offset_fast_sh4[SH_ETH_MAX_REGISTER_OFFSET] = {
+ #define BASE_IO_ADDR	0xE8203000
+ #elif defined(CONFIG_R7S9210)
+ #define SH_ETH_TYPE_RZ
+-//#define BASE_IO_ADDR	0xE8204100	/* ch 0 */
+-#define BASE_IO_ADDR	0xE8204300	/* ch 1 */
++#define BASE_IO_ADDR	0xE8204000	/* EDMAC0 + ETHERC0 */
++//#define BASE_IO_ADDR	0xE8204200	/* EDMAC1 + ETHERC1 */
+ #endif
+ 
+ /*
+@@ -385,11 +437,11 @@ enum EDSR_BIT {
+ /* EDMR */
+ enum DMAC_M_BIT {
+ 	EDMR_DL1 = 0x20, EDMR_DL0 = 0x10,
+-#if defined(SH_ETH_TYPE_GETHER) || defined(SH_ETH_TYPE_RZ)
++#if defined(SH_ETH_TYPE_GETHER) || (defined(SH_ETH_TYPE_RZ) &&  defined(CONFIG_R7S72100))
+ 	EDMR_SRST	= 0x03, /* Receive/Send reset */
+ 	EMDR_DESC_R	= 0x30, /* Descriptor reserve size */
+ 	EDMR_EL		= 0x40, /* Litte endian */
+-#elif defined(SH_ETH_TYPE_ETHER)
++#elif defined(SH_ETH_TYPE_ETHER) || (defined(SH_ETH_TYPE_RZ) &&  defined(CONFIG_R7S9210))
+ 	EDMR_SRST	= 0x01,
+ 	EMDR_DESC_R	= 0x30, /* Descriptor reserve size */
+ 	EDMR_EL		= 0x40, /* Litte endian */
+@@ -456,8 +508,8 @@ enum PHY_STATUS_BIT { PHY_ST_LINK = 0x01, };
+ 
+ /* EESR */
+ enum EESR_BIT {
+-#if defined(SH_ETH_TYPE_ETHER)
+-	EESR_TWB  = 0x40000000,
++#if defined(SH_ETH_TYPE_ETHER) || (defined(SH_ETH_TYPE_RZ) &&  defined(CONFIG_R7S9210))
++	EESR_TWB  = 0x40000000, EESR_CND  = 0x00000800,
+ #else
+ 	EESR_TWB  = 0xC0000000,
+ 	EESR_TC1  = 0x20000000,
+@@ -473,9 +525,6 @@ enum EESR_BIT {
+ 	EESR_FTC  = 0x00200000, EESR_TDE  = 0x00100000,
+ 	EESR_TFE  = 0x00080000, EESR_FRC  = 0x00040000,
+ 	EESR_RDE  = 0x00020000, EESR_RFE  = 0x00010000,
+-#if defined(SH_ETH_TYPE_ETHER)
+-	EESR_CND  = 0x00000800,
+-#endif
+ 	EESR_DLC  = 0x00000400,
+ 	EESR_CD   = 0x00000200, EESR_RTO  = 0x00000100,
+ 	EESR_RMAF = 0x00000080, EESR_CEEF = 0x00000040,
+@@ -574,7 +623,8 @@ enum FELIC_MODE_BIT {
+ #ifdef CONFIG_CPU_SH7724
+ 	ECMR_RTM = 0x00000010,
+ #elif defined(CONFIG_R8A7790) || defined(CONFIG_R8A7791) || \
+-	defined(CONFIG_R8A7793) || defined(CONFIG_R8A7794)
++	defined(CONFIG_R8A7793) || defined(CONFIG_R8A7794) || \
++	defined(CONFIG_R7S9210)
+ 	ECMR_RTM = 0x00000004,
+ #endif
+ 
+diff --git a/include/configs/rza2mevb.h b/include/configs/rza2mevb.h
+index dffc2cb..63518a6 100644
+--- a/include/configs/rza2mevb.h
++++ b/include/configs/rza2mevb.h
+@@ -33,8 +33,8 @@
+ #define SW6_1	SW_OFF
+ #define SW6_2	SW_OFF
+ #define SW6_3	SW_OFF
+-#define SW6_4	SW_OFF
+-#define SW6_5	SW_OFF
++#define SW6_4	SW_ON
++#define SW6_5	SW_ON
+ #define SW6_6	SW_ON
+ #define SW6_7	SW_ON
+ 
+-- 
+1.9.1
+
