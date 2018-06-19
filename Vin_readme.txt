@@ -34,3 +34,29 @@ $
 $ media-ctl -d /dev/media0 -l "'rza-csi2 e8209000.csi2':1 -> 'rza_vin e803f000.v
 ideo':0 [1]"
 Unable to parse link: Invalid argument (22)
+=======
+$ media-ctl -d /dev/media0 -p
+Media controller API version 4.14.43
+
+Media device information
+------------------------
+driver          Renesas VIN
+model           video
+serial          
+bus info        /video@e803f000
+hw revision     0x0
+driver version  4.14.43
+
+Device topology
+- entity 1: rza_vin e803f000.video (1 pad, 0 link)
+            type Node subtype V4L flags 0
+            device node name /dev/video0
+        pad0: Sink
+
+- entity 5: rza_csi2 e8209000.csi2 (5 pads, 0 link)
+            type V4L2 subdev subtype Unknown flags 0
+        pad0: Sink
+        pad1: Source
+        pad2: Source
+        pad3: Source
+        pad4: Source
