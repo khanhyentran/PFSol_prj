@@ -195,3 +195,5 @@ Unable to start streaming: Broken pipe (32).
 5 buff[  888.283552] rcar-vin e803f000.video: MSTP status timeout
 ers released.
 $ 
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/drivers/media/platform/renesas-ceu.c?id=32e5a70dc8f4e9813c61e5465d72d2e9830ba0ff
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/Documentation/devicetree/bindings/media/renesas,ceu.txt?id=a444e5184f329738691b06ed31addaa0edb6aa01
