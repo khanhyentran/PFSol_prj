@@ -206,3 +206,16 @@ make
 cp output/images/rootfs.squashfs /media/sf_Store/RZA/01_SDIO/Binary/rootfs.squashfs.bin
 
  ./ceu_omni -v -c -n
+ 
+ ====
+ Error when load file by Jlink after run DRP
+Cortex-A9 identified.
+Halting CPU for downloading file.
+Downloading file [/tmp/rootfs.bin]...
+
+****** Error: Timeout while checking target RAM, core does not stop. (PC = 0x200041CC, CPSR = 0x00000197, LR = 0x81226450)!
+Failed to prepare for programming.
+Failed to execute RAMCode for RAM check!
+Error while determining flash info (Bank @ 0x20000000)
+Unspecified error -1
+
