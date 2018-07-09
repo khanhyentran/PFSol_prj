@@ -197,3 +197,12 @@ ers released.
 $ 
 https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/drivers/media/platform/renesas-ceu.c?id=32e5a70dc8f4e9813c61e5465d72d2e9830ba0ff
 https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/Documentation/devicetree/bindings/media/renesas,ceu.txt?id=a444e5184f329738691b06ed31addaa0edb6aa01
+
+/home/rvc/RZA_prj/02_uboot_drivermodel/rza_linux-4.9_bsp/output/buildroot-2017.02/output/host/usr/bin/arm-linux-gnueabihf-gcc -static -O2 --sysroot=/home/rvc/RZA_prj/02_uboot_drivermodel/rza_linux-4.9_bsp/output/buildroot-2017.02/output/host/usr/arm-buildroot-linux-gnueabihf/sysroot -o ceu_omni ./ceu_omni.c ceu.c ov7740.c ov7670.c
+cp ceu_omni ../output/buildroot-2017.02/output/rootfs_overlay/root/
+ cd ../output/buildroot-2017.02
+ 
+make
+cp output/images/rootfs.squashfs /media/sf_Store/RZA/01_SDIO/Binary/rootfs.squashfs.bin
+
+ ./ceu_omni -v -c -n
