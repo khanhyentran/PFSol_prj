@@ -220,3 +220,9 @@ Failed to execute RAMCode for RAM check!
 Error while determining flash info (Bank @ 0x20000000)
 Unspecified error -1
 
+	if (IS_ERR(vin->rstc)) {
+		dev_err(&pdev->dev, "failed to get cpg reset %s\n",
+			dev_name(vin->dev));
+		ret = PTR_ERR(vin->rstc);
+		goto error;
+	}
