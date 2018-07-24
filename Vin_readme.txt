@@ -227,3 +227,11 @@ Unspecified error -1
 		ret = PTR_ERR(vin->clk);
 		goto error;
 	}
+===
+Welcome to Buildroot
+buildroot login: root
+yavta /dev/video0 -c1 -n1 -f NV12 -s 640x480 -F"/tmp/NV12#.bin"$ yavta /dev/video0 -c1 -n1 -f NV12 -s 640x480 -F"/tmp/NV12#.bin"
+Device /dev/video0 opened.
+Device `Renesas CEU' on `platform:renesas-ceu-e8210000.c' (driver 'renesas-ceu') is a video capture (with mplanes) device.
+Video format set: NV12 (3231564e) 640x480 field none, 2 planes: 
+===
