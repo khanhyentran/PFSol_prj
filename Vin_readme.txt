@@ -219,15 +219,25 @@ Failed to prepare for programming.
 Failed to execute RAMCode for RAM check!
 Error while determining flash info (Bank @ 0x20000000)
 Unspecified error -1
+=======
+	if (ret)
+		goto error_v4l2_unregister;
 
-	vin->clk = devm_clk_get(&pdev->dev, NULL);
-	if (IS_ERR(vin->clk)) {
+	ceudev->clk = devm_clk_get(&pdev->dev, NULL);
+	if (IS_ERR(ceudev->clk)) {
 		dev_err(&pdev->dev, "failed to get clock%s\n",
-			dev_name(vin->dev));
-		ret = PTR_ERR(vin->clk);
-		goto error;
+			dev_name(ceudev->dev));
+		ret = PTR_ERR(ceudev->clk);
+		goto error_v4l2_unregister;
 	}
-===
+	
+	ret = clk_prepare_enable(ceudev->clk);
+	if (ret < 0)
+		dev_info(dev, "failed to enable clk\n");
+	dev_info(dev, "Renesas Capture Engine Unit %s\n", dev_name(dev));
+
+	return 0;
+======
 Welcome to Buildroot
 buildroot login: root
 yavta /dev/video0 -c1 -n1 -f NV12 -s 640x480 -F"/tmp/NV12#.bin"$ yavta /dev/video0 -c1 -n1 -f NV12 -s 640x480 -F"/tmp/NV12#.bin"
