@@ -245,3 +245,4 @@ Device /dev/video0 opened.
 Device `Renesas CEU' on `platform:renesas-ceu-e8210000.c' (driver 'renesas-ceu') is a video capture (with mplanes) device.
 Video format set: NV12 (3231564e) 640x480 field none, 2 planes: 
 ===
+https://svn.dd-wrt.com/browser/src/linux/universal/linux-4.14/drivers/staging/media/atomisp/i2c/imx?rev=34113
