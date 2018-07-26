@@ -1,3 +1,5 @@
+https://www.linuxquestions.org/questions/linux-software-2/linux-c-program-for-i2c-reading-from-specified-location-921036/
+https://stackoverflow.com/questions/29932003/reading-and-writing-eeprom-via-i2c-with-linux/29936800
 9df1f7fd6d2c2018fd7dfd56a36f7d877b5fc822
 https://kernel.googlesource.com/pub/scm/linux/kernel/git/horms/renesas-bsp/+/v4.14/rcar-3.6.1
 
