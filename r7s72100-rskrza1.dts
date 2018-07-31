@@ -1,0 +1,422 @@
+/*
+ * Device Tree Source for the RZ/A1H RSK board
+ *
+ * Copyright (C) 2016 Renesas Electronics
+ *
+ * This file is licensed under the terms of the GNU General Public License
+ * version 2.  This program is licensed "as is" without any warranty of any
+ * kind, whether express or implied.
+ */
+
+/dts-v1/;
+#include "r7s72100.dtsi"
+#include <dt-bindings/gpio/gpio.h>
+#include <dt-bindings/pinctrl/r7s72100-pinctrl.h>
+
+/ {
+	model = "RSKRZA1";
+	compatible = "renesas,rskrza1", "renesas,r7s72100";
+
+	aliases {
+		serial0 = &scif2;
+	};
+
+	chosen {
+		bootargs = "ignore_loglevel earlyprintk earlycon=scif,0xE8008000 root=/dev/mtdblock0                                              ";
+		stdout-path = "serial0:115200n8";
+	};
+
+	memory@8000000 {
+		device_type = "memory";
+		reg = <0x08000000 0x02000000>;
+	};
+
+	lbsc {
+		#address-cells = <1>;
+		#size-cells = <1>;
+	};
+
+	leds {
+		status = "okay";
+		compatible = "gpio-leds";
+
+		led0 {
+			gpios = <&port7 1 GPIO_ACTIVE_LOW>;
+		};
+	};
+
+	/* File System */
+	/* Remember, we'll be in dual QSPI XIP mode at this point */
+	/* Requires CONFIG_MTD_ROM=y */
+	qspi@18000000 {
+		compatible = "mtd-rom";
+		probe-type = "map_rom";
+		reg = <0x18000000 0x4000000>;	/* 64 MB*/
+		bank-width = <4>;
+		device-width = <1>;
+
+		#address-cells = <1>;
+		#size-cells = <1>;
+
+		partition@800000 {
+			label ="user";
+			reg = <0x0800000 0x800000>; /* 8MB @ 0x18800000 */
+			read-only;
+		};
+	};
+
+};
+
+&extal_clk {
+	clock-frequency = <13330000>;
+};
+
+&usb_x1_clk {
+	clock-frequency = <48000000>;
+};
+
+&rtc_x1_clk {
+	clock-frequency = <32768>;
+};
+
+&pinctrl {
+
+	/* Serial Console */
+	scif2_pins: serial2 {
+		pinmux = <RZA1_PINMUX(3, 0, 6)>,	/* TxD2 */
+			 <RZA1_PINMUX(3, 2, 4)>;	/* RxD2 */
+	};
+
+	/* Ethernet */
+	ether_pins: ether {
+		/* Ethernet on Ports 1,2,3,5 */
+		pinmux = <RZA1_PINMUX(1, 14, 4)>,	/* ET_COL   */
+			 <RZA1_PINMUX(5, 9, 2)>,	/* ET_MDC   */
+			 <RZA1_PINMUX(3, 3, 2)>,	/* ET_MDIO  */
+			 <RZA1_PINMUX(3, 4, 2)>,	/* ET_RXCLK */
+			 <RZA1_PINMUX(3, 5, 2)>,	/* ET_RXER  */
+			 <RZA1_PINMUX(3, 6, 2)>,	/* ET_RXDV  */
+			 <RZA1_PINMUX(2, 0, 2)>,	/* ET_TXCLK */
+			 <RZA1_PINMUX(2, 1, 2)>,	/* ET_TXER  */
+			 <RZA1_PINMUX(2, 2, 2)>,	/* ET_TXEN  */
+			 <RZA1_PINMUX(2, 3, 2)>,	/* ET_CRS   */
+			 <RZA1_PINMUX(2, 4, 2)>,	/* ET_TXD0  */
+			 <RZA1_PINMUX(2, 5, 2)>,	/* ET_TXD1  */
+			 <RZA1_PINMUX(2, 6, 2)>,	/* ET_TXD2  */
+			 <RZA1_PINMUX(2, 7, 2)>,	/* ET_TXD3  */
+			 <RZA1_PINMUX(2, 8, 2)>,	/* ET_RXD0  */
+			 <RZA1_PINMUX(2, 9, 2)>,	/* ET_RXD1  */
+			 <RZA1_PINMUX(2, 10, 2)>,	/* ET_RXD2  */
+			 <RZA1_PINMUX(2, 11, 2)>;	/* ET_RXD3  */
+	};
+
+	/* SDHI ch1 on CN1 */
+	sdhi1_pins: sdhi1 {
+		pinmux = <RZA1_PINMUX(3, 8, 7)>,	/* SD_CD_1 */
+			 <RZA1_PINMUX(3, 9, 7)>,	/* SD_WP_1 */
+			 <RZA1_PINMUX(3, 10, 7)>,	/* SD_D1_1 */
+			 <RZA1_PINMUX(3, 11, 7)>,	/* SD_D0_1 */
+			 <RZA1_PINMUX(3, 12, 7)>,	/* SD_CLK_1 */
+			 <RZA1_PINMUX(3, 13, 7)>,	/* SD_CMD_1 */
+			 <RZA1_PINMUX(3, 14, 7)>,	/* SD_D3_1 */
+			 <RZA1_PINMUX(3, 15, 7)>;	/* SD_D2_1 */
+	};
+
+	/* RIIC ch0 (Touchscreen) */
+	i2c0_pins: i2c0 {
+		pinmux = <RZA1_PINMUX(1, 0, 1)>,	/* RIIC0SCL */
+			 <RZA1_PINMUX(1, 1, 1)>;	/* RIIC0SDA */
+	};
+
+	/* IRQ1 (Touchscreen) */
+	irq1_pins: irq1 {
+		pinmux = <RZA1_PINMUX(4, 9, 8)>;	/* IRQ1 */
+	};
+
+	/* RIIC ch3 (Port Expander, EEPROM (MAC Addr), Audio Codec) */
+	i2c3_pins: i2c3 {
+		pinmux = <RZA1_PINMUX(1, 6, 1)>,	/* RIIC3SCL */
+			 <RZA1_PINMUX(1, 7, 1)>;	/* RIIC3SDA */
+	};
+
+	/* VDC5 LCD ch 0 */
+	vdc50_pins: vdc50 {
+
+		pinmux =
+			/* LCD0_DATA0 to LCD0_DATA7 is P11_0 to P11_7 */
+			<RZA1_PINMUX(11, 0,  5)>,	/* LCD0_DATA0 */
+			<RZA1_PINMUX(11, 1,  5)>,	/* LCD0_DATA1 */
+			<RZA1_PINMUX(11, 2,  5)>,	/* LCD0_DATA2 */
+			<RZA1_PINMUX(11, 3,  5)>,	/* LCD0_DATA3 */
+			<RZA1_PINMUX(11, 4,  5)>,	/* LCD0_DATA4 */
+			<RZA1_PINMUX(11, 5,  5)>,	/* LCD0_DATA5 */
+			<RZA1_PINMUX(11, 6,  5)>,	/* LCD0_DATA6 */
+			<RZA1_PINMUX(11, 7,  5)>,	/* LCD0_DATA7 */
+
+			/* LCD0_DATA8 to LCD0_DATA23 is all of P10_0 to P10_15 */
+			<RZA1_PINMUX(10, 0,  5)>,	/* LCD0_DATA8 */
+			<RZA1_PINMUX(10, 1,  5)>,	/* LCD0_DATA9 */
+			<RZA1_PINMUX(10, 2,  5)>,	/* LCD0_DATA10 */
+			<RZA1_PINMUX(10, 3,  5)>,	/* LCD0_DATA11 */
+			<RZA1_PINMUX(10, 4,  5)>,	/* LCD0_DATA12 */
+			<RZA1_PINMUX(10, 5,  5)>,	/* LCD0_DATA13 */
+			<RZA1_PINMUX(10, 6,  5)>,	/* LCD0_DATA14 */
+			<RZA1_PINMUX(10, 7,  5)>,	/* LCD0_DATA15 */
+			<RZA1_PINMUX(10, 8,  5)>,	/* LCD0_DATA16 */
+			<RZA1_PINMUX(10, 9,  5)>,	/* LCD0_DATA17 */
+			<RZA1_PINMUX(10, 10, 5)>,	/* LCD0_DATA18 */
+			<RZA1_PINMUX(10, 11, 5)>,	/* LCD0_DATA19 */
+			<RZA1_PINMUX(10, 12, 5)>,	/* LCD0_DATA20 */
+			<RZA1_PINMUX(10, 13, 5)>,	/* LCD0_DATA21 */
+			<RZA1_PINMUX(10, 14, 5)>,	/* LCD0_DATA22 */
+			<RZA1_PINMUX(10, 15, 5)>,	/* LCD0_DATA23 */
+
+
+			/* TCON pins (some may not be used) */
+			//<RZA1_PINMUX(11,14, 5)>,	/* LCD0_TCON0 */
+			//<RZA1_PINMUX(11,13, 5)>,	/* LCD0_TCON1 */
+			<RZA1_PINMUX(11,12, 5)>,	/* LCD0_TCON2 */
+			<RZA1_PINMUX(11,11, 5)>,	/* LCD0_TCON3 */
+			<RZA1_PINMUX(11,10, 5)>,	/* LCD0_TCON4 */
+			//<RZA1_PINMUX(11,9,  5)>,	/* LCD0_TCON5 */
+			//<RZA1_PINMUX(11,8,  5)>,	/* LCD0_TCON6 */
+
+			<RZA1_PINMUX(11, 15, 5)>;	/* LCD0_CLK */
+	};
+};
+
+&mtu2 {
+	status = "okay";
+};
+
+&ether {
+	pinctrl-names = "default";
+	pinctrl-0 = <&ether_pins>;
+	status = "okay";
+	renesas,no-ether-link;
+	phy-handle = <&phy0>;
+	phy0: ethernet-phy@0 {
+		reg = <0>;
+	};
+};
+&dma0  {
+			/*slave id for another device*/
+	slave_id=<	RZA1DMA_SLAVE_SDHI0_TX
+			RZA1DMA_SLAVE_SDHI0_RX
+			RZA1DMA_SLAVE_SDHI1_TX
+			RZA1DMA_SLAVE_SDHI1_RX
+			RZA1DMA_SLAVE_MMCIF_TX
+			RZA1DMA_SLAVE_MMCIF_RX
+			RZA1DMA_SLAVE_PCM_MEM_SSI0
+			RZA1DMA_SLAVE_PCM_MEM_SRC1
+			RZA1DMA_SLAVE_PCM_SSI0_MEM
+			RZA1DMA_SLAVE_PCM_SRC0_MEM>;
+		/* address of slave device*/
+	addr=<	0xe804e030 /*first for SDHI0_TX*/
+		0xe804e030
+		0xe804e830
+		0xe804e830
+		0xe804c834
+		0xe804c834
+		0xe820b018
+		0xe820970c
+		0xe820b01c
+		0xe8209718>;
+		/*channel config (chcfg) for slave device, first for SDHI0_TX*/
+	chcfg=<	0x1 0x0 0x1 0x1 0x1 0x2 0x2 0x0 /*.reqd .loen .hien .lvl .am .sds .dds .tm*/
+		0x0 0x0 0x1 0x1 0x1 0x2 0x2 0x0
+		0x1 0x0 0x1 0x1 0x1 0x2 0x2 0x0
+		0x0 0x0 0x1 0x1 0x1 0x2 0x2 0x0
+		0x1 0x0 0x1 0x1 0x1 0x2 0x2 0x0
+		0x0 0x0 0x1 0x1 0x1 0x2 0x2 0x0
+		0x1 0x0 0x1 0x1 0x1 0x2 0x2 0x0
+		0x1 0x0 0x1 0x1 0x1 0x1 0x1 0x0
+		0x0 0x0 0x1 0x1 0x1 0x2 0x2 0x0
+		0x0 0x0 0x1 0x1 0x1 0x1 0x1 0x0>;
+
+		/*dmas for slave device, first for SDHI0_TX*/
+	dmars=<	0x1 0x30	/*.rid .mid*/
+		0x2 0x30
+		0x1 0x31
+		0x2 0x31
+		0x1 0x32
+		0x2 0x32
+		0x1 0x38
+		0x1 0x41
+		0x2 0x38
+		0x2 0x40>;
+
+};
+&sdhi1 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&sdhi1_pins>;
+	bus-width = <4>;
+	status = "okay";
+
+	dmas = <&dma0 RZA1DMA_SLAVE_SDHI1_TX>, <&dma0 RZA1DMA_SLAVE_SDHI1_RX>;
+	dma-names = "tx", "rx";
+};
+
+&ostm0 {
+	status = "okay";
+};
+
+&ostm1 {
+	status = "okay";
+};
+
+&rtc {
+	status = "okay";
+};
+
+&scif2 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&scif2_pins>;
+	status = "okay";
+};
+
+/* RIIC0 (Touchscreen) */
+&i2c0 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&i2c0_pins>;
+	status = "okay";
+	clock-frequency = <400000>;
+
+	ft5x06_ts@38 {
+		compatible = "focaltech,ft5x06";
+		reg = <0x38>;
+
+		pinctrl-names = "default";
+		pinctrl-0 = <&irq1_pins>;
+		interrupts = <GIC_SPI (33-32) IRQ_TYPE_LEVEL_LOW>; /* IRQ1 */
+
+		touchscreen-size-x = <800>;
+		touchscreen-size-y = <480>;
+
+		/* The touchscreen on the RSK LCD is backwards for some reason */
+		touchscreen-inverted-x;
+		touchscreen-inverted-y;
+	};
+};
+
+/* RIIC3: Port Expander, EEPROM (MAC Addr), Audio Codec */
+&i2c3 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&i2c3_pins>;
+	status = "okay";
+	clock-frequency = <100000>;
+
+	max9856: codec@10 {
+		compatible = "renesas,max9856_codec";
+		#sound-dai-cells = <0>;
+		reg = <0x10>;
+	};
+	imx219: cam@10 {
+		compatible = "sony,imx219";
+		reg = <0x10>;
+	};
+};
+
+&usbhost0 {
+	status = "okay";
+	xtal-48mhz;
+};
+
+&usbhost1 {
+	/* NOTE: You MUST enable USB ch0 (host or device) first because
+	   there are some shared registers bits in USB0 that USB1 needs. */
+	status = "okay";
+	xtal-48mhz;
+};
+
+/* RSK LCD: 800x600 LCD */
+/* Pacer TFT LCD Panel, Model gwp0700cnwv04 */
+#if XIP_KERNEL_WITHOUT_EXTERNAL_RAM
+  #define VDC5_0_BPP 16 /* 16bpp or 32bpp */
+  #define VDC5_0_FBSIZE (800*480*VDC5_0_BPP/8)
+  #define VDC5_0_FB_ADDR 0	/* allocate memory at probe */
+#else
+  #define VDC5_0_BPP 32 /* 16bpp or 32bpp */
+  #define VDC5_0_FBSIZE (800*480*VDC5_0_BPP/8)
+  #define VDC5_0_FB_ADDR (0x60000000) /* fixed address in PAGE 0 */
+#endif
+
+&vdc50 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&vdc50_pins>;
+
+	display = <&display0>;
+	status = "okay";
+
+	/* Set the physical frame buffer address for internal RAM. */
+	fb_phys_addr = <VDC5_0_FB_ADDR>;
+	fb_phys_size = <VDC5_0_FBSIZE>;
+
+	panel_name = "gwp0700cnwv04";
+	panel_pixel_xres = <800>;	/* panel native resolution */
+	panel_pixel_yres = <480>;	/* panel native resolution */
+
+
+	/* See 'drivers/video/fbdev/renesas/vdc5fb.h' for valid choices
+	* for panel_icksel, panel_ocksel, and out_format */
+	panel_icksel = <3>;	/* 3=ICKSEL_P1CLK (Peripheral clock 1) */
+	panel_ocksel = <0>;	/* (don't care when lvds=0 ) */
+	out_format = <0>;	/* 0=OUT_FORMAT_RGB888 */
+	use_lvds = <0>;		/* Set to 0 or 1 */
+
+	/* How are the TCON pins going to be used */
+	tcon_sel = <
+		0xff	/* TCON0: 0xff=TCON_SEL_UNUSED */
+		0xff	/* TCON1: 0xff=TCON_SEL_UNUSED */
+		7	/* TCON2:    7=TCON_SEL_DE (DATA ENABLE) */
+		2	/* TCON3:    2=TCON_SEL_STH (HSYNC) */
+		0	/* TCON4:    0=TCON_SEL_STVA (VSYNC) */
+		0xff	/* TCON5: 0xff=TCON_SEL_UNUSED */
+		0xff	/* TCON6: 0xff=TCON_SEL_UNUSED */
+		>;
+
+	display0: display0 {
+		bits-per-pixel = <VDC5_0_BPP>;
+		bus-width = <24>;
+
+		display-timings {
+			native-mode = <&timing0>;
+			timing0: timing0 {
+				clock-frequency = <33325000>; /* P1 clk / 2 */
+				hactive = <800>;
+				vactive = <480>;
+				hback-porch = <46>;
+				hfront-porch = <210>;
+				vback-porch = <23>;
+				vfront-porch = <22>;
+				hsync-len = <40>; /* max */
+				vsync-len = <20>; /* max */
+				hsync-active = <1>; /* HIGH */
+				vsync-active = <1>; /* HIGH */
+				de-active = <0>; /* LOW */
+				pixelclk-active = <0>; /* ??? */
+			};
+		};
+	};
+};
+
+/* Audio in/out */
+/* requires
+ * CONFIG_SOUND=y
+ * CONFIG_SND=y
+ * CONFIG_SND_SOC=y
+ * CONFIG_SND_SCUX_RSKRZA1=y
+ * CONFIG_RZA_DMA=y
+ */
+/ {
+	sound_machine: sound@0 {
+		compatible = "renesas,rskrza1_sound_alsa";
+	};
+
+	sound: scux-pcm-audio@e8208000 {
+		compatible = "renesas,rskrza1_scux";
+		reg = <0xe8208000 0x00001778>,
+		      <0xe820b000 0x00002830>;
+		channel = <0>;
+	};
+};
