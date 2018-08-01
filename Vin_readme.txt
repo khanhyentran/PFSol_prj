@@ -1,3 +1,20 @@
+static struct at24_platform_data eeprom_pdata = {
+	.byte_len = 2048,
+	.page_size = 16,
+};
+
+static const struct i2c_board_info i2c3_devices[] __initconst = {
+	{
+		I2C_BOARD_INFO("max9856", 0x10),
+	},
+	{
+		I2C_BOARD_INFO("at24", 0x50),
+		.platform_data = &eeprom_pdata,
+	},
+};
+
+
+
 https://www.linuxquestions.org/questions/linux-software-2/linux-c-program-for-i2c-reading-from-specified-location-921036/
 https://stackoverflow.com/questions/29932003/reading-and-writing-eeprom-via-i2c-with-linux/29936800
 9df1f7fd6d2c2018fd7dfd56a36f7d877b5fc822
