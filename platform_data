@@ -1,0 +1,57 @@
+That codes are below:
+
+#include <media/soc_camera.h> 
+
+static struct i2c_board_info __initdata omapl138_hawk_i2c_devices[] = {
+{
+I2C_BOARD_INFO("tlv320aic3x", 0x18),
+},
+{
+I2C_BOARD_INFO("mt9v022",0x48 ), 
+},
+};
+
+
+static struct davinci_i2c_platform_data omapl138_hawk_i2c_0_pdata = {
+.bus_freq = 100, /* kHz */
+.bus_delay = 0, /* usec */
+};
+
+static struct soc_camera_link mt9v022_link = {
+.i2c_adapter_id = 0,
+.bus_id = 1,
+.board_info = &omapl138_hawk_i2c_devices[1],
+};
+
+static struct platform_device mt9v022_camera = {
+
+.name = "soc-camera-pdrv",
+.id = 0,
+.dev = {
+.platform_data = &mt9v022_link,
+},
+
+};
+
+static struct platform_device *Omap_devices[] __initdata =
+{
+&mt9v022_camera,
+};
+
+static void omapl138_hawk_i2c_init(void)
+{
+int ret;
+ret = davinci_cfg_reg_list(da850_i2c0_pins);
+if (ret)
+pr_warning("omapl138_hawk_init: i2c0 mux setup failed: %d\n",
+ret);
+
+ret = da8xx_register_i2c(0, &omapl138_hawk_i2c_0_pdata);
+if (ret)
+pr_warning("omapl138_hawk_init: i2c0 registration failed: %d\n",
+ret);
+i2c_register_board_info(1, omapl138_hawk_i2c_devices,
+ARRAY_SIZE(omapl138_hawk_i2c_devices));
+
+platform_add_devices(Omap_devices,ARRAY_SIZE(Omap_devices));
+}
