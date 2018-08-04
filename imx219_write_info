@@ -1,0 +1,355 @@
+[    3.013862] at24_probe at24_read ok testbyte 0                               
+[    3.022095] at24_eeprom_write_i2c                                            
+[    3.028818] write AT24_FLAG_ADDR16                                           
+[    3.036544] at24_probe at24_write ok testbyte 34                             
+[    3.044713] at24_eeprom_read_i2c                                             
+[    3.050871] read AT24_FLAG_ADDR16                                            
+[    3.057122] at24_eeprom_read_i2c, i2c_transfer msg[0].buf 0                  
+[    3.065650] at24_eeprom_read_i2c, i2c_transfer                               
+[    3.073452] at24_eeprom_read_i2c, i2c_transfer read 1@0 --> 1 (-29696)       
+[    3.082915] at24_eeprom_read_i2c, i2c_transfer read 48 , 0                   
+[    3.091137] at24_probe at24_read ok AGAIN testbyte 0                         
+[    3.105431] at24 3-0050: 16384 byte 24c128 EEPROM, writable, 64 bytes/write  
+[    3.118370] i2c-riic e803ac00.i2c: registered with 400000Hz bus speed        
+[    3.137667] imx219_probe                                                     
+[    3.146037] imx219_probe 1                                                   
+[    3.151942] imx219_ctrls_init                                                
+[    3.181675] imx219 2-0010: Reading register 100 from 10, buf[0] 1 ok         
+[    3.194520] imx219_s_stream                                                  
+[    3.200340] reg_write_table                                                  
+[    3.205916] reg_write data 5                                                 
+[    3.214534] reg_write data c                                                 
+[    3.222261] reg_write data ff                                                
+[    3.229877] reg_write data ff                                                
+[    3.237454] reg_write data 5                                                 
+[    3.244747] reg_write data 9                                                 
+[    3.251941] reg_write data 3                                                 
+[    3.259056] reg_write data 0                                                 
+[    3.266176] reg_write data 18                                                
+[    3.273218] reg_write data 0                                                 
+[    3.280113] reg_write data a                                                 
+[    3.286929] reg_write data 83                                                
+[    3.293738] reg_write data d                                                 
+[    3.300495] reg_write data 78                                                
+[    3.307281] reg_write data 1                                                 
+[    3.313836] reg_write data 1                                                 
+[    3.321284] reg_write data 0                                                 
+[    3.328140] reg_write data 0                                                 
+[    3.334747] reg_write data a                                                 
+[    3.341234] reg_write data a                                                 
+[    3.347764] reg_write data 5                                                 
+[    3.354043] reg_write data 1                                                 
+[    3.360263] reg_write data 3                                                 
+[    3.366375] reg_write data 3                                                 
+[    3.372315] reg_write data 0                                                 
+[    3.378317] reg_write data 57                                                
+[    3.384352] reg_write data a                                                 
+[    3.390167] reg_write data 1                                                 
+[    3.395972] reg_write data 0                                                 
+[    3.401725] reg_write data 5a                                                
+[    3.407536] reg_write data 0                                                 
+[    3.413231] reg_write data 4b                                                
+[    3.419058] reg_write data f                                                 
+[    3.424812] reg_write data 14                                                
+[    3.430615] reg_write data 0                                                 
+[    3.436399] reg_write data 14                                                
+[    3.442212] reg_write data 30                                                
+[    3.448105] reg_write data 10                                                
+[    3.453887] reg_write data 10                                                
+[    3.459770] reg_write data 10                                                
+[    3.465597] reg_write data e                                                 
+[    3.471328] reg_write data e                                                 
+[    3.477129] reg_write data 0                                                 
+[    3.482823] reg_write data 0                                                 
+[    3.488603] reg_write data c                                                 
+[    3.494377] reg_write data bf                                                
+[    3.500167] reg_write data 0                                                 
+[    3.505910] reg_write data 0                                                 
+[    3.511626] reg_write data 9                                                 
+[    3.517344] reg_write data 9b                                                
+[    3.523123] reg_write data c                                                 
+[    3.529167] reg_write data c0                                                
+[    3.535170] reg_write data 9                                                 
+[    3.540933] reg_write data 9c                                                
+[    3.546860] reg_write data 0                                                 
+[    3.552632] reg_write data 0                                                 
+[    3.558419] reg_write data 0                                                 
+[    3.564155] reg_write data 0                                                 
+[    3.569907] reg_write data 0                                                 
+[    3.575635] reg_write data 0                                                 
+[    3.581396] reg_write_table                                                  
+[    3.584948] reg_write data 1                                                 
+[    3.591111] imx219 2-0010: Reading register 100 from 10, buf[0] 1 ok         
+[    3.598505] imx219_s_stream                                                  
+[    3.602178] reg_write_table                                                  
+[    3.605939] reg_write data 5                                                 
+[    3.611978] reg_write data c                                                 
+[    3.618015] reg_write data ff                                                
+[    3.624069] reg_write data ff                                                
+[    3.630205] reg_write data 5                                                 
+[    3.636210] reg_write data 9                                                 
+[    3.642163] reg_write data 3                                                 
+[    3.648125] reg_write data 0                                                 
+[    3.654049] reg_write data 18                                                
+[    3.660077] reg_write data 0                                                 
+[    3.666037] reg_write data a                                                 
+[    3.671965] reg_write data 83                                                
+[    3.678068] reg_write data d                                                 
+[    3.684040] reg_write data 78                                                
+[    3.690100] reg_write data 1                                                 
+[    3.696093] reg_write data 1                                                 
+[    3.702040] reg_write data 0                                                 
+[    3.713852] reg_write data 0                                                 
+[    3.727894] reg_write data a                                                 
+[    3.736429] reg_write data a                                                 
+[    3.743334] reg_write data 5                                                 
+[    3.750152] reg_write data 1                                                 
+[    3.756669] reg_write data 3                                                 
+[    3.762847] reg_write data 3                                                 
+[    3.769079] reg_write data 0                                                 
+[    3.775266] reg_write data 57                                                
+[    3.781357] reg_write data a                                                 
+[    3.787372] reg_write data 1                                                 
+[    3.793203] reg_write data 0                                                 
+[    3.799066] reg_write data 5a                                                
+[    3.804995] reg_write data 0                                                 
+[    3.810780] reg_write data 4b                                                
+[    3.816680] reg_write data f                                                 
+[    3.822440] reg_write data 14                                                
+[    3.828309] reg_write data 0                                                 
+[    3.834010] reg_write data 14                                                
+[    3.839888] reg_write data 30                                                
+[    3.845780] reg_write data 10                                                
+[    3.851616] reg_write data 10                                                
+[    3.857494] reg_write data 10                                                
+[    3.863326] reg_write data e                                                 
+[    3.869088] reg_write data e                                                 
+[    3.874854] reg_write data 0                                                 
+[    3.880584] reg_write data 0                                                 
+[    3.886304] reg_write data c                                                 
+[    3.892017] reg_write data bf                                                
+[    3.897846] reg_write data 0                                                 
+[    3.903534] reg_write data 0                                                 
+[    3.909284] reg_write data 9                                                 
+[    3.915041] reg_write data 9b                                                
+[    3.920837] reg_write data c                                                 
+[    3.926572] reg_write data c0                                                
+[    3.932379] reg_write data 9                                                 
+[    3.938109] reg_write data 9c                                                
+[    3.943920] reg_write data 0                                                 
+[    3.950008] reg_write data 0                                                 
+[    3.955935] reg_write data 0                                                 
+[    3.961709] reg_write data 0                                                 
+[    3.967473] reg_write data 0                                                 
+[    3.973181] reg_write data 0                                                 
+[    3.978942] reg_write_table                                                  
+[    3.982456] reg_write data 1                                                 
+[    3.988863] imx219 2-0010: Reading register 100 from 10, buf[0] 1 ok         
+[    3.996389] imx219_s_stream                                                  
+[    4.000084] reg_write_table                                                  
+[    4.003776] reg_write data 5                                                 
+[    4.009855] reg_write data c                                                 
+[    4.015875] reg_write data ff                                                
+[    4.021936] reg_write data ff                                                
+[    4.028094] reg_write data 5                                                 
+[    4.033999] reg_write data 9                                                 
+[    4.040152] reg_write data 3                                                 
+[    4.046183] reg_write data 0                                                 
+[    4.052124] reg_write data 18                                                
+[    4.058191] reg_write data 0                                                 
+[    4.064177] reg_write data a                                                 
+[    4.070104] reg_write data 83                                                
+[    4.076169] reg_write data d                                                 
+[    4.082121] reg_write data 78                                                
+[    4.088160] reg_write data 1                                                 
+[    4.094171] reg_write data 1                                                 
+[    4.100092] reg_write data 0                                                 
+[    4.106166] reg_write data 0                                                 
+[    4.112328] reg_write data a                                                 
+[    4.119073] reg_write data a                                                 
+[    4.125938] reg_write data 5                                                 
+[    4.132232] reg_write data 1                                                 
+[    4.138522] reg_write data 3                                                 
+[    4.144669] reg_write data 3                                                 
+[    4.150704] reg_write data 0                                                 
+[    4.157054] reg_write data 57                                                
+[    4.163232] reg_write data a                                                 
+[    4.169260] reg_write data 1                                                 
+[    4.175094] reg_write data 0                                                 
+[    4.180847] reg_write data 5a                                                
+[    4.186785] reg_write data 0                                                 
+[    4.192501] reg_write data 4b                                                
+[    4.198357] reg_write data f                                                 
+[    4.204123] reg_write data 14                                                
+[    4.209939] reg_write data 0                                                 
+[    4.215693] reg_write data 14                                                
+[    4.221518] reg_write data 30                                                
+[    4.227431] reg_write data 10                                                
+[    4.233276] reg_write data 10                                                
+[    4.239127] reg_write data 10                                                
+[    4.244959] reg_write data e                                                 
+[    4.250688] reg_write data e                                                 
+[    4.256430] reg_write data 0                                                 
+[    4.262109] reg_write data 0                                                 
+[    4.267878] reg_write data c                                                 
+[    4.273597] reg_write data bf                                                
+[    4.279456] reg_write data 0                                                 
+[    4.285213] reg_write data 0                                                 
+[    4.290935] reg_write data 9                                                 
+[    4.296691] reg_write data 9b                                                
+[    4.302494] reg_write data c                                                 
+[    4.308239] reg_write data c0                                                
+[    4.314039] reg_write data 9                                                 
+[    4.319767] reg_write data 9c                                                
+[    4.325597] reg_write data 0                                                 
+[    4.331328] reg_write data 0                                                 
+[    4.337067] reg_write data 0                                                 
+[    4.342768] reg_write data 0                                                 
+[    4.348487] reg_write data 0                                                 
+[    4.354245] reg_write data 0                                                 
+[    4.359953] reg_write_table                                                  
+[    4.363465] reg_write data 1                                                 
+[    4.369992] imx219 2-0010: Reading register 100 from 10, buf[0] 1 ok         
+[    4.377522] imx219_s_stream                                                  
+[    4.381259] reg_write_table                                                  
+[    4.385086] reg_write data 5                                                 
+[    4.391189] reg_write data c                                                 
+[    4.397269] reg_write data ff                                                
+[    4.403343] reg_write data ff                                                
+[    4.409502] reg_write data 5                                                 
+[    4.415503] reg_write data 9                                                 
+[    4.421428] reg_write data 3                                                 
+[    4.427428] reg_write data 0                                                 
+[    4.433399] reg_write data 18                                                
+[    4.439458] reg_write data 0                                                 
+[    4.445455] reg_write data a                                                 
+[    4.451373] reg_write data 83                                                
+[    4.457456] reg_write data d                                                 
+[    4.463405] reg_write data 78                                                
+[    4.469514] reg_write data 1                                                 
+[    4.475531] reg_write data 1                                                 
+[    4.481495] reg_write data 0                                                 
+[    4.487522] reg_write data 0                                                 
+[    4.493428] reg_write data a                                                 
+[    4.499417] reg_write data a                                                 
+[    4.505374] reg_write data 5                                                 
+[    4.511313] reg_write data 1                                                 
+[    4.517322] reg_write data 3                                                 
+[    4.523299] reg_write data 3                                                 
+[    4.529323] reg_write data 0                                                 
+[    4.535321] reg_write data 57                                                
+[    4.541312] reg_write data a                                                 
+[    4.547191] reg_write data 1                                                 
+[    4.552903] reg_write data 0                                                 
+[    4.558612] reg_write data 5a                                                
+[    4.564379] reg_write data 0                                                 
+[    4.570049] reg_write data 4b                                                
+[    4.575914] reg_write data f                                                 
+[    4.581850] reg_write data 14                                                
+[    4.587883] reg_write data 0                                                 
+[    4.593670] reg_write data 14                                                
+[    4.599584] reg_write data 30                                                
+[    4.605517] reg_write data 10                                                
+[    4.611403] reg_write data 10                                                
+[    4.617255] reg_write data 10                                                
+[    4.623052] reg_write data e                                                 
+[    4.628825] reg_write data e                                                 
+[    4.634588] reg_write data 0                                                 
+[    4.640334] reg_write data 0                                                 
+[    4.646098] reg_write data c                                                 
+[    4.651820] reg_write data bf                                                
+[    4.657697] reg_write data 0                                                 
+[    4.663396] reg_write data 0                                                 
+[    4.669142] reg_write data 9                                                 
+[    4.674889] reg_write data 9b                                                
+[    4.680693] reg_write data c                                                 
+[    4.686442] reg_write data c0                                                
+[    4.692251] reg_write data 9                                                 
+[    4.698038] reg_write data 9c                                                
+[    4.703833] reg_write data 0                                                 
+[    4.709571] reg_write data 0                                                 
+[    4.715309] reg_write data 1                                                 
+[    4.721025] reg_write data 0                                                 
+[    4.726752] reg_write data 0                                                 
+[    4.732489] reg_write data 0                                                 
+[    4.738242] reg_write_table                                                  
+[    4.741764] reg_write data 1                                                 
+[    4.747647] imx219_probe 2                                                   
+[    4.751130] imx219_probe 3                                                   
+[    4.754643] imx219_s_power                                                   
+[    4.758177] imx219_video_probe check chip ID                                 
+[    4.763818] imx219 2-0010: Reading register 0 from 10, buf[0] 2 ok           
+[    4.771483] imx219 2-0010: Reading register 1 from 10, buf[0] 19 ok          
+[    4.779117] imx219 2-0010: Reading register 4 from 10, buf[0] 68 ok          
+[    4.787194] imx219 2-0010: Reading register 5 from 10, buf[0] 6b ok          
+[    4.794914] imx219 2-0010: Reading register 6 from 10, buf[0] 22 ok          
+[    4.802488] imx219 2-0010: Reading register d from 10, buf[0] 4 ok           
+[    4.809989] imx219 2-0010: Reading register e from 10, buf[0] 11 ok          
+[    4.817565] imx219 2-0010: Model ID 0x0219, Lot ID 0x686b22, Chip ID 0x0411  
+[    4.825790] imx219_s_power                                                   
+[    4.829685] v4l2_async_register_subdev                                       
+[    4.834782] imx219_probe 4 camera driver probed ok                           
+[    4.840844] imx219_s_stream                                                  
+[    4.844939] reg_write_table                                                  
+[    4.849041] reg_write data 5                                                 
+[    4.855567] reg_write data c                                                 
+[    4.861974] reg_write data ff                                                
+[    4.868424] reg_write data ff                                                
+[    4.874864] reg_write data 5                                                 
+[    4.881193] reg_write data 9                                                 
+[    4.887535] reg_write data 3                                                 
+[    4.893800] reg_write data 0                                                 
+[    4.900112] reg_write data 18                                                
+[    4.906553] reg_write data 0                                                 
+[    4.912904] reg_write data a                                                 
+[    4.919299] reg_write data 83                                                
+[    4.925789] reg_write data d                                                 
+[    4.932103] reg_write data 78                                                
+[    4.938610] reg_write data 1                                                 
+[    4.944946] reg_write data 1                                                 
+[    4.951130] reg_write data 0                                                 
+[    4.957349] reg_write data 0                                                 
+[    4.963487] reg_write data a                                                 
+[    4.969697] reg_write data a                                                 
+[    4.975882] reg_write data 5                                                 
+[    4.981970] reg_write data 1                                                 
+[    4.988159] reg_write data 3                                                 
+[    4.994407] reg_write data 3                                                 
+[    5.000498] reg_write data 0                                                 
+[    5.006554] reg_write data 57                                                
+[    5.012595] reg_write data a                                                 
+[    5.018518] reg_write data 1                                                 
+[    5.024313] reg_write data 0                                                 
+[    5.030048] reg_write data 5a                                                
+[    5.035947] reg_write data 0                                                 
+[    5.041696] reg_write data 4b                                                
+[    5.047518] reg_write data f                                                 
+[    5.053201] reg_write data 14                                                
+[    5.059037] reg_write data 0                                                 
+[    5.064820] reg_write data 14                                                
+[    5.070614] reg_write data 30                                                
+[    5.076465] reg_write data 10                                                
+[    5.082301] reg_write data 10                                                
+[    5.088170] reg_write data 10                                                
+[    5.093951] reg_write data e                                                 
+[    5.099715] reg_write data e                                                 
+[    5.105462] reg_write data 0                                                 
+[    5.111171] reg_write data 0                                                 
+[    5.116890] reg_write data c                                                 
+[    5.122573] reg_write data bf                                                
+[    5.128373] reg_write data 0                                                 
+[    5.134060] reg_write data 0                                                 
+[    5.139798] reg_write data 9                                                 
+[    5.145528] reg_write data 9b                                                
+[    5.151324] reg_write data c                                                 
+[    5.157065] reg_write data c0                                                
+[    5.162860] reg_write data 9                                                 
+[    5.168636] reg_write data 9c                                                
+[    5.174484] reg_write data 0                                                 
+[    5.180211] reg_write data 0                                                 
+[    5.185964] reg_write data 1                                                 
+[    5.191704] reg_write data 0                                                 
+[    5.197434] reg_write data 0                                                 
+[    5.203123] reg_write data 0                                                 
+[    5.209103] reg_write_table                                                  
+[    5.212717] reg_write data 1  
