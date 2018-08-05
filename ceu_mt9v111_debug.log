@@ -1,0 +1,386 @@
+U-Boot 2017.05-g9bd5dbe-dirty (Aug 01 2018 - 11:05:41 +0700)                    
+                                                                                
+CPU: Renesas Electronics CPU rev 0.0                                            
+Board: RZA2MEVB                                                                 
+I2C:   ready                                                                    
+DRAM:  4 MiB                                                                    
+SF: Detected mx25l51235f with page size 256 Bytes, erase size 64 KiB, total 64 B
+*** Warning - bad CRC, using default environment                                
+                                                                                
+In:    serial_sh                                                                
+Out:   serial_sh                                                                
+Err:   serial_sh                                                                
+                      SPI Flash Memory Map                                      
+                ------------------------------------                            
+                         Start      Size                                        
+                u-boot:  0x00000000 0x080000                                    
+                   env:  0x00080000 0x010000                                    
+                    DT:  0x000C0000 0x010000                                    
+                Kernel:  0x00200000 0x050000                                    
+                rootfs:  0x00800000 0xFFC00000                                  
+                                                                                
+                 ON     SW6                                                     
+                 +---------------------+                                        
+                 |       = = = =       |                                        
+                 | = = =               |                                        
+                 | 1 2 3 4 5 6 7 8 9 0 |  Please make sure your sub-board matchs
+                 +---------------------+  these switch settings.                
+        SW6-1 set to Other                                                      
+        SW6-2 set to Audio                                                      
+        SW6-3 set to USB, CAN, UART(console)                                    
+        SW6-4 set to Ether1                                                     
+        SW6-5 set to Ether2                                                     
+        SW6-6 set to VDC6                                                       
+        SW6-7 set to VDC6                                                       
+                                                                                
+Net:   sh_eth                                                                   
+=> run xha_boot                                                                 
+Current Mode: SF: Detected mx25l51235f with page size 256 Bytes, erase size 64 B
+New Mode: Quad I/O Read Mode (4-byte Addr)                                      
+Booting Linux...                                                                
+[    0.000000] Booting Linux on physical CPU 0x0                                
+[    0.000000] Linux version 4.14.43-gcfc262b-dirty (root@3F-L8705-LB00) (gcc v8
+[    0.000000] CPU: ARMv7 Processor [414fc091] revision 1 (ARMv7), cr=50c53c7d  
+[    0.000000] CPU: PIPT / VIPT nonaliasing data cache, VIPT aliasing instructie
+[    0.000000] OF: fdt: Machine model: RZA2MEVB                                 
+[    0.000000] debug: ignoring loglevel setting.                                
+[    0.000000] bootconsole [earlycon0] enabled                                  
+[    0.000000] Memory policy: Data cache writeback                              
+[    0.000000] On node 0 totalpages: 2048                                       
+[    0.000000] free_area_init_node: node 0, pgdat c003b214, node_mem_map c07e800
+[    0.000000]   Normal zone: 16 pages used for memmap                          
+[    0.000000]   Normal zone: 0 pages reserved                                  
+[    0.000000]   Normal zone: 2048 pages, LIFO batch:0                          
+[    0.000000] CPU: All CPU(s) started in SVC mode.                             
+[    0.000000] pcpu-alloc: s0 r0 d32768 u32768 alloc=1*32768                    
+[    0.000000] pcpu-alloc: [0] 0                                                
+[    0.000000] Built 1 zonelists, mobility grouping off.  Total pages: 2032     
+[    0.000000] Kernel command line: ignore_loglevel earlyprintk rootfstype=axfs 
+[    0.000000] PID hash table entries: 32 (order: -5, 128 bytes)                
+[    0.000000] Dentry cache hash table entries: 1024 (order: 0, 4096 bytes)     
+[    0.000000] Inode-cache hash table entries: 1024 (order: 0, 4096 bytes)      
+[    0.000000] Memory: 7416K/8192K available (3582K kernel code, 224K rwdata, 1)
+[    0.000000] Virtual kernel memory layout:                                    
+[    0.000000]     vector  : 0xffff0000 - 0xffff1000   (   4 kB)                
+[    0.000000]     fixmap  : 0xffc00000 - 0xfff00000   (3072 kB)                
+[    0.000000]     vmalloc : 0xc1000000 - 0xff800000   (1000 MB)                
+[    0.000000]     lowmem  : 0xc0000000 - 0xc0800000   (   8 MB)                
+[    0.000000]     pkmap   : 0xbfe00000 - 0xc0000000   (   2 MB)                
+[    0.000000]       .text : 0xbf800000 - 0xbfcc0a58   (4867 kB)                
+[    0.000000]       .init : 0xc0041000 - 0xc004e000   (  52 kB)                
+[    0.000000]       .data : 0xc0008000 - 0xc00403d0   ( 225 kB)                
+[    0.000000]        .bss : 0xc004e000 - 0xc00976f8   ( 294 kB)                
+[    0.000000] NR_IRQS: 16, nr_irqs: 16, preallocated irqs: 16                  
+[    0.000000] L2C-310 cache controller enabled, 8 ways, 128 kB                 
+[    0.000000] L2C-310: CACHE_ID 0x410000c9, AUX_CTRL 0x02020000                
+[    0.000000] clocksource: ostm: mask: 0xffffffff max_cycles: 0xffffffff, max_s
+[    0.000082] sched_clock: 32 bits at 66MHz, resolution 15ns, wraps every 3253s
+[    0.008410] ostm: used for clocksource                                       
+[    0.014776] ostm: used for clock events                                      
+[    0.022603] Console: colour dummy device 80x30                               
+[    0.029938] console [tty0] enabled                                           
+[    0.033862] bootconsole [earlycon0] disabled                                 
+[    0.000000] Booting Linux on physical CPU 0x0                                
+[    0.000000] Linux version 4.14.43-gcfc262b-dirty (root@3F-L8705-LB00) (gcc v8
+[    0.000000] CPU: ARMv7 Processor [414fc091] revision 1 (ARMv7), cr=50c53c7d  
+[    0.000000] CPU: PIPT / VIPT nonaliasing data cache, VIPT aliasing instructie
+[    0.000000] OF: fdt: Machine model: RZA2MEVB                                 
+[    0.000000] debug: ignoring loglevel setting.                                
+[    0.000000] bootconsole [earlycon0] enabled                                  
+[    0.000000] Memory policy: Data cache writeback                              
+[    0.000000] On node 0 totalpages: 2048                                       
+[    0.000000] free_area_init_node: node 0, pgdat c003b214, node_mem_map c07e800
+[    0.000000]   Normal zone: 16 pages used for memmap                          
+[    0.000000]   Normal zone: 0 pages reserved                                  
+[    0.000000]   Normal zone: 2048 pages, LIFO batch:0                          
+[    0.000000] CPU: All CPU(s) started in SVC mode.                             
+[    0.000000] pcpu-alloc: s0 r0 d32768 u32768 alloc=1*32768                    
+[    0.000000] pcpu-alloc: [0] 0                                                
+[    0.000000] Built 1 zonelists, mobility grouping off.  Total pages: 2032     
+[    0.000000] Kernel command line: ignore_loglevel earlyprintk rootfstype=axfs 
+[    0.000000] PID hash table entries: 32 (order: -5, 128 bytes)                
+[    0.000000] Dentry cache hash table entries: 1024 (order: 0, 4096 bytes)     
+[    0.000000] Inode-cache hash table entries: 1024 (order: 0, 4096 bytes)      
+[    0.000000] Memory: 7416K/8192K available (3582K kernel code, 224K rwdata, 1)
+[    0.000000] Virtual kernel memory layout:                                    
+[    0.000000]     vector  : 0xffff0000 - 0xffff1000   (   4 kB)                
+[    0.000000]     fixmap  : 0xffc00000 - 0xfff00000   (3072 kB)                
+[    0.000000]     vmalloc : 0xc1000000 - 0xff800000   (1000 MB)                
+[    0.000000]     lowmem  : 0xc0000000 - 0xc0800000   (   8 MB)                
+[    0.000000]     pkmap   : 0xbfe00000 - 0xc0000000   (   2 MB)                
+[    0.000000]       .text : 0xbf800000 - 0xbfcc0a58   (4867 kB)                
+[    0.000000]       .init : 0xc0041000 - 0xc004e000   (  52 kB)                
+[    0.000000]       .data : 0xc0008000 - 0xc00403d0   ( 225 kB)                
+[    0.000000]        .bss : 0xc004e000 - 0xc00976f8   ( 294 kB)                
+[    0.000000] NR_IRQS: 16, nr_irqs: 16, preallocated irqs: 16                  
+[    0.000000] L2C-310 cache controller enabled, 8 ways, 128 kB                 
+[    0.000000] L2C-310: CACHE_ID 0x410000c9, AUX_CTRL 0x02020000                
+[    0.000000] clocksource: ostm: mask: 0xffffffff max_cycles: 0xffffffff, max_s
+[    0.000082] sched_clock: 32 bits at 66MHz, resolution 15ns, wraps every 3253s
+[    0.008410] ostm: used for clocksource                                       
+[    0.014776] ostm: used for clock events                                      
+[    0.022603] Console: colour dummy device 80x30                               
+[    0.029938] console [tty0] enabled                                           
+[    0.033862] bootconsole [earlycon0] disabled                                 
+[    0.039413] Calibrating delay loop (skipped) preset value.. 1056.00 BogoMIPS)
+[    0.039649] pid_max: default: 32768 minimum: 301                             
+[    0.041950] Mount-cache hash table entries: 1024 (order: 0, 4096 bytes)      
+[    0.042152] Mountpoint-cache hash table entries: 1024 (order: 0, 4096 bytes) 
+[    0.053180] CPU: Testing write buffer coherency: ok                          
+[    0.070401] Setting up static identity map for 0x3f800200 - 0x3f800254       
+[    0.089316] devtmpfs: initialized                                            
+[    0.109477] random: get_random_u32 called from bucket_table_alloc+0xc3/0xec 0
+[    0.112422] VFP support v0.3: implementor 41 architecture 3 part 30 variant 4
+[    0.120542] clocksource: jiffies: mask: 0xffffffff max_cycles: 0xffffffff, ms
+[    0.121631] futex hash table entries: 256 (order: -1, 3072 bytes)            
+[    0.124150] pinctrl core: initialized pinctrl subsystem                      
+[    0.141853] NET: Registered protocol family 16                               
+[    0.154141] DMA: preallocated 256 KiB pool for atomic coherent allocations   
+[    0.167345] No ATAGs?                                                        
+[    0.570199] SCSI subsystem initialized                                       
+[    0.573211] usbcore: registered new interface driver usbfs                   
+[    0.573688] usbcore: registered new interface driver hub                     
+[    0.576830] usbcore: registered new device driver usb                        
+[    0.577993] media: Linux media interface: v0.10                              
+[    0.578451] Linux video capture interface: v2.00                             
+[    0.662930] clocksource: Switched to clocksource ostm                        
+[    1.178672] NET: Registered protocol family 2                                
+[    1.192048] TCP established hash table entries: 1024 (order: 0, 4096 bytes)  
+[    1.194471] TCP bind hash table entries: 1024 (order: 0, 4096 bytes)         
+[    1.194728] TCP: Hash tables configured (established 1024 bind 1024)         
+[    1.198207] UDP hash table entries: 256 (order: 0, 4096 bytes)               
+[    1.198512] UDP-Lite hash table entries: 256 (order: 0, 4096 bytes)          
+[    1.200872] NET: Registered protocol family 1                                
+[    1.225471] RPC: Registered named UNIX socket transport module.              
+[    1.226284] RPC: Registered udp transport module.                            
+[    1.226340] RPC: Registered tcp transport module.                            
+[    1.226382] RPC: Registered tcp NFSv4.1 backchannel transport module.        
+[    1.279562] workingset: timestamp_bits=30 max_order=11 bucket_order=0        
+[    1.298298] NFS: Registering the id_resolver key type                        
+[    1.299879] Key type id_resolver registered                                  
+[    1.300002] Key type id_legacy registered                                    
+[    1.300324] nfs4filelayout_init: NFSv4 File Layout Driver Registering...     
+[    1.300509] nfs4flexfilelayout_init: NFSv4 Flexfile Layout Driver Registerin.
+[    1.301224] jffs2: version 2.2. (NAND) �© 2001-2006 Red Hat, Inc.            
+[    1.326353] Key type asymmetric registered                                   
+[    1.327264] Asymmetric key parser 'x509' registered                          
+[    1.330699] Block layer SCSI generic (bsg) driver version 0.4 loaded (major )
+[    1.331024] io scheduler noop registered                                     
+[    1.331120] io scheduler deadline registered                                 
+[    1.334227] io scheduler cfq registered (default)                            
+[    1.334440] io scheduler mq-deadline registered                              
+[    1.381211] vdc5fb fcff7400.display: fcff7400.display: [gwp0700cnwv04] dotcl2
+[    1.415797] vdc5fb: Layer 2 Enabled (800x480 @ 0x80000000)                   
+[    1.516531] vdc5fb fcff7400.display: update_regs timeout reg=00000080, bits=1
+[    1.617105] vdc5fb fcff7400.display: update_regs timeout reg=00000100, bits=1
+[    1.717367] vdc5fb fcff7400.display: update_regs timeout reg=00000180, bits=1
+[    1.861096] Console: switching to colour frame buffer device 100x30          
+[    1.917979] graphics fb0: registered fcff7400.display as 800x480 @ 59 Hz, 16.
+[    1.955515] Serial: 8250/16550 driver, 4 ports, IRQ sharing disabled         
+[    2.021446] SuperH (H)SCI(F) driver initialized                              
+[    2.039533] e8009000.serial: ttySC0 at MMIO 0xe8009000 (irq = 19, base_baud f
+[    2.636758] random: fast init done                                           
+[    2.660101] console [ttySC0] enabled                                         
+[    2.699613] 1 ofpart partitions found on MTD device 20000000.qspi            
+[    2.713942] Creating 1 MTD partitions on "20000000.qspi":                    
+[    2.724632] 0x000000800000-0x000001800000 : "user"                           
+[    2.810835] libphy: Fixed MDIO Bus: probed                                   
+[    2.846576] libphy: sh_mii: probed                                           
+[    2.875061] sh-eth e8204000.ethernet eth0: Base address at 0xe8204000, 74:90.
+[    2.902346] sh-eth e8204200.ethernet: no valid MAC address supplied, using a.
+[    2.923936] libphy: sh_mii: probed                                           
+[    2.947369] sh-eth e8204200.ethernet eth1: Base address at 0xe8204200, 02:ae.
+[    2.968881] usbcore: registered new interface driver usb-storage             
+[    2.984856] i2c /dev entries driver                                          
+[    3.098657] ft5x06-ts 3-0038: ft5x06_init_panel: could not detect ft5x06     
+[    3.114865] ft5x06-ts 3-0038: could not init touch panel                     
+[    3.127439] ft5x06-ts: probe of 3-0038 failed with error -5                  
+[    3.165631] at24 3-0050: 16384 byte 24c128 EEPROM, writable, 64 bytes/write  
+[    3.187177] i2c-riic e803ac00.i2c: registered with 400000Hz bus speed        
+[    3.207598] mt9v111_probe                                                    
+[    3.219891] mt9v111_calc_frame_rate                                          
+[    3.229096] mt9v111 3-0048: FPS: 15, hb = 1019, vb = 3                       
+[    3.238969] ------------[ cut here ]------------                             
+[    3.248940] WARNING: CPU: 0 PID: 1 at ../drivers/media/v4l2-core/v4l2-ctrls.c
+[    3.267692] CPU: 0 PID: 1 Comm: swapper Not tainted 4.14.43-gcfc262b-dirty #3
+[    3.278840] Hardware name: Generic R7S9210 (Flattened Device Tree)           
+[    3.290634] [<bf808eb5>] (unwind_backtrace) from [<bf80779b>] (show_stack+0x)
+[    3.303195] [<bf80779b>] (show_stack) from [<bf80ed51>] (__warn+0x85/0xa0)   
+[    3.314591] [<bf80ed51>] (__warn) from [<bf80edcf>] (warn_slowpath_null+0x11)
+[    3.327002] [<bf80edcf>] (warn_slowpath_null) from [<bfa5413d>] (__v4l2_ctrl)
+[    3.344946] [<bfa5413d>] (__v4l2_ctrl_s_ctrl_int64) from [<bf9ba649>] (mt9v1)
+[    3.363122] [<bf9ba649>] (mt9v111_calc_frame_rate) from [<bf9bafd5>] (mt9v11)
+[    3.376494] [<bf9bafd5>] (mt9v111_probe) from [<bf9b6e31>] (i2c_device_probe)
+[    3.389756] [<bf9b6e31>] (i2c_device_probe) from [<bf967419>] (driver_probe_)
+[    3.403171] [<bf967419>] (driver_probe_device) from [<bf9674eb>] (__driver_a)
+[    3.416122] [<bf9674eb>] (__driver_attach) from [<bf96650d>] (bus_for_each_d)
+[    3.428796] [<bf96650d>] (bus_for_each_dev) from [<bf96694d>] (bus_add_drive)
+[    3.441543] [<bf96694d>] (bus_add_driver) from [<bf967a03>] (driver_register)
+[    3.454011] [<bf967a03>] (driver_register) from [<bf9b7cd3>] (i2c_register_d)
+[    3.467214] [<bf9b7cd3>] (i2c_register_driver) from [<bfcc14cd>] (do_one_ini)
+[    3.480168] [<bfcc14cd>] (do_one_initcall) from [<bfcc15f3>] (kernel_init_fr)
+[    3.493776] [<bfcc15f3>] (kernel_init_freeable) from [<bfb4fcef>] (kernel_in)
+[    3.506665] [<bfb4fcef>] (kernel_init) from [<bf804f79>] (ret_from_fork+0x11)
+[    3.519197] ---[ end trace 053d4bd5052bda6b ]---                             
+[    3.528661] mt9v111_s_ctrl                                                   
+[    3.536111] ------------[ cut here ]------------                             
+[    3.545456] WARNING: CPU: 0 PID: 1 at ../drivers/media/v4l2-core/v4l2-ctrls.c
+[    3.565030] CPU: 0 PID: 1 Comm: swapper Tainted: G        W       4.14.43-gc3
+[    3.577967] Hardware name: Generic R7S9210 (Flattened Device Tree)           
+[    3.589181] [<bf808eb5>] (unwind_backtrace) from [<bf80779b>] (show_stack+0x)
+[    3.601566] [<bf80779b>] (show_stack) from [<bf80ed51>] (__warn+0x85/0xa0)   
+[    3.613158] [<bf80ed51>] (__warn) from [<bf80edcf>] (warn_slowpath_null+0x11)
+[    3.625417] [<bf80edcf>] (warn_slowpath_null) from [<bfa5413d>] (__v4l2_ctrl)
+[    3.643640] [<bfa5413d>] (__v4l2_ctrl_s_ctrl_int64) from [<bf9ba66d>] (mt9v1)
+[    3.662554] [<bf9ba66d>] (mt9v111_calc_frame_rate) from [<bf9bafd5>] (mt9v11)
+[    3.676120] [<bf9bafd5>] (mt9v111_probe) from [<bf9b6e31>] (i2c_device_probe)
+[    3.689167] [<bf9b6e31>] (i2c_device_probe) from [<bf967419>] (driver_probe_)
+[    3.702572] [<bf967419>] (driver_probe_device) from [<bf9674eb>] (__driver_a)
+[    3.715690] [<bf9674eb>] (__driver_attach) from [<bf96650d>] (bus_for_each_d)
+[    3.728428] [<bf96650d>] (bus_for_each_dev) from [<bf96694d>] (bus_add_drive)
+[    3.741256] [<bf96694d>] (bus_add_driver) from [<bf967a03>] (driver_register)
+[    3.753806] [<bf967a03>] (driver_register) from [<bf9b7cd3>] (i2c_register_d)
+[    3.767102] [<bf9b7cd3>] (i2c_register_driver) from [<bfcc14cd>] (do_one_ini)
+[    3.780110] [<bfcc14cd>] (do_one_initcall) from [<bfcc15f3>] (kernel_init_fr)
+[    3.793582] [<bfcc15f3>] (kernel_init_freeable) from [<bfb4fcef>] (kernel_in)
+[    3.806339] [<bfb4fcef>] (kernel_init) from [<bf804f79>] (ret_from_fork+0x11)
+[    3.818542] ---[ end trace 053d4bd5052bda6c ]---                             
+[    3.827769] mt9v111_s_ctrl                                                   
+[    3.835193] mt9v111_chip_probe                                               
+[    3.842622] mt9v111_power_on                                                 
+[    3.879527] mt9v111 3-0048: __mt9v111_write: 1 = 04                          
+[    3.894139] mt9v111 3-0048: __mt9v111_read: 1=4                              
+[    3.904279] mt9v111 3-0048: __mt9v111_read: ff=823a                          
+[    3.913807] mt9v111_power_off                                                
+[    3.923004] mt9v111 3-0048: Chip identified: 0x823a                          
+[    3.955257] ceu_parse_dt  of_graph_get_endpoint_count                        
+[    3.967987] ceu_parse_dt ceu_init_async_subdevs                              
+[    3.977398] ceu_parse_dt of_graph_get_endpoint_by_regs                       
+[    3.986779] ceu_parse_dt v4l2_fwnode_endpoint_parse                          
+[    3.997079] mt9v111_enum_mbus_code                                           
+[    4.005051] mt9v111_set_format                                               
+[    4.011620] mt9v111_bus_framefmt                                             
+[    4.018663] mt9v111 3-0048: mt9v111_set_format: mbus_code: 2006 - (640x480)  
+[    4.076185] renesas-ceu e8210000.ceu: Renesas Capture Engine Unit e8210000.cu
+[    4.397682] sh_mobile_sdhi e8228000.sd: mmc0 base at 0xe8228000 max clock raz
+[    4.419978] usbcore: registered new interface driver usbhid                  
+[    4.431765] usbhid: USB HID core driver                                      
+[    4.446881] NET: Registered protocol family 10                               
+[    4.512477] Segment Routing with IPv6                                        
+[    4.526166] sit: IPv6, IPv4 and MPLS over IPv4 tunneling driver              
+[    4.556302] NET: Registered protocol family 17                               
+[    4.569286] Key type dns_resolver registered                                 
+[    4.583242] rza2mevb_init_late: Error: Could not find QSPI clock             
+[    4.659712] hctosys: unable to open rtc device (rtc0)                        
+[    4.717218] VFS: Mounted root (axfs filesystem) readonly on device 0:11.     
+[    4.736504] devtmpfs: mounted                                                
+[    4.747127] Freeing unused kernel memory: 52K                                
+[    4.755475] This architecture does not have kernel memory protection.        
+Starting logging: OK                                                            
+read-only file system detected...done                                           
+Starting network: OK                                                            
+Wed Nov  1 09:00:00 UTC 2017                                                    
+[   10.657389] Console: switching to colour dummy device 80x30                  
+/etc/init.d/S99_rea_setup: line 34: fbv: not found                              
+/etc/init.d/S99_rea_setup: line 47: alsactl: not found                          
+                                                                                
+Welcome to Buildroot                                                            
+buildroot login: [  132.803945] random: crng init done                          
+root                                                                            
+$ dmesg | grep ceu                                                              
+[    3.955257] ceu_parse_dt  of_graph_get_endpoint_count                        
+[    3.967987] ceu_parse_dt ceu_init_async_subdevs                              
+[    3.977398] ceu_parse_dt of_graph_get_endpoint_by_regs                       
+[    3.986779] ceu_parse_dt v4l2_fwnode_endpoint_parse                          
+[    4.076185] renesas-ceu e8210000.ceu: Renesas Capture Engine Unit e8210000.cu
+$                                                                               
+$ yavta_mplane /dev/video0 -c1 -n1 -f NV12 -s 640x480 -F"/tmp/NV12#.bin"        
+[  241.680907] mt9v111_s_power                                                  
+[  241.687325] mt9v111_power_on                                                 
+Khanh Device /dev/video0 opened.                                                
+Khanh video_open end.                                                           
+[  241.759036] mt9v111_set_format                                               
+[  241.764577] mt9v111_bus_framefmt                                             
+[  241.768658] mt9v111 3-0048: mt9v111_set_format: mbus_code: 2006 - (640x480)  
+[  241.776516] mt9v111_set_format                                               
+[  241.779794] mt9v111_bus_framefmt                                             
+2 buffers requested.                                                            
+length: 2 offset: 3202189464 timestamp type: monotonic                          
+Buffer 0/0 mapped at address 0xb6e3d000.                                        
+Buffer 0/1 mapped at address 0x[  241.844164] ceu_start_streaming               
+b6e17000.                                                                       
+lengt[  241.849594] ceu_start_streaming call  v4l2_subdev_call                  
+h: 2 offset: 320[  241.857178] mt9v111_s_stream                                 
+2189464 timestam[  241.861396] mt9v111_s_power                                  
+p type: monotoni[  241.865778] ------------[ cut here ]------------             
+c                                                                               
+Buffer 1/0 mapped at address [  241.872944] WARNING: CPU: 0 PID: 644 at ../driv4
+0xb6dcc000.                                                                     
+Buf[  241.884274] CPU: 0 PID: 644 Comm: yavta_mplane Tainted: G        W       3
+fer 1/1 mapped a[  241.894429] Hardware name: Generic R7S9210 (Flattened Device)
+t address 0xb6da6000.                                                           
+[  241.903745] [<bf808eb5>] (unwind_backtrace) from [<bf80779b>] (show_stack+0x)
+[  241.912148] [<bf80779b>] (show_stack) from [<bf80ed51>] (__warn+0x85/0xa0)   
+[  241.919520] [<bf80ed51>] (__warn) from [<bf80edcf>] (warn_slowpath_null+0x11)
+[  241.927425] [<bf80edcf>] (warn_slowpath_null) from [<bf9baa13>] (mt9v111_s_p)
+[  241.936096] [<bf9baa13>] (mt9v111_s_power) from [<bf9bab31>] (mt9v111_s_stre)
+[  241.944952] [<bf9bab31>] (mt9v111_s_stream) from [<bfa62da9>] (ceu_start_str)
+[  241.954428] [<bfa62da9>] (ceu_start_streaming) from [<bfa58393>] (vb2_start_)
+[  241.963576] [<bfa58393>] (vb2_start_streaming) from [<bfa58bc5>] (vb2_core_s)
+[  241.972768] [<bfa58bc5>] (vb2_core_streamon) from [<bfa4f47d>] (__video_do_i)
+[  241.981483] [<bfa4f47d>] (__video_do_ioctl) from [<bfa4f77d>] (video_usercop)
+[  241.989999] [<bfa4f77d>] (video_usercopy) from [<bfa4aeeb>] (v4l2_ioctl+0x57)
+[  241.998312] [<bfa4aeeb>] (v4l2_ioctl) from [<bf872aed>] (vfs_ioctl+0x11/0x1c)
+[  242.005804] [<bf872aed>] (vfs_ioctl) from [<bf872f3b>] (do_vfs_ioctl+0x61/0x)
+[  242.013355] [<bf872f3b>] (do_vfs_ioctl) from [<bf873507>] (SyS_ioctl+0x23/0x)
+[  242.020822] [<bf873507>] (SyS_ioctl) from [<bf804e81>] (ret_fast_syscall+0x1)
+[  242.028756] ---[ end trace 053d4bd5052bda6e ]---                             
+[  242.033621] mt9v111_hw_config                                                
+[  242.036684] mt9v111_sw_reset                                                 
+[  242.088082] mt9v111 3-0048: __mt9v111_read: d=0                              
+[  242.094525] mt9v111 3-0048: __mt9v111_write: d = 01                          
+[  242.102166] mt9v111 3-0048: __mt9v111_read: d=1                              
+[  242.107666] mt9v111 3-0048: __mt9v111_write: d = 00                          
+[  242.134111] mt9v111 3-0048: __mt9v111_write: 1 = 01                          
+[  242.140893] mt9v111 3-0048: __mt9v111_read: 1=1                              
+[  242.155656] mt9v111 3-0048: __mt9v111_read: 7=0                              
+[  242.160616] mt9v111 3-0048: __mt9v111_write: 7 = 01                          
+[  242.175442] mt9v111 3-0048: __mt9v111_read: 7=1                              
+[  242.180509] mt9v111 3-0048: __mt9v111_write: 7 = 00                          
+[  242.194007] mt9v111 3-0048: __mt9v111_read: 6=700e                           
+[  242.199204] mt9v111 3-0048: __mt9v111_write: 6 = 30c                         
+[  242.211992] mt9v111 3-0048: __mt9v111_read: 8=c800                           
+[  242.217896] mt9v111 3-0048: __mt9v111_write: 8 = c00                         
+[  242.229184] mt9v111 3-0048: __mt9v111_write: 1 = 04                          
+[  242.235699] mt9v111 3-0048: __mt9v111_read: 1=4                              
+[  242.240587] mt9v111 3-0048: __mt9v111_read: 7=3002                           
+[  242.245671] mt9v111 3-0048: __mt9v111_write: 7 = 302                         
+[  242.251199] mt9v111 3-0048: __mt9v111_write: 1 = 01                          
+[  242.266766] mt9v111 3-0048: __mt9v111_read: 1=1                              
+[  242.277921] mt9v111 3-0048: __mt9v111_read: 3a=0                             
+[  242.283653] mt9v111 3-0048: __mt9v111_write: 3a = 00                         
+[  242.289140] mt9v111 3-0048: __mt9v111_write: a5 = 800                        
+[  242.300734] mt9v111 3-0048: __mt9v111_write: a8 = 800                        
+[  242.307444] mt9v111 3-0048: __mt9v111_write: a6 = 8280                       
+[  242.320171] mt9v111 3-0048: __mt9v111_write: a9 = 81e0                       
+[  242.327254] mt9v111 3-0048: __mt9v111_write: a7 = 8280                       
+[  242.338920] mt9v111 3-0048: __mt9v111_write: aa = 1e0                        
+[  242.349603] mt9v111 3-0048: __mt9v111_write: 1 = 04                          
+[  242.356411] mt9v111 3-0048: __mt9v111_read: 1=4                              
+[  242.361355] mt9v111 3-0048: __mt9v111_read: 5=26                             
+[  242.366310] mt9v111 3-0048: __mt9v111_write: 5 = 3fb                         
+[  242.371937] mt9v111 3-0048: __mt9v111_read: 6=4                              
+[  242.376734] mt9v111 3-0048: __mt9v111_write: 6 = 03                          
+[  242.393486] mt9v111 3-0048: __mt9v111_write: 9 = 1e0                         
+[  242.399691] ceu_capture                                                      
+[  242.505748] ceu_capture                                                      
+0 (0) [-] 0 0 bytes 242.483180 242.488408 10.683 fps                            
+[  242.608766] ceu_stop_streaming                                               
+[  242.615342] mt9v111_s_stream                                                 
+[  242.618541] mt9v111_s_power                                                  
+Captured 1 frames in 0.098837 seconds (10.117668 fps, 0.000000 B/s).            
+2 buffers released.                                                             
+[  242.679012] mt9v111_s_power                                                  
+[  242.684278] mt9v111_power_off                                                
+$ 0.000000 B/s).
+
