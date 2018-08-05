@@ -1,0 +1,326 @@
+=> run xha_boot                                                                 
+Current Mode: SF: Detected mx25l51235f with page size 256 Bytes, erase size 64 B
+New Mode: Quad I/O Read Mode (4-byte Addr)                                      
+Booting Linux...                                                                
+[    0.000000] Booting Linux on physical CPU 0x0                                
+[    0.000000] Linux version 4.14.43-g033f5ff-dirty (root@3F-L8705-LB00) (gcc v8
+[    0.000000] CPU: ARMv7 Processor [414fc091] revision 1 (ARMv7), cr=50c53c7d  
+[    0.000000] CPU: PIPT / VIPT nonaliasing data cache, VIPT aliasing instructie
+[    0.000000] OF: fdt: Machine model: RZA2MEVB                                 
+[    0.000000] debug: ignoring loglevel setting.                                
+[    0.000000] bootconsole [earlycon0] enabled                                  
+[    0.000000] Memory policy: Data cache writeback                              
+[    0.000000] On node 0 totalpages: 2048                                       
+[    0.000000] free_area_init_node: node 0, pgdat c0032eac, node_mem_map c07e800
+[    0.000000]   Normal zone: 16 pages used for memmap                          
+[    0.000000]   Normal zone: 0 pages reserved                                  
+[    0.000000]   Normal zone: 2048 pages, LIFO batch:0                          
+[    0.000000] CPU: All CPU(s) started in SVC mode.                             
+[    0.000000] pcpu-alloc: s0 r0 d32768 u32768 alloc=1*32768                    
+[    0.000000] pcpu-alloc: [0] 0                                                
+[    0.000000] Built 1 zonelists, mobility grouping off.  Total pages: 2032     
+[    0.000000] Kernel command line: ignore_loglevel earlyprintk rootfstype=axfs 
+[    0.000000] PID hash table entries: 32 (order: -5, 128 bytes)                
+[    0.000000] Dentry cache hash table entries: 1024 (order: 0, 4096 bytes)     
+[    0.000000] Inode-cache hash table entries: 1024 (order: 0, 4096 bytes)      
+[    0.000000] Memory: 7456K/8192K available (3017K kernel code, 192K rwdata, 1)
+[    0.000000] Virtual kernel memory layout:                                    
+[    0.000000]     vector  : 0xffff0000 - 0xffff1000   (   4 kB)                
+[    0.000000]     fixmap  : 0xffc00000 - 0xfff00000   (3072 kB)                
+[    0.000000]     vmalloc : 0xc1000000 - 0xff800000   (1000 MB)                
+[    0.000000]     lowmem  : 0xc0000000 - 0xc0800000   (   8 MB)                
+[    0.000000]     pkmap   : 0xbfe00000 - 0xc0000000   (   2 MB)                
+[    0.000000]       .text : 0xbf800000 - 0xbfbed830   (4023 kB)                
+[    0.000000]       .init : 0xc0039000 - 0xc0046000   (  52 kB)                
+[    0.000000]       .data : 0xc0008000 - 0xc0038134   ( 193 kB)                
+[    0.000000]        .bss : 0xc0046000 - 0xc008e068   ( 289 kB)                
+[    0.000000] NR_IRQS: 16, nr_irqs: 16, preallocated irqs: 16                  
+[    0.000000] L2C-310 cache controller enabled, 8 ways, 128 kB                 
+[    0.000000] L2C-310: CACHE_ID 0x410000c9, AUX_CTRL 0x02020000                
+[    0.000000] clocksource: ostm: mask: 0xffffffff max_cycles: 0xffffffff, max_s
+[    0.000113] sched_clock: 32 bits at 66MHz, resolution 15ns, wraps every 3253s
+[    0.008496] ostm: used for clocksource                                       
+[    0.014789] ostm: used for clock events                                      
+[    0.022547] Console: colour dummy device 80x30                               
+[    0.029962] console [tty0] enabled                                           
+[    0.033888] bootconsole [earlycon0] disabled                                 
+[    0.000000] Booting Linux on physical CPU 0x0                                
+[    0.000000] Linux version 4.14.43-g033f5ff-dirty (root@3F-L8705-LB00) (gcc v8
+[    0.000000] CPU: ARMv7 Processor [414fc091] revision 1 (ARMv7), cr=50c53c7d  
+[    0.000000] CPU: PIPT / VIPT nonaliasing data cache, VIPT aliasing instructie
+[    0.000000] OF: fdt: Machine model: RZA2MEVB                                 
+[    0.000000] debug: ignoring loglevel setting.                                
+[    0.000000] bootconsole [earlycon0] enabled                                  
+[    0.000000] Memory policy: Data cache writeback                              
+[    0.000000] On node 0 totalpages: 2048                                       
+[    0.000000] free_area_init_node: node 0, pgdat c0032eac, node_mem_map c07e800
+[    0.000000]   Normal zone: 16 pages used for memmap                          
+[    0.000000]   Normal zone: 0 pages reserved                                  
+[    0.000000]   Normal zone: 2048 pages, LIFO batch:0                          
+[    0.000000] CPU: All CPU(s) started in SVC mode.                             
+[    0.000000] pcpu-alloc: s0 r0 d32768 u32768 alloc=1*32768                    
+[    0.000000] pcpu-alloc: [0] 0                                                
+[    0.000000] Built 1 zonelists, mobility grouping off.  Total pages: 2032     
+[    0.000000] Kernel command line: ignore_loglevel earlyprintk rootfstype=axfs 
+[    0.000000] PID hash table entries: 32 (order: -5, 128 bytes)                
+[    0.000000] Dentry cache hash table entries: 1024 (order: 0, 4096 bytes)     
+[    0.000000] Inode-cache hash table entries: 1024 (order: 0, 4096 bytes)      
+[    0.000000] Memory: 7456K/8192K available (3017K kernel code, 192K rwdata, 1)
+[    0.000000] Virtual kernel memory layout:                                    
+[    0.000000]     vector  : 0xffff0000 - 0xffff1000   (   4 kB)                
+[    0.000000]     fixmap  : 0xffc00000 - 0xfff00000   (3072 kB)                
+[    0.000000]     vmalloc : 0xc1000000 - 0xff800000   (1000 MB)                
+[    0.000000]     lowmem  : 0xc0000000 - 0xc0800000   (   8 MB)                
+[    0.000000]     pkmap   : 0xbfe00000 - 0xc0000000   (   2 MB)                
+[    0.000000]       .text : 0xbf800000 - 0xbfbed830   (4023 kB)                
+[    0.000000]       .init : 0xc0039000 - 0xc0046000   (  52 kB)                
+[    0.000000]       .data : 0xc0008000 - 0xc0038134   ( 193 kB)                
+[    0.000000]        .bss : 0xc0046000 - 0xc008e068   ( 289 kB)                
+[    0.000000] NR_IRQS: 16, nr_irqs: 16, preallocated irqs: 16                  
+[    0.000000] L2C-310 cache controller enabled, 8 ways, 128 kB                 
+[    0.000000] L2C-310: CACHE_ID 0x410000c9, AUX_CTRL 0x02020000                
+[    0.000000] clocksource: ostm: mask: 0xffffffff max_cycles: 0xffffffff, max_s
+[    0.000113] sched_clock: 32 bits at 66MHz, resolution 15ns, wraps every 3253s
+[    0.008496] ostm: used for clocksource                                       
+[    0.014789] ostm: used for clock events                                      
+[    0.022547] Console: colour dummy device 80x30                               
+[    0.029962] console [tty0] enabled                                           
+[    0.033888] bootconsole [earlycon0] disabled                                 
+[    0.039366] Calibrating delay loop (skipped) preset value.. 1056.00 BogoMIPS)
+[    0.039643] pid_max: default: 32768 minimum: 301                             
+[    0.041957] Mount-cache hash table entries: 1024 (order: 0, 4096 bytes)      
+[    0.042187] Mountpoint-cache hash table entries: 1024 (order: 0, 4096 bytes) 
+[    0.052911] CPU: Testing write buffer coherency: ok                          
+[    0.070135] Setting up static identity map for 0x3f800200 - 0x3f800254       
+[    0.089703] devtmpfs: initialized                                            
+[    0.108322] random: get_random_u32 called from bucket_table_alloc+0xc3/0xec 0
+[    0.110756] VFP support v0.3: implementor 41 architecture 3 part 30 variant 4
+[    0.118985] clocksource: jiffies: mask: 0xffffffff max_cycles: 0xffffffff, ms
+[    0.119716] futex hash table entries: 256 (order: -1, 3072 bytes)            
+[    0.122208] pinctrl core: initialized pinctrl subsystem                      
+[    0.139384] NET: Registered protocol family 16                               
+[    0.149832] DMA: preallocated 256 KiB pool for atomic coherent allocations   
+[    0.161696] No ATAGs?                                                        
+[    0.472290] SCSI subsystem initialized                                       
+[    0.477057] usbcore: registered new interface driver usbfs                   
+[    0.477900] usbcore: registered new interface driver hub                     
+[    0.479409] usbcore: registered new device driver usb                        
+[    0.480330] media: Linux media interface: v0.10                              
+[    0.480870] Linux video capture interface: v2.00                             
+[    0.564331] clocksource: Switched to clocksource ostm                        
+[    1.092557] NET: Registered protocol family 2                                
+[    1.107407] TCP established hash table entries: 1024 (order: 0, 4096 bytes)  
+[    1.108271] TCP bind hash table entries: 1024 (order: 0, 4096 bytes)         
+[    1.108465] TCP: Hash tables configured (established 1024 bind 1024)         
+[    1.112255] UDP hash table entries: 256 (order: 0, 4096 bytes)               
+[    1.112530] UDP-Lite hash table entries: 256 (order: 0, 4096 bytes)          
+[    1.116514] NET: Registered protocol family 1                                
+[    1.139724] RPC: Registered named UNIX socket transport module.              
+[    1.140531] RPC: Registered udp transport module.                            
+[    1.140614] RPC: Registered tcp transport module.                            
+[    1.140634] RPC: Registered tcp NFSv4.1 backchannel transport module.        
+[    1.191669] workingset: timestamp_bits=30 max_order=11 bucket_order=0        
+[    1.209773] NFS: Registering the id_resolver key type                        
+[    1.211474] Key type id_resolver registered                                  
+[    1.211547] Key type id_legacy registered                                    
+[    1.211985] nfs4filelayout_init: NFSv4 File Layout Driver Registering...     
+[    1.212153] nfs4flexfilelayout_init: NFSv4 Flexfile Layout Driver Registerin.
+[    1.212704] jffs2: version 2.2. (NAND) �© 2001-2006 Red Hat, Inc.            
+[    1.238855] Key type asymmetric registered                                   
+[    1.239710] Asymmetric key parser 'x509' registered                          
+[    1.243104] Block layer SCSI generic (bsg) driver version 0.4 loaded (major )
+[    1.243520] io scheduler noop registered                                     
+[    1.243570] io scheduler deadline registered                                 
+[    1.246149] io scheduler cfq registered (default)                            
+[    1.246420] io scheduler mq-deadline registered                              
+[    1.293454] vdc5fb fcff7400.display: fcff7400.display: [gwp0700cnwv04] dotcl2
+[    1.329169] vdc5fb: Layer 2 Enabled (800x480 @ 0x80000000)                   
+[    1.429899] vdc5fb fcff7400.display: update_regs timeout reg=00000080, bits=1
+[    1.530500] vdc5fb fcff7400.display: update_regs timeout reg=00000100, bits=1
+[    1.630734] vdc5fb fcff7400.display: update_regs timeout reg=00000180, bits=1
+[    1.775106] Console: switching to colour frame buffer device 100x30          
+[    1.831958] graphics fb0: registered fcff7400.display as 800x480 @ 59 Hz, 16.
+[    1.869870] Serial: 8250/16550 driver, 4 ports, IRQ sharing disabled         
+[    1.940011] SuperH (H)SCI(F) driver initialized                              
+[    1.958208] e8009000.serial: ttySC0 at MMIO 0xe8009000 (irq = 19, base_baud f
+[    2.576512] console [ttySC0] enabled                                         
+[    2.616784] 1 ofpart partitions found on MTD device 20000000.qspi            
+[    2.630427] random: fast init done                                           
+[    2.638981] Creating 1 MTD partitions on "20000000.qspi":                    
+[    2.649177] 0x000000800000-0x000001800000 : "user"                           
+[    2.735890] libphy: Fixed MDIO Bus: probed                                   
+[    2.756829] usbcore: registered new interface driver usb-storage             
+[    2.772093] i2c /dev entries driver                                          
+[    2.858626] i2c-riic e803a800.i2c: registered with 400000Hz bus speed        
+[    2.938328] ft5x06-ts 3-0038: ft5x06_init_panel: could not detect ft5x06     
+[    2.953947] ft5x06-ts 3-0038: could not init touch panel                     
+[    2.966502] ft5x06-ts: probe of 3-0038 failed with error -5                  
+[    2.985857] at24_probe                                                       
+[    2.994600] write_max 64                                                     
+[    3.001470] at24_eeprom_read_i2c                                             
+[    3.009027] read AT24_FLAG_ADDR16                                            
+[    3.016419] at24_eeprom_read_i2c, i2c_transfer msg[0].buf 0                  
+[    3.025841] at24_eeprom_read_i2c, i2c_transfer                               
+[    3.045585] at24_eeprom_read_i2c, i2c_transfer read 1@0 --> 1 (-29698)       
+[    3.057893] at24_eeprom_read_i2c, i2c_transfer read 48 , 0                   
+[    3.067496] at24_probe at24_read ok testbyte 0                               
+[    3.075735] at24_eeprom_write_i2c                                            
+[    3.082255] write AT24_FLAG_ADDR16                                           
+[    3.089798] at24_probe at24_write ok testbyte 34                             
+[    3.097743] at24_eeprom_read_i2c                                             
+[    3.104099] read AT24_FLAG_ADDR16                                            
+[    3.110217] at24_eeprom_read_i2c, i2c_transfer msg[0].buf 0                  
+[    3.118723] at24_eeprom_read_i2c, i2c_transfer                               
+[    3.126742] at24_eeprom_read_i2c, i2c_transfer read 1@0 --> 1 (-29690)       
+[    3.136230] at24_eeprom_read_i2c, i2c_transfer read 48 , 0                   
+[    3.144403] at24_probe at24_read ok AGAIN testbyte 0                         
+[    3.157451] at24 3-0050: 16384 byte 24c128 EEPROM, writable, 64 bytes/write  
+[    3.170552] i2c-riic e803ac00.i2c: registered with 400000Hz bus speed        
+[    3.189835] imx219_probe                                                     
+[    3.198912] imx219_probe 1                                                   
+[    3.205201] imx219_ctrls_init                                                
+[    3.233793] imx219 2-0010: Reading register 100 from 10, buf[0] 0 ok         
+[    3.247952] imx219 2-0010: Reading register 100 from 10, buf[0] 0 ok         
+[    3.258311] imx219 2-0010: Reading register 100 from 10, buf[0] 0 ok         
+[    3.267873] imx219 2-0010: Reading register 100 from 10, buf[0] 0 ok         
+[    3.276837] imx219_probe 2                                                   
+[    3.281773] imx219_probe 3                                                   
+[    3.286631] imx219_s_power                                                   
+[    3.291462] imx219_video_probe check chip ID                                 
+[    3.298548] imx219 2-0010: Reading register 0 from 10, buf[0] 2 ok           
+[    3.307501] imx219 2-0010: Reading register 1 from 10, buf[0] 19 ok          
+[    3.316435] imx219 2-0010: Reading register 4 from 10, buf[0] 68 ok          
+[    3.325209] imx219 2-0010: Reading register 5 from 10, buf[0] 6b ok          
+[    3.333908] imx219 2-0010: Reading register 6 from 10, buf[0] 22 ok          
+[    3.342420] imx219 2-0010: Reading register d from 10, buf[0] 4 ok           
+[    3.350955] imx219 2-0010: Reading register e from 10, buf[0] 11 ok          
+[    3.359354] imx219 2-0010: Model ID 0x0219, Lot ID 0x686b22, Chip ID 0x0411  
+[    3.368469] imx219_s_power                                                   
+[    3.373216] v4l2_async_register_subdev                                       
+[    3.378989] imx219_probe 4 camera driver probed ok                           
+[    3.386216] imx219_s_stream                                                  
+[    3.391002] reg_write_table                                                  
+[    3.395880] reg_write data 5                                                 
+[    3.403414] reg_write data c                                                 
+[    3.410674] reg_write data ff                                                
+[    3.417855] reg_write data ff                                                
+[    3.424732] reg_write data 5                                                 
+[    3.431396] reg_write data 9                                                 
+[    3.437920] reg_write data 3                                                 
+[    3.444434] reg_write data 0                                                 
+[    3.450889] reg_write data 18                                                
+[    3.457470] reg_write data 0                                                 
+[    3.463957] reg_write data a                                                 
+[    3.470395] reg_write data 83                                                
+[    3.476953] reg_write data d                                                 
+[    3.483224] reg_write data 78                                                
+[    3.489682] reg_write data 1                                                 
+[    3.496100] reg_write data 1                                                 
+[    3.502356] reg_write data 0                                                 
+[    3.508614] reg_write data 0                                                 
+[    3.514807] reg_write data a                                                 
+[    3.520947] reg_write data a                                                 
+[    3.527171] reg_write data 5                                                 
+[    3.533301] reg_write data 1                                                 
+[    3.539523] reg_write data 3                                                 
+[    3.545714] reg_write data 3                                                 
+[    3.551768] reg_write data 0                                                 
+[    3.557765] reg_write data 57                                                
+[    3.563788] reg_write data a                                                 
+[    3.569600] reg_write data 1                                                 
+[    3.575388] reg_write data 0                                                 
+[    3.581154] reg_write data 5a                                                
+[    3.587059] reg_write data 0                                                 
+[    3.592780] reg_write data 4b                                                
+[    3.598885] reg_write data f                                                 
+[    3.604748] reg_write data 14                                                
+[    3.610639] reg_write data 0                                                 
+[    3.616460] reg_write data 14                                                
+[    3.622287] reg_write data 30                                                
+[    3.628152] reg_write data 10                                                
+[    3.634053] reg_write data 10                                                
+[    3.639843] reg_write data 10                                                
+[    3.645708] reg_write data e                                                 
+[    3.651434] reg_write data e                                                 
+[    3.657250] reg_write data 0                                                 
+[    3.662965] reg_write data 0                                                 
+[    3.668706] reg_write data c                                                 
+[    3.674458] reg_write data bf                                                
+[    3.680238] reg_write data 0                                                 
+[    3.685984] reg_write data 0                                                 
+[    3.691678] reg_write data 9                                                 
+[    3.697384] reg_write data 9b                                                
+[    3.703203] reg_write data c                                                 
+[    3.715402] reg_write data c0                                                
+[    3.728757] reg_write data 9                                                 
+[    3.736485] reg_write data 9c                                                
+[    3.743040] reg_write data 0                                                 
+[    3.749485] reg_write data 0                                                 
+[    3.755669] reg_write data 1                                                 
+[    3.761602] reg_write data 0                                                 
+[    3.767699] reg_write data 0                                                 
+[    3.773564] reg_write data 0                                                 
+[    3.779459] reg_write_table                                                  
+[    3.783014] reg_write data 1                                                 
+[    3.801399] rza-csi2 e8209000.csi2: rcar_csi2_probe_resources                
+[    3.814284] rza-csi2 e8209000.csi2: rcar_csi2_parse_dt                       
+[    3.821533] rza-csi2 e8209000.csi2: RVC debug: Not connected to subdevice    
+[    3.830331] v4l2_async_register_subdev                                       
+[    3.835990] rza-csi2 e8209000.csi2: RVC debug 0 lanes found                  
+[    3.901436] rcar-vin e803f000.video: Device registered as video0             
+[    4.230022] sh_mobile_sdhi e8228000.sd: mmc0 base at 0xe8228000 max clock raz
+[    4.251724] usbcore: registered new interface driver usbhid                  
+[    4.261864] usbhid: USB HID core driver                                      
+[    4.275952] NET: Registered protocol family 10                               
+[    4.336236] Segment Routing with IPv6                                        
+[    4.347647] sit: IPv6, IPv4 and MPLS over IPv4 tunneling driver              
+[    4.376311] NET: Registered protocol family 17                               
+[    4.388196] Key type dns_resolver registered                                 
+[    4.399317] rza2mevb_init_late: Error: Could not find QSPI clock             
+[    4.480017] hctosys: unable to open rtc device (rtc0)                        
+[    4.528818] VFS: Mounted root (axfs filesystem) readonly on device 0:11.     
+[    4.550438] devtmpfs: mounted                                                
+[    4.561273] Freeing unused kernel memory: 52K                                
+[    4.569575] This architecture does not have kernel memory protection.        
+Starting logging: OK                                                            
+read-only file system detected...done                                           
+Starting network: OK                                                            
+Wed Nov  1 09:00:00 UTC 2017                                                    
+[   10.507780] Console: switching to colour dummy device 80x30                  
+/etc/init.d/S99_rea_setup: line 34: fbv: not found                              
+/etc/init.d/S99_rea_setup: line 47: alsactl: not found                          
+                                                                                
+Welcome to Buildroot                                                            
+buildroot login: root                                                           
+$ media-ctl -d /dev/media0 -l "'rza_csi2 e8209000.csi2':1 -> 'rza_vin e803f000.v
+ideo':0 [1]"                                                                    
+2 e8209000.csi2':1 [fmt:UYVY8_2X8/640x480 field:none]"                          
+yavta /dev/video0 -c1 -n1 -f NV12 -s 640x480 -F"/tmp/NV12#.bin"$ media-ctl -V ""
+$ yavta /dev/video0 -c1 -n1 -f NV12 -s 640x480 -F"/tmp/NV12#.bin"               
+Device /dev/video0 opened.                                                      
+Device `R_Car_VIN' on `platform:e803f000.video' is a video capture device.      
+Video format set: NV12 (3231564e) 640x480 (stride 640) buffer size 460800       
+Video format: NV12 (3231564e) 640x480 (stride 640) buffer size 460800           
+1 buffers requested.                                                            
+length: 460800 offset: 0                                                        
+Buffer 0 mapped at address 0xb6da2000.                                          
+[   33.659877] rcar_csi2_s_stream                                               
+[   33.666476] RVC_Call rcar_csi2_start                                         
+[   33.670840] rza-csi2 e8209000.csi2: Input size (640x480p)                    
+[   33.684949] rza-csi2 e8209000.csi2: PHCLM_REG c                              
+[   33.690007] rza-csi2 e8209000.csi2: PHDLM_REG 3000, priv->lanes 0, lane_mask0
+[   33.697895] rza-csi2 e8209000.csi2: PHYCNT_REG 30013,                        
+[   33.703167] rza-csi2 e8209000.csi2: INTSTATE_REG to 81a1008                  
+[   33.709032] RVC_Call finish rcar_csi2_start                                  
+[   33.713305] RVC_Call rcar_csi2_s_stream before END                           
+[   33.718214] rcar_csi2_s_stream go to mutex_unclock                           
+0 (0) [-] 0 460800 bytes 33.700199 33.734407 -31.229 fps                        
+[   33.838384] rcar_csi2_s_stream                                               
+[   33.843211] RVC_Call rcar_csi2_stop                                          
+[   33.868015] RVC_Call rcar_csi2_s_stream before END                           
+[   33.873678] rcar_csi2_s_stream go to mutex_unclock                           
+Captured 1 frames in 0.002185 seconds (457.478725 fps, 210806196.457834 B/s).   
+1 buffers released.                                                             
+$ ls /tmp/                                                                      
+NV12000000.bin  messages                                                        
+$ 
