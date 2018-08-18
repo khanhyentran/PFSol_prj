@@ -1,0 +1,3 @@
+media-ctl -d /dev/media0 -l "'rza_csi2 e8209000.csi2':1 -> 'rza_vin e803f000.video':0 [1]"
+media-ctl -V "'rza_csi2 e8209000.csi2':1 [fmt:UYVY8_2X8/640x480 field:none]"
+/root/yavta_debug  /dev/video0 -c2 -n2 -f NV12 -s 640x480 -F"/tmp/NV12_2f.bin"
