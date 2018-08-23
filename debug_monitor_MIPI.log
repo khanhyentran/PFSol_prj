@@ -1,291 +1,86 @@
-Power OFF->ON
-
-Current Mode: Fast Read Mode (3-byte Addr)
-SF: Detected mx25l51235f with page size 256 Bytes, erase size 64 KiB, total 64 MiB
-New Mode: Quad I/O Read Mode (4-byte Addr)
-Booting Linux...
-[    0.000000] Booting Linux on physical CPU 0x0
-[    0.000000] Linux version 4.14.43-g033f5ff-dirty (root@3F-L8705-LB00) (gcc version 6.4.1 20170707 (Linaro GCC 8
-[    0.000000] CPU: ARMv7 Processor [414fc091] revision 1 (ARMv7), cr=50c53c7d
-[    0.000000] CPU: PIPT / VIPT nonaliasing data cache, VIPT aliasing instruction cache
-[    0.000000] OF: fdt: Machine model: RZA2MEVB
-[    0.000000] debug: ignoring loglevel setting.
-[    0.000000] bootconsole [earlycon0] enabled
-[    0.000000] Memory policy: Data cache writeback
-[    0.000000] On node 0 totalpages: 2048
-[    0.000000] free_area_init_node: node 0, pgdat c0032eac, node_mem_map c07e8000
-[    0.000000]   Normal zone: 16 pages used for memmap
-[    0.000000]   Normal zone: 0 pages reserved
-[    0.000000]   Normal zone: 2048 pages, LIFO batch:0
-[    0.000000] CPU: All CPU(s) started in SVC mode.
-[    0.000000] pcpu-alloc: s0 r0 d32768 u32768 alloc=1*32768
-[    0.000000] pcpu-alloc: [0] 0 
-[    0.000000] Built 1 zonelists, mobility grouping off.  Total pages: 2032
-[    0.000000] Kernel command line: ignore_loglevel earlyprintk rootfstype=axfs root=/dev/null rootflags=physaddr 
-[    0.000000] PID hash table entries: 32 (order: -5, 128 bytes)
-[    0.000000] Dentry cache hash table entries: 1024 (order: 0, 4096 bytes)
-[    0.000000] Inode-cache hash table entries: 1024 (order: 0, 4096 bytes)
-[    0.000000] Memory: 7452K/8192K available (3021K kernel code, 192K rwdata, 1012K rodata, 145K init, 288K bss, )
-[    0.000000] Virtual kernel memory layout:
-[    0.000000]     vector  : 0xffff0000 - 0xffff1000   (   4 kB)
-[    0.000000]     fixmap  : 0xffc00000 - 0xfff00000   (3072 kB)
-[    0.000000]     vmalloc : 0xc1000000 - 0xff800000   (1000 MB)
-[    0.000000]     lowmem  : 0xc0000000 - 0xc0800000   (   8 MB)
-[    0.000000]     pkmap   : 0xbfe00000 - 0xc0000000   (   2 MB)
-[    0.000000]       .text : 0xbf800000 - 0xbfbf0898   (4035 kB)
-[    0.000000]       .init : 0xc0039000 - 0xc0046000   (  52 kB)
-[    0.000000]       .data : 0xc0008000 - 0xc0038140   ( 193 kB)
-[    0.000000]        .bss : 0xc0046000 - 0xc008e070   ( 289 kB)
-[    0.000000] NR_IRQS: 16, nr_irqs: 16, preallocated irqs: 16
-[    0.000000] L2C-310 cache controller enabled, 8 ways, 128 kB
-[    0.000000] L2C-310: CACHE_ID 0x410000c9, AUX_CTRL 0x02020000
-[    0.000000] clocksource: ostm: mask: 0xffffffff max_cycles: 0xffffffff, max_idle_ns: 28958491609 ns
-[    0.000081] sched_clock: 32 bits at 66MHz, resolution 15ns, wraps every 32537631224ns
-[    0.008422] ostm: used for clocksource
-[    0.014903] ostm: used for clock events
-[    0.022726] Console: colour dummy device 80x30
-[    0.030189] console [tty0] enabled
-[    0.034114] bootconsole [earlycon0] disabled
-[    0.000000] Booting Linux on physical CPU 0x0
-[    0.000000] Linux version 4.14.43-g033f5ff-dirty (root@3F-L8705-LB00) (gcc version 6.4.1 20170707 (Linaro GCC 8
-[    0.000000] CPU: ARMv7 Processor [414fc091] revision 1 (ARMv7), cr=50c53c7d
-[    0.000000] CPU: PIPT / VIPT nonaliasing data cache, VIPT aliasing instruction cache
-[    0.000000] OF: fdt: Machine model: RZA2MEVB
-[    0.000000] debug: ignoring loglevel setting.
-[    0.000000] bootconsole [earlycon0] enabled
-[    0.000000] Memory policy: Data cache writeback
-[    0.000000] On node 0 totalpages: 2048
-[    0.000000] free_area_init_node: node 0, pgdat c0032eac, node_mem_map c07e8000
-[    0.000000]   Normal zone: 16 pages used for memmap
-[    0.000000]   Normal zone: 0 pages reserved
-[    0.000000]   Normal zone: 2048 pages, LIFO batch:0
-[    0.000000] CPU: All CPU(s) started in SVC mode.
-[    0.000000] pcpu-alloc: s0 r0 d32768 u32768 alloc=1*32768
-[    0.000000] pcpu-alloc: [0] 0 
-[    0.000000] Built 1 zonelists, mobility grouping off.  Total pages: 2032
-[    0.000000] Kernel command line: ignore_loglevel earlyprintk rootfstype=axfs root=/dev/null rootflags=physaddr 
-[    0.000000] PID hash table entries: 32 (order: -5, 128 bytes)
-[    0.000000] Dentry cache hash table entries: 1024 (order: 0, 4096 bytes)
-[    0.000000] Inode-cache hash table entries: 1024 (order: 0, 4096 bytes)
-[    0.000000] Memory: 7452K/8192K available (3021K kernel code, 192K rwdata, 1012K rodata, 145K init, 288K bss, )
-[    0.000000] Virtual kernel memory layout:
-[    0.000000]     vector  : 0xffff0000 - 0xffff1000   (   4 kB)
-[    0.000000]     fixmap  : 0xffc00000 - 0xfff00000   (3072 kB)
-[    0.000000]     vmalloc : 0xc1000000 - 0xff800000   (1000 MB)
-[    0.000000]     lowmem  : 0xc0000000 - 0xc0800000   (   8 MB)
-[    0.000000]     pkmap   : 0xbfe00000 - 0xc0000000   (   2 MB)
-[    0.000000]       .text : 0xbf800000 - 0xbfbf0898   (4035 kB)
-[    0.000000]       .init : 0xc0039000 - 0xc0046000   (  52 kB)
-[    0.000000]       .data : 0xc0008000 - 0xc0038140   ( 193 kB)
-[    0.000000]        .bss : 0xc0046000 - 0xc008e070   ( 289 kB)
-[    0.000000] NR_IRQS: 16, nr_irqs: 16, preallocated irqs: 16
-[    0.000000] L2C-310 cache controller enabled, 8 ways, 128 kB
-[    0.000000] L2C-310: CACHE_ID 0x410000c9, AUX_CTRL 0x02020000
-[    0.000000] clocksource: ostm: mask: 0xffffffff max_cycles: 0xffffffff, max_idle_ns: 28958491609 ns
-[    0.000081] sched_clock: 32 bits at 66MHz, resolution 15ns, wraps every 32537631224ns
-[    0.008422] ostm: used for clocksource
-[    0.014903] ostm: used for clock events
-[    0.022726] Console: colour dummy device 80x30
-[    0.030189] console [tty0] enabled
-[    0.034114] bootconsole [earlycon0] disabled
-[    0.039609] Calibrating delay loop (skipped) preset value.. 1056.00 BogoMIPS (lpj=5280000)
-[    0.039837] pid_max: default: 32768 minimum: 301
-[    0.042063] Mount-cache hash table entries: 1024 (order: 0, 4096 bytes)
-[    0.042275] Mountpoint-cache hash table entries: 1024 (order: 0, 4096 bytes)
-[    0.052766] CPU: Testing write buffer coherency: ok
-[    0.069629] Setting up static identity map for 0x3f800200 - 0x3f800254
-[    0.088723] devtmpfs: initialized
-[    0.105220] random: get_random_u32 called from bucket_table_alloc+0xc3/0xec with crng_init=0
-[    0.109468] VFP support v0.3: implementor 41 architecture 3 part 30 variant 9 rev 4
-[    0.117800] clocksource: jiffies: mask: 0xffffffff max_cycles: 0xffffffff, max_idle_ns: 19112604462750000 ns
-[    0.118922] futex hash table entries: 256 (order: -1, 3072 bytes)
-[    0.121125] pinctrl core: initialized pinctrl subsystem
-[    0.139310] NET: Registered protocol family 16
-[    0.149905] DMA: preallocated 256 KiB pool for atomic coherent allocations
-[    0.161754] No ATAGs?
-[    0.480264] SCSI subsystem initialized
-[    0.483041] usbcore: registered new interface driver usbfs
-[    0.483559] usbcore: registered new interface driver hub
-[    0.486622] usbcore: registered new device driver usb
-[    0.487618] media: Linux media interface: v0.10
-[    0.488333] Linux video capture interface: v2.00
-[    0.571573] clocksource: Switched to clocksource ostm
-[    1.075588] NET: Registered protocol family 2
-[    1.088911] TCP established hash table entries: 1024 (order: 0, 4096 bytes)
-[    1.089637] TCP bind hash table entries: 1024 (order: 0, 4096 bytes)
-[    1.089787] TCP: Hash tables configured (established 1024 bind 1024)
-[    1.094782] UDP hash table entries: 256 (order: 0, 4096 bytes)
-[    1.095117] UDP-Lite hash table entries: 256 (order: 0, 4096 bytes)
-[    1.097949] NET: Registered protocol family 1
-[    1.122923] RPC: Registered named UNIX socket transport module.
-[    1.123774] RPC: Registered udp transport module.
-[    1.123810] RPC: Registered tcp transport module.
-[    1.123831] RPC: Registered tcp NFSv4.1 backchannel transport module.
-[    1.173785] workingset: timestamp_bits=30 max_order=11 bucket_order=0
-[    1.190815] NFS: Registering the id_resolver key type
-[    1.193838] Key type id_resolver registered
-[    1.193927] Key type id_legacy registered
-[    1.194392] nfs4filelayout_init: NFSv4 File Layout Driver Registering...
-[    1.194596] nfs4flexfilelayout_init: NFSv4 Flexfile Layout Driver Registering...
-[    1.195300] jffs2: version 2.2. (NAND) �© 2001-2006 Red Hat, Inc.
-[    1.220768] Key type asymmetric registered
-[    1.222766] Asymmetric key parser 'x509' registered
-[    1.226419] Block layer SCSI generic (bsg) driver version 0.4 loaded (major 250)
-[    1.226765] io scheduler noop registered
-[    1.226805] io scheduler deadline registered
-[    1.228148] io scheduler cfq registered (default)
-[    1.228332] io scheduler mq-deadline registered
-[    1.275966] vdc5fb fcff7400.display: fcff7400.display: [gwp0700cnwv04] dotclock 33.000 MHz, dcdr 2
-[    1.310728] vdc5fb: Layer 2 Enabled (800x480 @ 0x80000000)
-[    1.411441] vdc5fb fcff7400.display: update_regs timeout reg=00000080, bits=00000001, now=00000001
-[    1.512057] vdc5fb fcff7400.display: update_regs timeout reg=00000100, bits=00003111, now=00001001
-[    1.612287] vdc5fb fcff7400.display: update_regs timeout reg=00000180, bits=00110011, now=00010011
-[    1.772674] Console: switching to colour frame buffer device 100x30
-[    1.828733] graphics fb0: registered fcff7400.display as 800x480 @ 59 Hz, 16 bpp.
-[    1.866386] Serial: 8250/16550 driver, 4 ports, IRQ sharing disabled
-[    1.936385] SuperH (H)SCI(F) driver initialized
-[    1.955381] e8009000.serial: ttySC0 at MMIO 0xe8009000 (irq = 19, base_baud = 0) is a scif
-[    2.573223] console [ttySC0] enabled
-[    2.613793] 1 ofpart partitions found on MTD device 20000000.qspi
-[    2.627234] random: fast init done
-[    2.635612] Creating 1 MTD partitions on "20000000.qspi":
-[    2.645772] 0x000000800000-0x000001800000 : "user"
-[    2.730625] libphy: Fixed MDIO Bus: probed
-[    2.750635] usbcore: registered new interface driver usb-storage
-[    2.766604] i2c /dev entries driver
-[    2.848261] i2c-riic e803a800.i2c: registered with 400000Hz bus speed
-[    2.928082] ft5x06_set_mode: changed mode to 0x00
-[    2.946322] input: FT5X06 Multiple Touch Controller as /devices/platform/e803ac00.i2c/i2c-3/3-0038/input/input0
-[    3.023769] at24 3-0050: 16384 byte 24c128 EEPROM, writable, 64 bytes/write
-[    3.042011] i2c-riic e803ac00.i2c: registered with 400000Hz bus speed
-[    3.063748] imx219_probe Aug 12
-[    3.075020] imx219_probe 1
-[    3.083143] imx219_ctrls_init
-[    3.092846] imx219_s_ctrl
-[    3.099676] V4L2_CID_HFLIP
-[    3.126911] imx219_s_ctrl
-[    3.136722] V4L2_CID_VFLIP
-[    3.144946] imx219_s_ctrl
-[    3.151813] V4L2_CID_ANALOGUE_GAIN
-[    3.159218] imx219_s_ctrl
-[    3.165300] V4L2_CID_GAIN
-[    3.172275] imx219_s_ctrl
-[    3.178005] V4L2_CID_TEST_PATTERN
-[    3.184549] imx219_s_ctrl_test_pattern
-[    3.191187] imx219_s_ctrl_test_pattern DISABLE
-[    3.198382] imx219_probe 2
-[    3.203786] imx219_probe 3
-[    3.208996] imx219_s_power
-[    3.214770] imx219 2-0010: clk enable
-[    3.220843] imx219_video_probe check chip ID 
-[    3.229416] imx219 2-0010: Model ID 0x0219, Lot ID 0x686b22, Chip ID 0x0411
-[    3.239238] imx219_s_power
-[    3.244548] imx219 2-0010: clk disable
-[    3.250663] v4l2_async_register_subdev
-[    3.256823] imx219_probe 4 camera driver probed ok
-[    3.276154] 
-[    3.276154] [RVC] ../drivers/media/platform/rza-vin/rza-csi2.c, rcar_csi2_probe, 804
-[    3.276372] 
-[    3.276372] [RVC] ../drivers/media/platform/rza-vin/rza-csi2.c, rcar_csi2_probe_resources, 766
-[    3.292875] rza-csi2 e8209000.csi2: rcar_csi2_probe_resources 
-[    3.318367] called v4l2_device_register c041ca00
-[    3.326150] rza-csi2 e8209000.csi2: call rcar_csi2_parse_dt
-[    3.334550] 
-[    3.334550] [RVC] ../drivers/media/platform/rza-vin/rza-csi2.c, rcar_csi2_parse_dt, 703
-[    3.335386] 
-[    3.335386] [RVC] ../drivers/media/platform/rza-vin/rza-csi2.c, rcar_csi2_parse_v4l2, 663
-[    3.350902] rza-csi2 e8209000.csi2: Found '/i2c@e803a800/imx219@10'
-[    3.375891] call v4l2_async_notifier_register c041ca00
-[    3.385149] rcar_csi2_notify_bound
-[    3.391955] 
-[    3.391955] [RVC] ../drivers/media/platform/rza-vin/rza-csi2.c, rcar_csi2_notify_bound, 617
-[    3.392060] 
-[    3.392060] [RVC] ../drivers/media/platform/rza-vin/rza-csi2.c, rcar_csi2_notify_complete, 642
-[    3.435866] priv->subdev.name rza_csi2 e8209000.csi2 
-[    3.465230] v4l2_async_register_subdev
-[    3.472852] v4l2_async_find_match failed
-[    3.480787] rza-csi2 e8209000.csi2: RVC debug 2 lanes found
-[    3.499085] 
-[    3.499085] [RVC] ../drivers/media/platform/rza-vin/rza-core.c, rcar_vin_probe, 1027
-[    3.502847] 
-[    3.502847] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_dma_probe, 1183
-[    3.521354] rvin_dma_probe call v4l2_device_register c0429328 
-[    3.540395] 
-[    3.540395] [RVC] ../drivers/media/platform/rza-vin/rza-core.c, rvin_group_init, 892
-[    3.550777] 
-[    3.550777] [RVC] ../drivers/media/platform/rza-vin/rza-core.c, rvin_group_allocate, 336
-[    3.567903] 
-[    3.567903] [RVC] ../drivers/media/platform/rza-vin/rza-core.c, __rvin_group_allocate, 286
-[    3.609177] 
-[    3.609177] [RVC] ../drivers/media/platform/rza-vin/rza-core.c, rvin_group_add_vin, 308
-[    3.630637] 
-[    3.630637] [RVC] ../drivers/media/platform/rza-vin/rza-core.c, rvin_group_read_id, 246
-[    3.649127] 
-[    3.649127] [RVC] ../drivers/media/platform/rza-vin/rza-core.c, rvin_group_graph_parse, 778
-[    3.667089] 
-[    3.667089] [RVC] ../drivers/media/platform/rza-vin/rza-core.c, rvin_group_read_id, 246
-[    3.685618] 
-[    3.685618] [RVC] ../drivers/media/platform/rza-vin/rza-core.c, rvin_group_get_remote, 755
-[    3.703936] 
-[    3.703936] [RVC] ../drivers/media/platform/rza-vin/rza-core.c, rvin_group_get_remote, 755
-[    3.722569] 
-[    3.722569] [RVC] ../drivers/media/platform/rza-vin/rza-core.c, rvin_group_graph_parse, 778
-[    3.741068] 
-[    3.741068] [RVC] ../drivers/media/platform/rza-vin/rza-core.c, rvin_group_read_id, 246
-[    3.759540] 
-[    3.759540] [RVC] ../drivers/media/platform/rza-vin/rza-core.c, rvin_group_get_remote, 755
-[    3.777896] 
-[    3.777896] [RVC] ../drivers/media/platform/rza-vin/rza-v4l2.c, rvin_v4l2_register, 1137
-[    3.797031] 
-[    3.797031] [RVC] ../drivers/media/platform/rza-vin/rza-v4l2.c, rvin_format_align, 132
-[    3.816089] 
-[    3.816089] [RVC] ../drivers/media/platform/rza-vin/rza-v4l2.c, rvin_format_from_pixel, 74
-[    3.834731] rvin_format_align DEFAULT V4L2_FIELD_NONE
-[    3.863336] 
-[    3.863336] [RVC] ../drivers/media/platform/rza-vin/rza-v4l2.c, __rvin_format_aling_update, 110
-[    3.863511] 
-[    3.863511] [RVC] ../drivers/media/platform/rza-vin/rza-v4l2.c, rvin_format_bytesperline, 85
-[    3.882749] 
-[    3.882749] [RVC] ../drivers/media/platform/rza-vin/rza-v4l2.c, rvin_format_from_pixel, 74
-[    3.901709] 
-[    3.901709] [RVC] ../drivers/media/platform/rza-vin/rza-v4l2.c, rvin_format_sizeimage, 96
-[    3.920793] rcar-vin e803f000.video: Format 800x600 bpl: 1600 size: 960000
-[    3.976700] rcar-vin e803f000.video: Device registered as video0
-[    3.990750] 
-[    3.990750] [RVC] ../drivers/media/platform/rza-vin/rza-core.c, rvin_group_graph_register, 849
-[    3.991228] rcar-vin e803f000.video: Call Notifier registration
-[    4.022397] rcar-vin e803f000.video: Entity type for entity rza_csi2 e8209000.csi2 was not initialized!
-[    4.041374] 
-[    4.041374] [RVC] ../drivers/media/platform/rza-vin/rza-core.c, rvin_group_notify_bound, 734
-[    4.041553] 
-[    4.041553] [RVC] ../drivers/media/platform/rza-vin/rza-core.c, rvin_group_notify_complete, 705
-[    4.060468] rvin_group_notify_complete call v4l2_device_register_subdev_nodes c0429328
-[    4.109161] 
-[    4.109161] [RVC] ../drivers/media/platform/rza-vin/rza-core.c, rvin_group_update_links, 657
-[    4.109498] 
-[    4.109498] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_get_chsel, 1262
-[    4.131837] chsel 0
-[    4.150854] 
-[    4.150854] [RVC] ../drivers/media/platform/rza-vin/rza-core.c, rvin_group_add_link, 635
-[    4.466353] sh_mobile_sdhi e8228000.sd: mmc0 base at 0xe8228000 max clock rate 132 MHz
-[    4.509424] usbcore: registered new interface driver usbhid
-[    4.522262] usbhid: USB HID core driver
-[    4.537686] NET: Registered protocol family 10
-[    4.600841] Segment Routing with IPv6
-[    4.615951] sit: IPv6, IPv4 and MPLS over IPv4 tunneling driver
-[    4.646764] NET: Registered protocol family 17
-[    4.662558] Key type dns_resolver registered
-[    4.675656] rza2mevb_init_late: Error: Could not find QSPI clock
-[    4.750921] hctosys: unable to open rtc device (rtc0)
-[    4.801267] VFS: Mounted root (axfs filesystem) readonly on device 0:11.
-[    4.826552] devtmpfs: mounted
-[    4.838773] Freeing unused kernel memory: 52K
-[    4.848496] This architecture does not have kernel memory protection.
+[    5.079681] v4l2_async_find_match failed
+[    5.087687] rza-csi2 e8209000.csi2: RVC debug 2 lanes found
+[    5.107612] 
+[    5.107612] [RVC] ../drivers/media/platform/rza-vin/rza-core.c, rcar_vin_probe, 1028
+[    5.109810] 
+[    5.109810] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_dma_probe, 1223
+[    5.129060] rvin_dma_probe call v4l2_device_register c06beb28 
+[    5.148425] 
+[    5.148425] [RVC] ../drivers/media/platform/rza-vin/rza-core.c, rvin_group_init, 893
+[    5.158932] 
+[    5.158932] [RVC] ../drivers/media/platform/rza-vin/rza-core.c, rvin_group_allocate, 336
+[    5.175962] 
+[    5.175962] [RVC] ../drivers/media/platform/rza-vin/rza-core.c, __rvin_group_allocate, 286
+[    5.218296] 
+[    5.218296] [RVC] ../drivers/media/platform/rza-vin/rza-core.c, rvin_group_add_vin, 308
+[    5.239333] 
+[    5.239333] [RVC] ../drivers/media/platform/rza-vin/rza-core.c, rvin_group_read_id, 246
+[    5.257577] 
+[    5.257577] [RVC] ../drivers/media/platform/rza-vin/rza-core.c, rvin_group_graph_parse, 779
+[    5.275438] 
+[    5.275438] [RVC] ../drivers/media/platform/rza-vin/rza-core.c, rvin_group_read_id, 246
+[    5.293880] 
+[    5.293880] [RVC] ../drivers/media/platform/rza-vin/rza-core.c, rvin_group_get_remote, 756
+[    5.312431] 
+[    5.312431] [RVC] ../drivers/media/platform/rza-vin/rza-core.c, rvin_group_get_remote, 756
+[    5.331282] 
+[    5.331282] [RVC] ../drivers/media/platform/rza-vin/rza-core.c, rvin_group_graph_parse, 779
+[    5.349667] 
+[    5.349667] [RVC] ../drivers/media/platform/rza-vin/rza-core.c, rvin_group_read_id, 246
+[    5.368065] 
+[    5.368065] [RVC] ../drivers/media/platform/rza-vin/rza-core.c, rvin_group_get_remote, 756
+[    5.386384] 
+[    5.386384] [RVC] ../drivers/media/platform/rza-vin/rza-v4l2.c, rvin_v4l2_register, 1141
+[    5.405246] 
+[    5.405246] [RVC] ../drivers/media/platform/rza-vin/rza-v4l2.c, rvin_format_align, 136
+[    5.423935] 
+[    5.423935] [RVC] ../drivers/media/platform/rza-vin/rza-v4l2.c, rvin_format_from_pixel, 78
+[    5.442405] rvin_format_align DEFAULT V4L2_FIELD_NONE
+[    5.470853] 
+[    5.470853] [RVC] ../drivers/media/platform/rza-vin/rza-v4l2.c, __rvin_format_aling_update, 114
+[    5.471111] 
+[    5.471111] [RVC] ../drivers/media/platform/rza-vin/rza-v4l2.c, rvin_format_bytesperline, 89
+[    5.490296] 
+[    5.490296] [RVC] ../drivers/media/platform/rza-vin/rza-v4l2.c, rvin_format_from_pixel, 78
+[    5.509286] 
+[    5.509286] [RVC] ../drivers/media/platform/rza-vin/rza-v4l2.c, rvin_format_sizeimage, 100
+[    5.528515] rcar-vin e803f000.video: Format 800x600 bpl: 1600 size: 960000
+[    5.578163] rcar-vin e803f000.video: Device registered as video0
+[    5.592093] 
+[    5.592093] [RVC] ../drivers/media/platform/rza-vin/rza-core.c, rvin_group_graph_register, 850
+[    5.592502] rcar-vin e803f000.video: Call Notifier registration
+[    5.623476] rcar-vin e803f000.video: Entity type for entity rza_csi2 e8209000.csi2 was not initialized!
+[    5.642233] 
+[    5.642233] [RVC] ../drivers/media/platform/rza-vin/rza-core.c, rvin_group_notify_bound, 735
+[    5.642411] 
+[    5.642411] [RVC] ../drivers/media/platform/rza-vin/rza-core.c, rvin_group_notify_complete, 706
+[    5.661231] rvin_group_notify_complete call v4l2_device_register_subdev_nodes c06beb28
+[    5.707070] 
+[    5.707070] [RVC] ../drivers/media/platform/rza-vin/rza-core.c, rvin_group_update_links, 658
+[    5.707339] 
+[    5.707339] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_get_chsel, 1302
+[    5.728836] chsel 0
+[    5.747845] 
+[    5.747845] [RVC] ../drivers/media/platform/rza-vin/rza-core.c, rvin_group_add_link, 636
+[    6.066503] sh_mobile_sdhi e8228000.sd: mmc0 base at 0xe8228000 max clock rate 132 MHz
+[    6.109963] usbcore: registered new interface driver usbhid
+[    6.122669] usbhid: USB HID core driver
+[    6.138308] NET: Registered protocol family 10
+[    6.207912] Segment Routing with IPv6
+[    6.222598] sit: IPv6, IPv4 and MPLS over IPv4 tunneling driver
+[    6.253825] NET: Registered protocol family 17
+[    6.267820] Key type dns_resolver registered
+[    6.280650] rza2mevb_init_late: Error: Could not find QSPI clock
+[    6.358724] hctosys: unable to open rtc device (rtc0)
+[    6.419747] VFS: Mounted root (axfs filesystem) readonly on device 0:11.
+[    6.440688] devtmpfs: mounted
+[    6.452980] Freeing unused kernel memory: 52K
+[    6.462765] This architecture does not have kernel memory protection.
 Starting logging: OK
 read-only file system detected...done
 Starting network: OK
 Wed Nov  1 09:00:00 UTC 2017
-[   10.800694] Console: switching to colour dummy device 80x30
+[   12.910244] Console: switching to colour dummy device 80x30
 /etc/init.d/S99_rea_setup: line 34: fbv: not found
 /etc/init.d/S99_rea_setup: line 47: alsactl: not found
 
@@ -293,2271 +88,321 @@ Welcome to Buildroot
 buildroot login: root
 $ media-ctl -d /dev/media0 -l "'rza_csi2 e8209000.csi2':1 -> 'rza_vin e803f000.v
 ideo':0 [1]"
-2 e8209000.csi2':1 [fmt:UYVY8_2X8/640x480 field:none]"
-/root/yavta_debug  /dev/video0 -c2 -n2 -f NV12 -s 640x480 -F"/tmp/NV12_2f.bin"$ media-ctl -V "'rza_csi2 e8209000."
-$ /root/yavta_debug  /dev/video0 -c2 -n2 -f NV12 -s 640x480 -F"/tmp/NV12_2f.bin"
-[   43.999655] 
-[   43.999655] [RVC] ../drivers/media/platform/rza-vin/rza-csi2.c, rcar_csi2_set_pad_format, 561
-[   45.007079] 
-[   45.007079] [RVC] ../drivers/media/platform/rza-vin/rza-v4l2.c, rvin_mc_open, 1041
-[   45.019892] 
-[   45.019892] [RVC] ../drivers/media/platform/rza-vin/rza-v4l2.c, rvin_get_sd_format, 232
-[   45.030410] 
-[   45.030410] [RVC] ../drivers/media/platform/rza-vin/rza-csi2.c, rcar_csi2_get_pad_format, 580
-[   45.040227] 
-[   45.040227] [RVC] ../drivers/media/platform/rza-vin/rza-v4l2.c, rvin_format_bytesperline, 85
-[   45.050512] 
-[   45.050512] [RVC] ../drivers/media/platform/rza-vin/rza-v4l2.c, rvin_format_from_pixel, 74
+ e8209000.csi2':1 [fmt:SRGGB8_1X8/320x240 field:none]"
+/root/yavta_debug  /dev/video0 -c1 -n1 -f SRGGB8 -s 320x240 -F"/tmp/SRGGB8.bin"$ media-ctl -V "'rza_csi2 e8209000.csi2':1 [fmt:SRGGB8"
+$ /root/yavta_debug  /dev/video0 -c1 -n1 -f SRGGB8 -s 320x240 -F"/tmp/SRGGB8.bin
+"
+[   25.688550] 
+[   25.688550] [RVC] ../drivers/media/platform/rza-vin/rza-csi2.c, rcar_csi2_set_pad_format, 572
+[   26.339819] 
+[   26.339819] [RVC] ../drivers/media/platform/rza-vin/rza-v4l2.c, rvin_mc_open, 1045
+[   26.352713] 
+[   26.352713] [RVC] ../drivers/media/platform/rza-vin/rza-v4l2.c, rvin_get_sd_format, 236
+[   26.363128] 
+[   26.363128] [RVC] ../drivers/media/platform/rza-vin/rza-csi2.c, rcar_csi2_get_pad_format, 591
+[   26.373039] 
+[   26.373039] [RVC] ../drivers/media/platform/rza-vin/rza-v4l2.c, rvin_format_bytesperline, 89
+[   26.383351] 
+[   26.383351] [RVC] ../drivers/media/platform/rza-vin/rza-v4l2.c, rvin_format_from_pixel, 78
 Device /dev/video0 opened.
-[   45.062013] 
-[   45.062013] [RVC] ../drivers/media/platform/rza-vin/rza-v4l2.c,end of rvin_mc_open, 1059
-Device `R_Car_VIN' on `p[   45.116213] 
-[   45.116213] [RVC] ../drivers/media/platform/rza-vin/rza-v4l2.c, rvin_querycap, 380
-latform:e803f000[   45.129577] 
-[   45.129577] [RVC] ../drivers/media/platform/rza-vin/rza-v4l2.c, rvin_mc_s_fmt_vid_cap, 828
-.video' is a vid[   45.140767] 
-[   45.140767] [RVC] ../drivers/media/platform/rza-vin/rza-v4l2.c, __rvin_mc_try_format, 811
-eo capture devic[   45.152096] 
-[   45.152096] [RVC] ../drivers/media/platform/rza-vin/rza-v4l2.c, rvin_format_align, 132
+[   26.394801] 
+[   26.394801] [RVC] ../drivers/media/platform/rza-vin/rza-v4l2.c,end of rvin_mc_open, 1063
+Device `R_Car_VIN' on `p[   26.447395] 
+[   26.447395] [RVC] ../drivers/media/platform/rza-vin/rza-v4l2.c, rvin_querycap, 384
+latform:e803f000[   26.460823] 
+[   26.460823] [RVC] ../drivers/media/platform/rza-vin/rza-v4l2.c, rvin_mc_s_fmt_vid_cap, 832
+.video' is a vid[   26.472201] 
+[   26.472201] [RVC] ../drivers/media/platform/rza-vin/rza-v4l2.c, __rvin_mc_try_format, 815
+eo capture devic[   26.483572] 
+[   26.483572] [RVC] ../drivers/media/platform/rza-vin/rza-v4l2.c, rvin_format_align, 136
 e.
-[   45.163251] 
-[   45.163251] [RVC] ../drivers/media/platform/rza-vin/rza-v4l2.c, rvin_format_from_pixel, 74
-[   45.174228] 
-[   45.174228] [RVC] ../drivers/media/platform/rza-vin/rza-v4l2.c, __rvin_format_aling_update, 110
-[   45.184417] 
-[   45.184417] [RVC] ../drivers/media/platform/rza-vin/rza-v4l2.c, rvin_format_bytesperline, 85
-[   45.194776] 
-[   45.194776] [RVC] ../drivers/media/platform/rza-vin/rza-v4l2.c, rvin_format_from_pixel, 74
-[   45.204892] 
-[   45.204892] [RVC] ../drivers/media/platform/rza-vin/rza-v4l2.c, rvin_format_sizeimage, 96
-[   45.215410] rcar-vin e803f000.video: Format 640x480 bpl: 640 size: 460800
-Video format set: NV12 (3231564e) 640x480 (stride 640) buffer size 4[   45.273567] 
-[   45.273567] [RVC] ../drivers/media/platform/rza-vin/rza-v4l2.c, rvin_g_fmt_vid_cap, 418
-60800
-Video format: NV12 (3231564e) 640x480 (stride 640) buffer size 460800
-2 buffers requested.
-length: 460800 offset: 0
-Buffer 0 mapped at address 0xb6f7e000.
-length: 460800[   45.275617] 
-[   45.275617] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_queue_setup, 870
-[   45.339240] 
-[   45.339240] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_buffer_queue, 902
-
-Buffer 1 mapped[   45.351644] 
-[   45.351644] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_buffer_queue, 902
- at address 0xb6[   45.363027] 
-[   45.363027] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_start_streaming, 1030
-f0d000.
-[   45.374006] 
-[   45.374006] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_set_stream, 941
-[   45.385325] 
-[   45.385325] [RVC] ../drivers/media/platform/rza-vin/rza-csi2.c, rcar_csi2_get_pad_format, 580
-[   45.395794] 
-[   45.395794] [RVC] ../drivers/media/platform/rza-vin/rza-csi2.c, rcar_csi2_s_stream, 507
-[   45.406958] RVC_Call rcar_csi2_start
-[   45.420504] 
-[   45.420504] [RVC] ../drivers/media/platform/rza-vin/rza-csi2.c, rcar_csi2_start, 364
-[   45.420959] rza-csi2 e8209000.csi2: Input size (640x480p)
-[   45.436048] before FCNTM_REG 0
-[   45.436076] before PHYDIM_REG 0
-[   45.439200] before PHYIM_REG 0
-[   45.442440] before VINDM_REG 0
-[   45.445564] before VINSM1_REG 0
-[   45.448651] before VINSM3_REG 0
-[   45.451892] before PHYOM_REG 0
-[   45.455128] Check virtual channel setting 805e
-[   45.458214] <2 Check virtual channel setting 805e
-[   45.462732] Check virtual channel setting 815e
-[   45.467472] <2 Check virtual channel setting 815e805e
-[   45.471998]  Check virtual channel setting 815e805e,  815e, 0, 8000, 40, 1e 
-[   45.484254] 
-[   45.484254] [RVC] ../drivers/media/platform/rza-vin/rza-csi2.c, rcar_csi2_calc_phy_timing, 322
-[   45.484351] PHYTIM3_REG e09
-[   45.494587] PHYTIM2_REG 30f0a
-[   45.497406] PHYTIM1_REG 338f
-[   45.500428] INTSTATE_REG 0
-[   45.503365] TREF_REG 1
-[   45.506117] 
-[   45.506117] [RVC] ../drivers/media/platform/rza-vin/rza-csi2.c, rcar_csi2_reset, 261
-[   45.564577] SRST_REG 0
-[   45.575519] FLD_REG 1
-[   45.578020] VCDT_REG 815e805e
-[   45.580342] LSWAP_REG 4
-[   45.583779] PHYCNT_REG 13
-[   45.586335] PHYCNT_REG 0
-[   45.588993] PHYCNT_REG 20013
-[   45.591737] PHYCNT_REG 30013
-[   45.594756] 
-[   45.594756] [RVC] ../drivers/media/platform/rza-vin/rza-csi2.c, rcar_csi2_wait_phy_start, 271
-[   45.597943] rza-csi2 e8209000.csi2: PHCLM_REG c
-[   45.612850] rza-csi2 e8209000.csi2: PHDLM_REG 3000, priv->lanes 2, lane_mask 3
-[   45.620179] rza-csi2 e8209000.csi2: PHYCNT_REG 30013, 
-[   45.625444] phy_start FCNTM_REG 0
-[   45.625460] phy_start PHYDIM_REG 0
-[   45.628829] phy_start PHYIM_REG 0
-[   45.632354] phy_start VINDM_REG 0
-[   45.635702] phy_start VINSM1_REG 0
-[   45.639042] phy_start VINSM3_REG 0
-[   45.642522] phy_start PHYOM_REG 13
-[   45.645980] rza-csi2 e8209000.csi2: INTSTATE_REG to 0
-[   45.654571] RVC_Call finish rcar_csi2_start
-[   45.658844] imx219_s_power
-[   45.662028] imx219 2-0010: clk enable
-[   45.665799] imx219_s_stream
-[   45.668637] Before reg_write_table 
-[   45.672262] reg_write data 1
-[   45.708463] reg_write data 5
-[   45.715590] reg_write data c
-[   45.721554] reg_write data ff
-[   45.732745] reg_write data ff
-[   45.747125] reg_write data 5
-[   45.763904] reg_write data 9
-[   45.770029] reg_write data 1
-[   45.782831] reg_write data 0
-[   45.794137] reg_write data 18
-[   45.807109] reg_write data 0
-[   45.817453] reg_write data a
-[   45.826791] reg_write data 83
-[   45.833471] reg_write data d
-[   45.838847] reg_write data 78
-[   45.850563] reg_write data 1
-[   45.860289] reg_write data 1
-[   45.866656] reg_write data 0
-[   45.872157] reg_write data 0
-[   45.877503] reg_write data 8
-[   45.890475] reg_write data 8
-[   45.900108] reg_write data 5
-[   45.906453] reg_write data 1
-[   45.912038] reg_write data 2
-[   45.917310] reg_write data 2
-[   45.930525] reg_write data 0
-[   45.940173] reg_write data 76
-[   45.946617] reg_write data 8
-[   45.952087] reg_write data 0
-[   45.957306] reg_write data 4e
-[   45.969731] reg_write data 0
-[   45.979202] reg_write data 4b
-[   45.985675] reg_write data f
-[   45.990877] reg_write data 14
-[   45.999480] reg_write data 0
-[   46.012749] reg_write data 14
-[   46.018694] reg_write data 30
-[   46.029439] reg_write data 10
-[   46.035918] reg_write data 10
-[   46.041360] reg_write data 10
-[   46.049587] reg_write data e
-[   46.064681] reg_write data e
-[   46.070651] After reg_write_table and before handle crop 
-[   46.076651] reg_write data 0
-[   46.083541] reg_write data 0
-[   46.098548] reg_write data 2
-[   46.113734] reg_write data 7f
-[   46.119993] reg_write data 0
-[   46.133470] reg_write data 0
-[   46.143987] reg_write data 1
-[   46.149875] reg_write data df
-[   46.160870] reg_write data 2
-[   46.167694] reg_write data 80
-[   46.179524] reg_write data 1
-[   46.186099] reg_write data e0
-[   46.191733] After handle crop 
-[   46.194883] reg_write data 0
-[   46.200158] reg_write data 0
-[   46.210595] reg_write data 1
-[   46.225576] reg_write data 0
-[   46.232006] reg_write data 0
-[   46.240697] reg_write data 0
-[   46.252695] before reg_write_table again 
-[   46.257110] reg_write data 1
-[   46.263019] RVC_Call rcar_csi2_s_stream before END
-[   46.267951] rcar_csi2_s_stream go to mutex_unclock
-[   46.273198] 
-[   46.273198] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_capture_start, 621
-[   46.273307] 
-[   46.273307] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_fill_hw, 589
-[   46.282810] limit = 1 , vin->continuous 0, HW_BUFFER_NUM 3 
-[   46.297367] 
-[   46.297367] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_fill_hw_slot, 564
-[   46.297798] rcar-vin e803f000.video: Filling HW slot: 0
-[   46.312595] 
-[   46.312595] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_set_slot_addr, 535
-[   46.312694] 
-[   46.312694] [RVC] ../drivers/media/platform/rza-vin/rza-v4l2.c, rvin_format_from_pixel, 74
-[   46.322350] VNMB_REG(0) 40380000, 30
-[   46.335820] 
-[   46.335820] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c,end of rvin_set_slot_addr, 555
-[   46.335828] 
-[   46.335828] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c,end of rvin_fill_hw, 595
-[   46.345848] 
-[   46.345848] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_crop_scale_comp, 259
-[   46.355361] VNSPPRC_REG 64
-[   46.365012] VNEPPRC_REG 383
-[   46.367821] default VNSLPRC_REG 18
-[   46.370654] VNELPRC_REG 1f7
-[   46.374089] 
-[   46.374089] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_crop_scale_comp_gen3, 211
-[   46.376950] 
-[   46.376950] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_get_bwidth, 185
-[   46.387044] 
-[   46.387044] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_get_bwidth, 185
-[   46.396255] VNIS_REG 280
-[   46.405462] 
-[   46.405462] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_setup, 319
-[   46.408066]  input MEDIA_BUS_FMT_UYVY8_2X8 
-[   46.421071] Enable VSYNC Field RCAR_GEN3 dmr2 20000
-[   46.426018] output V4L2_PIX_FMT_NV12 dmr 0
-[   46.430171] interrupts 2
-[   46.432726] VNINTS_REG 40020000
-[   46.435894] VNIE_REG 2
-[   46.438273] VNDMR_REG 0
-[   46.438290] VNDMR2_REG 8021000
-[   46.440764] VNMC_REG 3004000b
-[   46.443844] 
-[   46.443844] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_capture_on, 601
-[   46.446872] rcar-vin e803f000.video: Capture on in single mode
-[   46.461953] Single Frame VNFC_REG 0
-[   46.497601] 
-[   46.497601] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_irq, 736
-[   46.497811] 
-[   46.497811] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_get_interrupt_status, 502
-[   46.507039] VNINTS_REG c0030012
-[   46.517191] 
-[   46.517191] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_ack_interrupt, 509
-[   46.520426] VNINTS_REG 0
-[   46.529941] 
-[   46.529941] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_get_active_slot, 523
-[   46.532498] VNMS_REG 8
-[   46.542435] rcar-vin e803f000.video: IRQ 00: 0       buf0: x buf1: 0 buf2: 0 more: 1
-[   46.552124] 
-[   46.552124] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_seq_field_done, 684
-[   46.552408] 
-[   46.552408] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_fill_hw, 589
-[   46.561986] limit = 1 , vin->continuous 0, HW_BUFFER_NUM 3 
-[   46.576536] 
-[   46.576536] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_fill_hw_slot, 564
-[   46.576548] rcar-vin e803f000.video: Filling HW slot: 0
-[   46.591251] 
-[   46.591251] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_set_slot_addr, 535
-[   46.591347] 
-[   46.591347] [RVC] ../drivers/media/platform/rza-vin/rza-v4l2.c, rvin_format_from_pixel, 74
-[   46.600884] VNMB_REG(0) 40200000, 30
-[   46.614325] 
-[   46.614325] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c,end of rvin_set_slot_addr, 555
-[   46.614333] 
-[   46.614333] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c,end of rvin_fill_hw, 595
-[   46.624326] 
-[   46.624326] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_capture_on, 601
-[   46.633805] rcar-vin e803f000.video: Capture on in single mode
-[   46.648881] Single Frame VNFC_REG 0
-[   46.693738] 
-[   46.693738] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_irq, 736
-[   46.693895] 
-[   46.693895] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_get_interrupt_status, 502
-[   46.703137] VNINTS_REG c0030012
-[   46.713303] 
-[   46.713303] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_ack_interrupt, 509
-[   46.716530] VNINTS_REG 0
-[   46.726013] 
-[   46.726013] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_get_active_slot, 523
-[   46.728572] VNMS_REG 8
-[   46.738525] rcar-vin e803f000.video: IRQ 01: 0       buf0: x buf1: 0 buf2: 0 more: 0
-[   46.748223] 
-[   46.748223] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_seq_field_done, 684
-[   46.748427] 
-[   46.748427] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_fill_hw, 589
-[   46.758009] limit = 1 , vin->continuous 0, HW_BUFFER_NUM 3 
-0 (0) [-] 0 460800 bytes 46.531254 46.761501 -4.399 fps
+[   26.494812] 
+[   26.494812] [RVC] ../drivers/media/platform/rza-vin/rza-v4l2.c, rvin_format_from_pixel, 78
+[   26.505846] 
+[   26.505846] [RVC] ../drivers/media/platform/rza-vin/rza-v4l2.c, __rvin_format_aling_update, 114
+[   26.516093] 
+[   26.516093] [RVC] ../drivers/media/platform/rza-vin/rza-v4l2.c, rvin_format_bytesperline, 89
+[   26.526471] 
+[   26.526471] [RVC] ../drivers/media/platform/rza-vin/rza-v4l2.c, rvin_format_from_pixel, 78
+[   26.536561] 
+[   26.536561] [RVC] ../drivers/media/platform/rza-vin/rza-v4l2.c, rvin_format_sizeimage, 100
+[   26.546962] rcar-vin e803f000.video: Format 320x240 bpl: 1280 size: 307200
+Video format set: SRGGB8 (42474752) 320x240 (stride 1280) buffer size 30[   26.609086] 
+[   26.609086] [RVC] ../drivers/media/platform/rza-vin/rza-v4l2.c, rvin_g_fmt_vid_cap, 422
+7200
+Video format: SRGGB8 (42474752) 320x240 (stride 1280) buffer size 307200
+1 buffers requested.
+length: 307200 offset: 0
+Buffer 0 mapped at address 0xb6f50000.
+[   26.611047] 
+[   26.611047] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_queue_setup, 908
+[   26.663777] 
+[   26.663777] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_buffer_queue, 940
+[   26.674807] 
+[   26.674807] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_start_streaming, 1069
+[   26.684827] 
+[   26.684827] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_set_stream, 979
+[   26.694963] 
+[   26.694963] [RVC] ../drivers/media/platform/rza-vin/rza-csi2.c, rcar_csi2_get_pad_format, 591
+[   26.704944] 
+[   26.704944] [RVC] ../drivers/media/platform/rza-vin/rza-csi2.c, rcar_csi2_s_stream, 510
+[   26.716243] RVC_Call rcar_csi2_start
+[   26.729710] 
+[   26.729710] [RVC] ../drivers/media/platform/rza-vin/rza-csi2.c, rcar_csi2_start, 366
+[   26.730130] rza-csi2 e8209000.csi2: Input size (320x240p)
+[   26.745272] before FCNTM_REG 0
+[   26.745310] before PHYDIM_REG 0
+[   26.748422] before PHYIM_REG 0
+[   26.751720] before VINDM_REG 0
+[   26.754834] before VINSM1_REG 0
+[   26.757916] before VINSM3_REG 0
+[   26.761188] before PHYOM_REG 0
+[   26.764386] 
+[   26.764386] [RVC] ../drivers/media/platform/rza-vin/rza-csi2.c, rcar_csi2_calc_phy_timing, 322
+[   26.767550] PHYTIM3_REG e09
+[   26.777771] PHYTIM2_REG 30f0a
+[   26.780603] PHYTIM1_REG 338f
+[   26.783665] INTSTATE_REG 0
+[   26.786610] TREF_REG 1
+[   26.789355] 
+[   26.789355] [RVC] ../drivers/media/platform/rza-vin/rza-csi2.c, rcar_csi2_reset, 261
+[   26.835721] SRST_REG 0
+[   26.847035] FLD_REG 1
+[   26.849497] VCDT_REG 11e802a
+[   26.852145] LSWAP_REG 4
+[   26.855136] PHYCNT_REG 13
+[   26.857630] PHYCNT_REG 0
+[   26.860279] PHYCNT_REG 20013
+[   26.863004] PHYCNT_REG 30013
+[   26.866026] 
+[   26.866026] [RVC] ../drivers/media/platform/rza-vin/rza-csi2.c, rcar_csi2_wait_phy_start, 271
+[   26.869331] rza-csi2 e8209000.csi2: PHCLM_REG d
+[   26.884326] rza-csi2 e8209000.csi2: PHDLM_REG 3003, priv->lanes 2, lane_mask 3
+[   26.891660] phy_start FCNTM_REG 1
+[   26.891665] phy_start PHYDIM_REG 0
+[   26.895040] phy_start PHYIM_REG d4
+[   26.898472] phy_start VINDM_REG 20002
+[   26.901956] phy_start VINSM1_REG 2001
+[   26.905657] phy_start VINSM3_REG c1f0
+[   26.909400] phy_start PHYOM_REG 13
+[   26.913147] RVC_Call finish rcar_csi2_start
+[   26.920846] imx219_s_power
+[   26.923998] imx219 2-0010: clk enable
+[   26.927771] imx219_s_stream
+[   26.930627] Before reg_write_table 
+[   26.934304] reg_write data 1
+[   26.979171] reg_write data 5
+[   26.986765] reg_write data c
+[   26.992986] reg_write data ff
+[   26.998748] reg_write data ff
+[   27.012744] reg_write data 5
+[   27.027343] reg_write data 9
+[   27.037652] reg_write data 1
+[   27.047598] reg_write data 0
+[   27.057364] reg_write data 18
+[   27.067319] reg_write data 0
+[   27.077078] reg_write data a
+[   27.083626] reg_write data 83
+[   27.089220] reg_write data d
+[   27.102466] reg_write data 78
+[   27.112311] reg_write data 1
+[   27.117968] reg_write data 1
+[   27.128705] reg_write data 0
+[   27.135236] reg_write data 0
+[   27.140443] reg_write data 8
+[   27.152899] reg_write data 8
+[   27.162763] reg_write data 5
+[   27.168465] reg_write data 1
+[   27.178866] reg_write data 2
+[   27.185477] reg_write data 2
+[   27.190826] reg_write data 0
+[   27.202755] reg_write data 76
+[   27.212968] reg_write data 8
+[   27.218678] reg_write data 0
+[   27.229355] reg_write data 4e
+[   27.239433] reg_write data 0
+[   27.245896] reg_write data 4b
+[   27.251549] reg_write data f
+[   27.260245] reg_write data 14
+[   27.273397] reg_write data 0
+[   27.279142] reg_write data 14
+[   27.289892] reg_write data 30
+[   27.296364] reg_write data 10
+[   27.301913] reg_write data 10
+[   27.307381] reg_write data 10
+[   27.320094] reg_write data e
+[   27.329945] reg_write data e
+[   27.336256] After reg_write_table and before handle crop 
+[   27.342039] reg_write data 0
+[   27.350834] reg_write data 0
+[   27.363934] reg_write data 2
+[   27.369837] reg_write data 7f
+[   27.382993] reg_write data 0
+[   27.392887] reg_write data 0
+[   27.398513] reg_write data 1
+[   27.409216] reg_write data df
+[   27.415889] reg_write data 2
+[   27.421365] reg_write data 80
+[   27.429856] reg_write data 1
+[   27.442401] reg_write data e0
+[   27.448350] After handle crop 
+[   27.451836] reg_write data 0
+[   27.460309] reg_write data 0
+[   27.472961] reg_write data 1
+[   27.478725] reg_write data 0
+[   27.489699] reg_write data 0
+[   27.499421] reg_write data 0
+[   27.505769] before reg_write_table again 
+[   27.509864] reg_write data 1
+[   27.522358] RVC_Call v4l2_subdev_call
+[   27.526522] after1 FCNTM_REG 6
+[   27.526552] after1 PHYDIM_REG 0
+[   27.529660] after1 PHYIM_REG 80000000
+[   27.533179] after1 VINDM_REG 0
+[   27.536885] after1 VINSM1_REG 7000
+[   27.539993] after1 VINSM3_REG c1f0
+[   27.543550] after1 PHYOM_REG 13
+[   27.547031] RVC_Call rcar_csi2_s_stream before END
+[   27.555116] rcar_csi2_s_stream go to mutex_unclock
+[   27.560205] 
+[   27.560205] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_capture_start, 654
+[   27.560294] 
+[   27.560294] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_fill_hw, 622
+[   27.569782] limit = 1 , vin->continuous 0, HW_BUFFER_NUM 3 
+[   27.584337] 
+[   27.584337] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_fill_hw_slot, 597
+[   27.584745] rcar-vin e803f000.video: Filling HW slot: 0
+[   27.599540] 
+[   27.599540] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_set_slot_addr, 555
+[   27.599629] 
+[   27.599629] [RVC] ../drivers/media/platform/rza-vin/rza-v4l2.c, rvin_format_from_pixel, 78
+[   27.609187] offsetx  0 
+[   27.621465] offsety  0 
+[   27.623935] addr  40380000, offset 0 
+[   27.627639] 
+[   27.627639] [RVC] ../drivers/media/platform/rza-vin/rza-v4l2.c, rvin_format_from_pixel, 78
+[   27.627645] offsetx  0 
+[   27.639928] offsety  0 
+[   27.642394] addr  40380000, offset 0 
+[   27.646102] 0 rvin_irq VNMB_REG(0) 0, 30
+[   27.650066] 0 rvin_irq VNMB_REG(1) 0, 34
+[   27.654030] 0 rvin_irq VNMB_REG(2) 0, 38
+[   27.658012] VNMB_REG(0) 40380000, 30
+[   27.661620] 
+[   27.661620] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c,end of rvin_set_slot_addr, 588
+[   27.661626] 
+[   27.661626] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c,end of rvin_fill_hw, 628
+[   27.671618] 
+[   27.671618] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_crop_scale_comp, 260
+[   27.681114] VNSPPRC_REG 64
+[   27.690782] VNEPPRC_REG 383
+[   27.693579] default VNSLPRC_REG 18
+[   27.696416] VNELPRC_REG 1f7
+[   27.699853] 
+[   27.699853] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_crop_scale_comp_gen3, 212
+[   27.702708] 
+[   27.702708] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_get_bwidth, 186
+[   27.712787] 
+[   27.712787] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_get_bwidth, 186
+[   27.722001] VNIS_REG 140
+[   27.731206] 
+[   27.731206] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_setup, 320
+[   27.733764] progressive = true 
+[   27.745716] Support MEDIA_BUS_FMT_SRGGB8_1X8
+[   27.745807] Enable FTEV dmr2 20000
+[   27.753538] Enable VNDMR2_HPS dmr2 20020000
+[   27.757769] Enable VNDMR2_VPS dmr2 60020000
+[   27.762049] output V4L2_PIX_FMT_UYVY 
+[   27.765760] 
+[   27.765760] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_is_scaling, 305
+[   27.765804] interrupts 10
+[   27.777648] VNINTS_REG d0030000
+[   27.780818] VNIE_REG 10
+[   27.783288] VNDMR_REG 0
+[   27.783295] VNDMR2_REG 60020000
+[   27.785775] VNMC_REG 4000b
+[   27.788941] 
+[   27.788941] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_capture_on, 634
+[   27.791707] rcar-vin e803f000.video: Capture on in single mode
+[   27.806790] Single Frame VNFC_REG 0
+[   27.823700] 
+[   27.823700] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_irq, 770
+[   27.823888] 
+[   27.823888] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_get_interrupt_status, 520
+[   27.832919] VNINTS_REG d0030010
+[   27.843046] 
+[   27.843046] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_ack_interrupt, 527
+[   27.846229] VNINTS_REG 0
+[   27.855736] VNMS_REG c
+[   27.858311] 
+[   27.858311] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_get_active_slot, 543
+[   27.860693] VNMS_REG c
+[   27.870616] rcar-vin e803f000.video: IRQ 00: 0       buf0: x buf1: 0 buf2: 0 more: 0
+[   27.880303] 
+[   27.880303] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_seq_field_done, 717
+[   27.880346] rvin_seq_field_done VNMS_REG c
+[   27.889931] 1 rvin_irq VNMB_REG(0) 40380000, 30
+[   27.898670] 1 rvin_irq VNMB_REG(1) 0, 34
+[   27.902643] 1 rvin_irq VNMB_REG(2) 0, 38
+[   27.906803] 
+[   27.906803] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_fill_hw, 622
+[   27.906823] limit = 1 , vin->continuous 0, HW_BUFFER_NUM 3 
+0 (0) [-] 0 307200 bytes 27.868949 27.989961 -8.405 fps
 write buf(0)
-Content of buf 0 at address b6f7e000
-Content of buf 0 at address b6f7e001
-Content of buf 0 at address b6f7e002
-Content of buf 0 at address b6f7e003
-Content of buf 0 at address b6f7e004
-Content of buf 0 at address b6f7e005
-Content of buf 0 at address b6f7e006
-Content of buf 0 at address b6f7e007
-Content of buf 0 at address b6f7e008
-Content of buf 0 at address b6f7e009
-write buf(0)
-1 (1) [-] 1 460800 bytes 46.727343 46.926773 5.100 fps
-write buf(1)
-Content of buf 0 at address b6f0d000
-Content of buf 0 at address b6f0d001
-Content of buf 0 at address b6f0d002
-Content of buf[   46.772560] 
-[   46.772560] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_fill_hw_slot, 564
- 0 at address b6[   47.049334] 
-[   47.049334] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_buffer_queue, 902
-[   47.062429] 
-[   47.062429] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_fill_hw, 589
-[   47.072849] limit = 1 , vin->continuous 0, HW_BUFFER_NUM 3 
-[   47.087439] 
-[   47.087439] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_fill_hw_slot, 564
-[   47.087907] rcar-vin e803f000.video: Filling HW slot: 0
-[   47.102727] 
-[   47.102727] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_set_slot_addr, 535
-[   47.102819] 
-[   47.102819] [RVC] ../drivers/media/platform/rza-vin/rza-v4l2.c, rvin_format_from_pixel, 74
-[   47.112459] VNMB_REG(0) 40200000, 30
-[   47.125923] 
-[   47.125923] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c,end of rvin_set_slot_addr, 555
-[   47.125938] 
-[   47.125938] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c,end of rvin_fill_hw, 595
-[   47.135952] 
-[   47.135952] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_capture_start, 621
-[   47.145450] 
-[   47.145450] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_fill_hw, 589
-[   47.154927] limit = 1 , vin->continuous 0, HW_BUFFER_NUM 3 
-[   47.169484] 
-[   47.169484] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_fill_hw_slot, 564
-[   47.169491] 
-[   47.169491] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c,end of rvin_fill_hw, 595
-[   47.178880] 
-[   47.178880] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_crop_scale_comp, 259
-[   47.188403] VNSPPRC_REG 64
-[   47.198045] VNEPPRC_REG 383
-[   47.200829] default VNSLPRC_REG 18
-[   47.203669] VNELPRC_REG 1f7
-[   47.207109] 
-[   47.207109] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_crop_scale_comp_gen3, 211
-[   47.209971] 
-[   47.209971] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_get_bwidth, 185
-[   47.220073] 
-[   47.220073] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_get_bwidth, 185
-[   47.229292] VNIS_REG 280
-[   47.238498] 
-[   47.238498] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_setup, 319
-[   47.241100]  input MEDIA_BUS_FMT_UYVY8_2X8 
-[   47.254108] Enable VSYNC Field RCAR_GEN3 dmr2 20000
-[   47.259055] output V4L2_PIX_FMT_NV12 dmr 0
-[   47.263208] interrupts 2
-[   47.265762] VNINTS_REG 40020000
-[   47.268931] VNIE_REG 2
-[   47.271309] VNDMR_REG 0
-[   47.271327] VNDMR2_REG 8021000
-[   47.273801] VNMC_REG 3004000b
-[   47.276889] 
-[   47.276889] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_capture_on, 601
-[   47.279914] rcar-vin e803f000.video: Capture on in single mode
-[   47.294988] Single Frame VNFC_REG 0
-f0d003
-Content of buf 0 at address b6f0d004
-Content of buf 0 at address b6f0d005
-Content of buf 0 at address b6f0d006
-Content of buf 0 at address b6f0d007
-Content of buf 0 at address b6f0d008
-Content of buf 0 at address b6f0d009
-write b[   47.319170] 
-[   47.319170] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_stop_streaming, 1059
-[   47.319640] VNFC_REG 0
-[   47.330827] 
-[   47.330827] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_capture_stop, 658
-[   47.333250] VNMC_REG 3004000b
-[   47.342677] VNMC_REG 3004000a
-[   47.345690] 
-[   47.345690] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_capture_active, 516
-[   47.348698] VNMS_REG 8
-uf(1)
-[   47.358303] 
-[   47.358303] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, return_all_buffers, 849
-[   47.362143] 
-[   47.362143] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_irq, 736
-[   47.372019] 
-[   47.372019] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_get_interrupt_status, 502
-[   47.380630] VNINTS_REG c0030012
-[   47.390711] 
-[   47.390711] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_ack_interrupt, 509
-[   47.393883] VNINTS_REG 0
-[   47.403749] 
-[   47.403749] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_set_stream, 941
-[   47.406837] 
-[   47.406837] [RVC] ../drivers/media/platform/rza-vin/rza-csi2.c, rcar_csi2_s_stream, 507
-[   47.416290] RVC_Call rcar_csi2_stop
-[   47.429497] after FCNTM_REG 5e
-[   47.429507] after PHYDIM_REG 1011
-[   47.432637] after PHYIM_REG 90
-[   47.436016] after VINDM_REG 2002a
-[   47.439105] after VINSM1_REG f000
-[   47.442490] after VINSM3_REG c1f0
-[   47.445836] after PHYOM_REG 13
-[   47.449268] 
-[   47.449268] [RVC] ../drivers/media/platform/rza-vin/rza-csi2.c, rcar_csi2_stop, 471
-[   47.452412] AF FCNTM_REG 5f
-[   47.461668] AF PHYDIM_REG 0
-[   47.464504] AF PHYIM_REG 90
-[   47.467320] AF VINDM_REG 2002a
-[   47.470148] AF VINSM1_REG f000
-[   47.473249] AF VINSM3_REG c1f0
-[   47.476355] AF PHYOM_REG 0
-[   47.479448] 
-[   47.479448] [RVC] ../drivers/media/platform/rza-vin/rza-csi2.c, rcar_csi2_reset, 261
-[   47.577079] SRST_REG 0
-[   47.589020] RVC_Call rcar_csi2_s_stream before END
-[   47.596782] rcar_csi2_s_stream go to mutex_unclock
-Captured 2 frames in 0.168218 seconds (11.889299 fps, 5478588.859133 B/s).
-2 buffers released.
-[   47.602006] 
-[   47.602006] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_disable_interrupts, 495
-$ [   47.637654] 
-[   47.637654] [RVC] ../drivers/media/platform/rza-vin/rza-v4l2.c, rvin_mc_release, 1071
-[  122.432814] random: crng init done
-
-
-
-RESET BOARD the first time
-[    0.483866] media: Linux media interface: v0.10
-[    0.484451] Linux video capture interface: v2.00
-[    0.567434] clocksource: Switched to clocksource ostm
-[    1.084348] NET: Registered protocol family 2
-[    1.098543] TCP established hash table entries: 1024 (order: 0, 4096 bytes)
-[    1.099321] TCP bind hash table entries: 1024 (order: 0, 4096 bytes)
-[    1.099461] TCP: Hash tables configured (established 1024 bind 1024)
-[    1.103012] UDP hash table entries: 256 (order: 0, 4096 bytes)
-[    1.103216] UDP-Lite hash table entries: 256 (order: 0, 4096 bytes)
-[    1.105767] NET: Registered protocol family 1
-[    1.130331] RPC: Registered named UNIX socket transport module.
-[    1.131116] RPC: Registered udp transport module.
-[    1.131138] RPC: Registered tcp transport module.
-[    1.131159] RPC: Registered tcp NFSv4.1 backchannel transport module.
-[    1.181196] workingset: timestamp_bits=30 max_order=11 bucket_order=0
-[    1.200021] NFS: Registering the id_resolver key type
-[    1.201542] Key type id_resolver registered
-[    1.201640] Key type id_legacy registered
-[    1.202025] nfs4filelayout_init: NFSv4 File Layout Driver Registering...
-[    1.202245] nfs4flexfilelayout_init: NFSv4 Flexfile Layout Driver Registering...
-[    1.202828] jffs2: version 2.2. (NAND) �© 2001-2006 Red Hat, Inc.
-[    1.226842] Key type asymmetric registered
-[    1.228639] Asymmetric key parser 'x509' registered
-[    1.232123] Block layer SCSI generic (bsg) driver version 0.4 loaded (major 250)
-[    1.232463] io scheduler noop registered
-[    1.232514] io scheduler deadline registered
-[    1.234032] io scheduler cfq registered (default)
-[    1.234161] io scheduler mq-deadline registered
-[    1.282500] vdc5fb fcff7400.display: fcff7400.display: [gwp0700cnwv04] dotclock 33.000 MHz, dcdr 2
-[    1.317543] vdc5fb: Layer 2 Enabled (800x480 @ 0x80000000)
-[    1.418246] vdc5fb fcff7400.display: update_regs timeout reg=00000080, bits=00000001, now=00000001
-[    1.518827] vdc5fb fcff7400.display: update_regs timeout reg=00000100, bits=00003111, now=00001001
-[    1.619073] vdc5fb fcff7400.display: update_regs timeout reg=00000180, bits=00110011, now=00010011
-[    1.779652] Console: switching to colour frame buffer device 100x30
-[    1.835518] graphics fb0: registered fcff7400.display as 800x480 @ 59 Hz, 16 bpp.
-[    1.873142] Serial: 8250/16550 driver, 4 ports, IRQ sharing disabled
-[    1.943199] SuperH (H)SCI(F) driver initialized
-[    1.961487] e8009000.serial: ttySC0 at MMIO 0xe8009000 (irq = 19, base_baud = 0) is a scif
-[    2.579461] console [ttySC0] enabled
-[    2.618388] random: fast init done
-[    2.631130] 1 ofpart partitions found on MTD device 20000000.qspi
-[    2.642532] Creating 1 MTD partitions on "20000000.qspi":
-[    2.652553] 0x000000800000-0x000001800000 : "user"
-[    2.741081] libphy: Fixed MDIO Bus: probed
-[    2.761242] usbcore: registered new interface driver usb-storage
-[    2.776673] i2c /dev entries driver
-[    2.863038] i2c-riic e803a800.i2c: registered with 400000Hz bus speed
-[    2.943694] ft5x06_set_mode: changed mode to 0x00
-[    2.961949] input: FT5X06 Multiple Touch Controller as /devices/platform/e803ac00.i2c/i2c-3/3-0038/input/input0
-[    3.039205] at24 3-0050: 16384 byte 24c128 EEPROM, writable, 64 bytes/write
-[    3.057475] i2c-riic e803ac00.i2c: registered with 400000Hz bus speed
-[    3.079356] imx219_probe Aug 12
-[    3.090161] imx219_probe 1
-[    3.097911] imx219_ctrls_init
-[    3.107987] imx219_s_ctrl
-[    3.114759] V4L2_CID_HFLIP
-[    3.142932] imx219_s_ctrl enabled imx219_s_stream
-[    3.154713] imx219_s_stream
-[    3.162169] Before reg_write_table 
-[    3.169548] reg_write data 1
-[    3.179358] reg_write data 5
-[    3.188287] reg_write data c
-[    3.196683] reg_write data ff
-[    3.204877] reg_write data ff
-[    3.212988] reg_write data 5
-[    3.220883] reg_write data 9
-[    3.228616] reg_write data 1
-[    3.236133] reg_write data 0
-[    3.243584] reg_write data 18
-[    3.251105] reg_write data 0
-[    3.258312] reg_write data a
-[    3.265380] reg_write data 83
-[    3.272500] reg_write data d
-[    3.279503] reg_write data 78
-[    3.286424] reg_write data 1
-[    3.293271] reg_write data 1
-[    3.300037] reg_write data 0
-[    3.306511] reg_write data 0
-[    3.312930] reg_write data 8
-[    3.319266] reg_write data 8
-[    3.325345] reg_write data 5
-[    3.331353] reg_write data 1
-[    3.337389] reg_write data 2
-[    3.343382] reg_write data 2
-[    3.349413] reg_write data 0
-[    3.355305] reg_write data 76
-[    3.361321] reg_write data 8
-[    3.367342] reg_write data 0
-[    3.373193] reg_write data 4e
-[    3.379207] reg_write data 0
-[    3.384937] reg_write data 4b
-[    3.390867] reg_write data f
-[    3.396537] reg_write data 14
-[    3.402380] reg_write data 0
-[    3.408139] reg_write data 14
-[    3.413957] reg_write data 30
-[    3.419871] reg_write data 10
-[    3.425675] reg_write data 10
-[    3.431560] reg_write data 10
-[    3.437441] reg_write data e
-[    3.443127] reg_write data e
-[    3.448867] After reg_write_table and before handle crop 
-[    3.455097] reg_write data 0
-[    3.460983] reg_write data 0
-[    3.466858] reg_write data 2
-[    3.472696] reg_write data 7f
-[    3.478717] reg_write data 0
-[    3.484597] reg_write data 0
-[    3.490488] reg_write data 1
-[    3.496366] reg_write data df
-[    3.502409] reg_write data 2
-[    3.508314] reg_write data 80
-[    3.514244] reg_write data 1
-[    3.520138] reg_write data e0
-[    3.526107] After handle crop 
-[    3.530163] reg_write data 0
-[    3.536153] reg_write data 0
-[    3.542179] reg_write data 0
-[    3.548146] reg_write data 0
-[    3.554070] reg_write data 0
-[    3.560041] reg_write data 0
-[    3.565980] before reg_write_table again 
-[    3.571075] reg_write data 1
-[    3.577346] imx219_s_ctrl
-[    3.581017] V4L2_CID_VFLIP
-[    3.585144] imx219_s_ctrl enabled imx219_s_stream
-[    3.591229] imx219_s_stream
-[    3.595168] Before reg_write_table 
-[    3.599859] reg_write data 1
-[    3.606118] reg_write data 5
-[    3.612466] reg_write data c
-[    3.618705] reg_write data ff
-[    3.624906] reg_write data ff
-[    3.631168] reg_write data 5
-[    3.637325] reg_write data 9
-[    3.643442] reg_write data 1
-[    3.649603] reg_write data 0
-[    3.655669] reg_write data 18
-[    3.661894] reg_write data 0
-[    3.668014] reg_write data a
-[    3.674070] reg_write data 83
-[    3.680294] reg_write data d
-[    3.686367] reg_write data 78
-[    3.692579] reg_write data 1
-[    3.698710] reg_write data 1
-[    3.705456] reg_write data 0
-[    3.722591] reg_write data 0
-[    3.731433] reg_write data 8
-[    3.738601] reg_write data 8
-[    3.745136] reg_write data 5
-[    3.751681] reg_write data 1
-[    3.757937] reg_write data 2
-[    3.763969] reg_write data 2
-[    3.770134] reg_write data 0
-[    3.776072] reg_write data 76
-[    3.782164] reg_write data 8
-[    3.788363] reg_write data 0
-[    3.794416] reg_write data 4e
-[    3.800553] reg_write data 0
-[    3.806368] reg_write data 4b
-[    3.812495] reg_write data f
-[    3.818415] reg_write data 14
-[    3.824265] reg_write data 0
-[    3.830119] reg_write data 14
-[    3.836012] reg_write data 30
-[    3.841899] reg_write data 10
-[    3.847777] reg_write data 10
-[    3.853586] reg_write data 10
-[    3.859458] reg_write data e
-[    3.865215] reg_write data e
-[    3.871059] After reg_write_table and before handle crop 
-[    3.877409] reg_write data 0
-[    3.883324] reg_write data 0
-[    3.889263] reg_write data 2
-[    3.895092] reg_write data 7f
-[    3.901112] reg_write data 0
-[    3.906980] reg_write data 0
-[    3.912838] reg_write data 1
-[    3.918765] reg_write data df
-[    3.924720] reg_write data 2
-[    3.930630] reg_write data 80
-[    3.936564] reg_write data 1
-[    3.942464] reg_write data e0
-[    3.948458] After handle crop 
-[    3.952392] reg_write data 0
-[    3.958375] reg_write data 0
-[    3.964313] reg_write data 0
-[    3.970218] reg_write data 0
-[    3.976107] reg_write data 0
-[    3.981998] reg_write data 0
-[    3.987931] before reg_write_table again 
-[    3.992895] reg_write data 1
-[    3.999408] imx219_s_ctrl
-[    4.003123] V4L2_CID_ANALOGUE_GAIN
-[    4.008129] imx219_s_ctrl enabled imx219_s_stream
-[    4.014042] imx219_s_stream
-[    4.018107] Before reg_write_table 
-[    4.022813] reg_write data 1
-[    4.029304] reg_write data 5
-[    4.035641] reg_write data c
-[    4.041890] reg_write data ff
-[    4.048180] reg_write data ff
-[    4.054359] reg_write data 5
-[    4.060529] reg_write data 9
-[    4.066636] reg_write data 1
-[    4.072815] reg_write data 0
-[    4.079005] reg_write data 18
-[    4.085218] reg_write data 0
-[    4.091425] reg_write data a
-[    4.097646] reg_write data 83
-[    4.103965] reg_write data d
-[    4.110826] reg_write data 78
-[    4.118170] reg_write data 1
-[    4.124620] reg_write data 1
-[    4.131032] reg_write data 0
-[    4.137387] reg_write data 0
-[    4.143503] reg_write data 8
-[    4.149738] reg_write data 8
-[    4.155834] reg_write data 5
-[    4.162036] reg_write data 1
-[    4.168117] reg_write data 2
-[    4.174092] reg_write data 2
-[    4.180081] reg_write data 0
-[    4.185983] reg_write data 76
-[    4.192011] reg_write data 8
-[    4.197867] reg_write data 0
-[    4.203616] reg_write data 4e
-[    4.209717] reg_write data 0
-[    4.215412] reg_write data 4b
-[    4.221391] reg_write data f
-[    4.227165] reg_write data 14
-[    4.232971] reg_write data 0
-[    4.238727] reg_write data 14
-[    4.244576] reg_write data 30
-[    4.250407] reg_write data 10
-[    4.256227] reg_write data 10
-[    4.262120] reg_write data 10
-[    4.268033] reg_write data e
-[    4.273723] reg_write data e
-[    4.279504] After reg_write_table and before handle crop 
-[    4.285727] reg_write data 0
-[    4.291634] reg_write data 0
-[    4.297533] reg_write data 2
-[    4.303365] reg_write data 7f
-[    4.309367] reg_write data 0
-[    4.315248] reg_write data 0
-[    4.321282] reg_write data 1
-[    4.327171] reg_write data df
-[    4.333125] reg_write data 2
-[    4.339081] reg_write data 80
-[    4.345005] reg_write data 1
-[    4.350922] reg_write data e0
-[    4.356973] After handle crop 
-[    4.360938] reg_write data 0
-[    4.366872] reg_write data 0
-[    4.372819] reg_write data 0
-[    4.378800] reg_write data 0
-[    4.384738] reg_write data 0
-[    4.390764] reg_write data 0
-[    4.396689] before reg_write_table again 
-[    4.401760] reg_write data 1
-[    4.407888] imx219_s_ctrl
-[    4.411556] V4L2_CID_GAIN
-[    4.415367] imx219_s_ctrl enabled imx219_s_stream
-[    4.421440] imx219_s_stream
-[    4.425393] Before reg_write_table 
-[    4.430099] reg_write data 1
-[    4.436480] reg_write data 5
-[    4.442801] reg_write data c
-[    4.449064] reg_write data ff
-[    4.455292] reg_write data ff
-[    4.461538] reg_write data 5
-[    4.467666] reg_write data 9
-[    4.473725] reg_write data 1
-[    4.479890] reg_write data 0
-[    4.485957] reg_write data 18
-[    4.492176] reg_write data 0
-[    4.498285] reg_write data a
-[    4.504378] reg_write data 83
-[    4.510615] reg_write data d
-[    4.516784] reg_write data 78
-[    4.523013] reg_write data 1
-[    4.529134] reg_write data 1
-[    4.535206] reg_write data 0
-[    4.541269] reg_write data 0
-[    4.547349] reg_write data 8
-[    4.553370] reg_write data 8
-[    4.559446] reg_write data 5
-[    4.565497] reg_write data 1
-[    4.571576] reg_write data 2
-[    4.577608] reg_write data 2
-[    4.583511] reg_write data 0
-[    4.589476] reg_write data 76
-[    4.595443] reg_write data 8
-[    4.601288] reg_write data 0
-[    4.607080] reg_write data 4e
-[    4.612891] reg_write data 0
-[    4.618624] reg_write data 4b
-[    4.624439] reg_write data f
-[    4.630494] reg_write data 14
-[    4.636376] reg_write data 0
-[    4.642255] reg_write data 14
-[    4.648127] reg_write data 30
-[    4.653950] reg_write data 10
-[    4.659832] reg_write data 10
-[    4.665632] reg_write data 10
-[    4.671534] reg_write data e
-[    4.677309] reg_write data e
-[    4.683047] After reg_write_table and before handle crop 
-[    4.689395] reg_write data 0
-[    4.695254] reg_write data 0
-[    4.701160] reg_write data 2
-[    4.707080] reg_write data 7f
-[    4.713042] reg_write data 0
-[    4.718970] reg_write data 0
-[    4.724847] reg_write data 1
-[    4.730716] reg_write data df
-[    4.736665] reg_write data 2
-[    4.742589] reg_write data 80
-[    4.748626] reg_write data 1
-[    4.754512] reg_write data e0
-[    4.760546] After handle crop 
-[    4.764489] reg_write data 0
-[    4.770483] reg_write data 0
-[    4.776412] reg_write data 1
-[    4.782409] reg_write data 0
-[    4.788373] reg_write data 0
-[    4.794282] reg_write data 0
-[    4.800277] before reg_write_table again 
-[    4.805249] reg_write data 1
-[    4.811318] imx219_s_ctrl
-[    4.814974] V4L2_CID_TEST_PATTERN
-[    4.819509] imx219_s_ctrl_test_pattern
-[    4.824378] imx219_s_ctrl_test_pattern DISABLE
-[    4.830120] imx219_probe 2
-[    4.833997] imx219_probe 3
-[    4.838021] imx219_s_power
-[    4.842452] imx219 2-0010: clk enable
-[    4.847452] imx219_video_probe check chip ID 
-[    4.854606] imx219 2-0010: Model ID 0x0219, Lot ID 0x686b22, Chip ID 0x0411
-[    4.863229] imx219_s_power
-[    4.867526] imx219 2-0010: clk disable
-[    4.872703] v4l2_async_register_subdev
-[    4.878047] imx219_probe 4 camera driver probed ok
-[    4.896358] 
-[    4.896358] [RVC] ../drivers/media/platform/rza-vin/rza-csi2.c, rcar_csi2_probe, 804
-[    4.896620] 
-[    4.896620] [RVC] ../drivers/media/platform/rza-vin/rza-csi2.c, rcar_csi2_probe_resources, 766
-[    4.912627] rza-csi2 e8209000.csi2: rcar_csi2_probe_resources 
-[    4.938099] called v4l2_device_register c0448e00
-[    4.945435] rza-csi2 e8209000.csi2: call rcar_csi2_parse_dt
-[    4.953703] 
-[    4.953703] [RVC] ../drivers/media/platform/rza-vin/rza-csi2.c, rcar_csi2_parse_dt, 703
-[    4.954517] 
-[    4.954517] [RVC] ../drivers/media/platform/rza-vin/rza-csi2.c, rcar_csi2_parse_v4l2, 663
-[    4.969978] rza-csi2 e8209000.csi2: Found '/i2c@e803a800/imx219@10'
-[    4.994689] call v4l2_async_notifier_register c0448e00
-[    5.003448] rcar_csi2_notify_bound
-[    5.009977] 
-[    5.009977] [RVC] ../drivers/media/platform/rza-vin/rza-csi2.c, rcar_csi2_notify_bound, 617
-[    5.010078] 
-[    5.010078] [RVC] ../drivers/media/platform/rza-vin/rza-csi2.c, rcar_csi2_notify_complete, 642
-[    5.056395] priv->subdev.name rza_csi2 e8209000.csi2 
-[    5.085864] v4l2_async_register_subdev
-[    5.093466] v4l2_async_find_match failed
-[    5.101445] rza-csi2 e8209000.csi2: RVC debug 2 lanes found
-[    5.121533] 
-[    5.121533] [RVC] ../drivers/media/platform/rza-vin/rza-core.c, rcar_vin_probe, 1027
-[    5.123585] 
-[    5.123585] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_dma_probe, 1183
-[    5.142928] rvin_dma_probe call v4l2_device_register c0612328 
-[    5.162331] 
-[    5.162331] [RVC] ../drivers/media/platform/rza-vin/rza-core.c, rvin_group_init, 892
-[    5.172995] 
-[    5.172995] [RVC] ../drivers/media/platform/rza-vin/rza-core.c, rvin_group_allocate, 336
-[    5.190113] 
-[    5.190113] [RVC] ../drivers/media/platform/rza-vin/rza-core.c, __rvin_group_allocate, 286
-[    5.232560] 
-[    5.232560] [RVC] ../drivers/media/platform/rza-vin/rza-core.c, rvin_group_add_vin, 308
-[    5.254089] 
-[    5.254089] [RVC] ../drivers/media/platform/rza-vin/rza-core.c, rvin_group_read_id, 246
-[    5.272902] 
-[    5.272902] [RVC] ../drivers/media/platform/rza-vin/rza-core.c, rvin_group_graph_parse, 778
-[    5.290759] 
-[    5.290759] [RVC] ../drivers/media/platform/rza-vin/rza-core.c, rvin_group_read_id, 246
-[    5.309348] 
-[    5.309348] [RVC] ../drivers/media/platform/rza-vin/rza-core.c, rvin_group_get_remote, 755
-[    5.327544] 
-[    5.327544] [RVC] ../drivers/media/platform/rza-vin/rza-core.c, rvin_group_get_remote, 755
-[    5.346166] 
-[    5.346166] [RVC] ../drivers/media/platform/rza-vin/rza-core.c, rvin_group_graph_parse, 778
-[    5.364635] 
-[    5.364635] [RVC] ../drivers/media/platform/rza-vin/rza-core.c, rvin_group_read_id, 246
-[    5.382997] 
-[    5.382997] [RVC] ../drivers/media/platform/rza-vin/rza-core.c, rvin_group_get_remote, 755
-[    5.401252] 
-[    5.401252] [RVC] ../drivers/media/platform/rza-vin/rza-v4l2.c, rvin_v4l2_register, 1137
-[    5.420060] 
-[    5.420060] [RVC] ../drivers/media/platform/rza-vin/rza-v4l2.c, rvin_format_align, 132
-[    5.438678] 
-[    5.438678] [RVC] ../drivers/media/platform/rza-vin/rza-v4l2.c, rvin_format_from_pixel, 74
-[    5.457097] rvin_format_align DEFAULT V4L2_FIELD_NONE
-[    5.485628] 
-[    5.485628] [RVC] ../drivers/media/platform/rza-vin/rza-v4l2.c, __rvin_format_aling_update, 110
-[    5.485768] 
-[    5.485768] [RVC] ../drivers/media/platform/rza-vin/rza-v4l2.c, rvin_format_bytesperline, 85
-[    5.504936] 
-[    5.504936] [RVC] ../drivers/media/platform/rza-vin/rza-v4l2.c, rvin_format_from_pixel, 74
-[    5.523904] 
-[    5.523904] [RVC] ../drivers/media/platform/rza-vin/rza-v4l2.c, rvin_format_sizeimage, 96
-[    5.543156] rcar-vin e803f000.video: Format 800x600 bpl: 1600 size: 960000
-[    5.593252] rcar-vin e803f000.video: Device registered as video0
-[    5.607126] 
-[    5.607126] [RVC] ../drivers/media/platform/rza-vin/rza-core.c, rvin_group_graph_register, 849
-[    5.607448] rcar-vin e803f000.video: Call Notifier registration
-[    5.638317] rcar-vin e803f000.video: Entity type for entity rza_csi2 e8209000.csi2 was not initialized!
-[    5.657118] 
-[    5.657118] [RVC] ../drivers/media/platform/rza-vin/rza-core.c, rvin_group_notify_bound, 734
-[    5.657257] 
-[    5.657257] [RVC] ../drivers/media/platform/rza-vin/rza-core.c, rvin_group_notify_complete, 705
-[    5.676095] rvin_group_notify_complete call v4l2_device_register_subdev_nodes c0612328
-[    5.723485] 
-[    5.723485] [RVC] ../drivers/media/platform/rza-vin/rza-core.c, rvin_group_update_links, 657
-[    5.723776] 
-[    5.723776] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_get_chsel, 1262
-[    5.745272] chsel 0
-[    5.763875] 
-[    5.763875] [RVC] ../drivers/media/platform/rza-vin/rza-core.c, rvin_group_add_link, 635
-[    6.082398] sh_mobile_sdhi e8228000.sd: mmc0 base at 0xe8228000 max clock rate 132 MHz
-[    6.126432] usbcore: registered new interface driver usbhid
-[    6.139505] usbhid: USB HID core driver
-[    6.154976] NET: Registered protocol family 10
-[    6.220123] Segment Routing with IPv6
-[    6.233899] sit: IPv6, IPv4 and MPLS over IPv4 tunneling driver
-[    6.264083] NET: Registered protocol family 17
-[    6.279377] Key type dns_resolver registered
-[    6.292700] rza2mevb_init_late: Error: Could not find QSPI clock
-[    6.371228] hctosys: unable to open rtc device (rtc0)
-[    6.432493] VFS: Mounted root (axfs filesystem) readonly on device 0:11.
-[    6.453457] devtmpfs: mounted
-[    6.465531] Freeing unused kernel memory: 52K
-[    6.475096] This architecture does not have kernel memory protection.
-Starting logging: OK
-read-only file system detected...done
-Starting network: OK
-Wed Nov  1 09:00:00 UTC 2017
-[   12.989056] Console: switching to colour dummy device 80x30
-/etc/init.d/S99_rea_setup: line 34: fbv: not found
-/etc/init.d/S99_rea_setup: line 47: alsactl: not found
-
-Welcome to Buildroot
-buildroot login: root
-$ media-ctl -d /dev/media0 -l "'rza_csi2 e8209000.csi2':1 -> 'rza_vin e803f000.v
-ideo':0 [1]"
-209000.csi2':1 [fmt:UYVY8_2X8/640x480 field:none]"
-/root/yavta_debug  /dev/video0 -c2 -n2 -f NV12 -s 640x480 -F"/tmp/NV12_2f.bin"$ media-ctl -V "'rza_csi2 e8209000."
-$ /root/yavta_debug  /dev/video0 -c2 -n2 -f NV12 -s 640x480 -F"/tmp/NV12_2f.bin"
-[   28.947481] 
-[   28.947481] [RVC] ../drivers/media/platform/rza-vin/rza-csi2.c, rcar_csi2_set_pad_format, 561
-[   29.627300] 
-[   29.627300] [RVC] ../drivers/media/platform/rza-vin/rza-v4l2.c, rvin_mc_open, 1041
-[   29.640555] 
-[   29.640555] [RVC] ../drivers/media/platform/rza-vin/rza-v4l2.c, rvin_get_sd_format, 232
-[   29.650747] 
-[   29.650747] [RVC] ../drivers/media/platform/rza-vin/rza-csi2.c, rcar_csi2_get_pad_format, 580
-[   29.660674] 
-[   29.660674] [RVC] ../drivers/media/platform/rza-vin/rza-v4l2.c, rvin_format_bytesperline, 85
-[   29.670935] 
-[   29.670935] [RVC] ../drivers/media/platform/rza-vin/rza-v4l2.c, rvin_format_from_pixel, 74
-Device /dev/video0 opened.
-[   29.682261] 
-[   29.682261] [RVC] ../drivers/media/platform/rza-vin/rza-v4l2.c,end of rvin_mc_open, 1059
-Device `R_Car_VIN' on `platfor[   29.733956] 
-[   29.733956] [RVC] ../drivers/media/platform/rza-vin/rza-v4l2.c, rvin_querycap, 380
-m:e803f000.video[   29.747816] 
-[   29.747816] [RVC] ../drivers/media/platform/rza-vin/rza-v4l2.c, rvin_mc_s_fmt_vid_cap, 828
-' is a video cap[   29.758474] 
-[   29.758474] [RVC] ../drivers/media/platform/rza-vin/rza-v4l2.c, __rvin_mc_try_format, 811
-ture device.
-[   29.769845] 
-[   29.769845] [RVC] ../drivers/media/platform/rza-vin/rza-v4l2.c, rvin_format_align, 132
-[   29.781036] 
-[   29.781036] [RVC] ../drivers/media/platform/rza-vin/rza-v4l2.c, rvin_format_from_pixel, 74
-[   29.791839] 
-[   29.791839] [RVC] ../drivers/media/platform/rza-vin/rza-v4l2.c, __rvin_format_aling_update, 110
-[   29.801824] 
-[   29.801824] [RVC] ../drivers/media/platform/rza-vin/rza-v4l2.c, rvin_format_bytesperline, 85
-[   29.812150] 
-[   29.812150] [RVC] ../drivers/media/platform/rza-vin/rza-v4l2.c, rvin_format_from_pixel, 74
-[   29.822464] 
-[   29.822464] [RVC] ../drivers/media/platform/rza-vin/rza-v4l2.c, rvin_format_sizeimage, 96
-[   29.832936] rcar-vin e803f000.video: Format 640x480 bpl: 640 size: 460800
-Video format set: NV12 (3231564e) 640x480 (stride 640) b[   29.891500] 
-[   29.891500] [RVC] ../drivers/media/platform/rza-vin/rza-v4l2.c, rvin_g_fmt_vid_cap, 418
-uffer size 460800
-Video format: NV12 (3231564e) 640x480 (stride 640) buffer size 460800
-2 buffers requested.
-length: 460800 offset: 0
-Buffer 0 mapped at address 0xb6ee0000.
-length: 460800 offset: 462848
-Buffer 1 [   29.893408] 
-[   29.893408] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_queue_setup, 870
-mapped at addres[   29.966045] 
-[   29.966045] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_buffer_queue, 902
-s 0xb6e6f000.
-[   29.978596] 
-[   29.978596] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_buffer_queue, 902
-[   29.989538] 
-[   29.989538] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_start_streaming, 1030
-[   30.000259] 
-[   30.000259] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_set_stream, 941
-[   30.010299] 
-[   30.010299] [RVC] ../drivers/media/platform/rza-vin/rza-csi2.c, rcar_csi2_get_pad_format, 580
-[   30.020186] 
-[   30.020186] [RVC] ../drivers/media/platform/rza-vin/rza-csi2.c, rcar_csi2_s_stream, 507
-[   30.031347] RVC_Call rcar_csi2_start
-[   30.044889] 
-[   30.044889] [RVC] ../drivers/media/platform/rza-vin/rza-csi2.c, rcar_csi2_start, 364
-[   30.045342] rza-csi2 e8209000.csi2: Input size (640x480p)
-[   30.060406] before FCNTM_REG 0
-[   30.060464] before PHYDIM_REG 0
-[   30.063553] before PHYIM_REG 0
-[   30.066831] before VINDM_REG 0
-[   30.069955] before VINSM1_REG 0
-[   30.073033] before VINSM3_REG 0
-[   30.076212] before PHYOM_REG 0
-[   30.079496] Check virtual channel setting 805e
-[   30.082601] <2 Check virtual channel setting 805e
-[   30.087134] Check virtual channel setting 815e
-[   30.091875] <2 Check virtual channel setting 815e805e
-[   30.096371]  Check virtual channel setting 815e805e,  815e, 0, 8000, 40, 1e 
-[   30.109081] 
-[   30.109081] [RVC] ../drivers/media/platform/rza-vin/rza-csi2.c, rcar_csi2_calc_phy_timing, 322
-[   30.109174] PHYTIM3_REG e09
-[   30.119395] PHYTIM2_REG 30f0a
-[   30.122213] PHYTIM1_REG 338f
-[   30.125236] INTSTATE_REG 0
-[   30.128197] TREF_REG 1
-[   30.130955] 
-[   30.130955] [RVC] ../drivers/media/platform/rza-vin/rza-csi2.c, rcar_csi2_reset, 261
-[   30.190015] SRST_REG 0
-[   30.201050] FLD_REG 1
-[   30.203612] VCDT_REG 815e805e
-[   30.205950] LSWAP_REG 4
-[   30.209384] PHYCNT_REG 13
-[   30.211892] PHYCNT_REG 0
-[   30.214543] PHYCNT_REG 20013
-[   30.217220] PHYCNT_REG 30013
-[   30.220236] 
-[   30.220236] [RVC] ../drivers/media/platform/rza-vin/rza-csi2.c, rcar_csi2_wait_phy_start, 271
-[   30.223478] rza-csi2 e8209000.csi2: PHCLM_REG d
-[   30.238314] rza-csi2 e8209000.csi2: PHDLM_REG 3003, priv->lanes 2, lane_mask 3
-[   30.245662] phy_start FCNTM_REG 1
-[   30.245700] phy_start PHYDIM_REG 0
-[   30.249136] phy_start PHYIM_REG 54
-[   30.252603] phy_start VINDM_REG 0
-[   30.256054] phy_start VINSM1_REG 2000
-[   30.259483] phy_start VINSM3_REG c1f0
-[   30.263183] phy_start PHYOM_REG 13
-[   30.266931] RVC_Call finish rcar_csi2_start
-[   30.274613] imx219_s_power
-[   30.277838] imx219 2-0010: clk enable
-[   30.281646] imx219_s_stream
-[   30.284505] Before reg_write_table 
-[   30.288155] reg_write data 1
-[   30.324338] reg_write data 5
-[   30.331665] reg_write data c
-[   30.337585] reg_write data ff
-[   30.348250] reg_write data ff
-[   30.363005] reg_write data 5
-[   30.372536] reg_write data 9
-[   30.379038] reg_write data 1
-[   30.384568] reg_write data 0
-[   30.396804] reg_write data 18
-[   30.406395] reg_write data 0
-[   30.412711] reg_write data a
-[   30.418262] reg_write data 83
-[   30.423724] reg_write data d
-[   30.435996] reg_write data 78
-[   30.445445] reg_write data 1
-[   30.451599] reg_write data 1
-[   30.457251] reg_write data 0
-[   30.465816] reg_write data 0
-[   30.478087] reg_write data 8
-[   30.483788] reg_write data 8
-[   30.493885] reg_write data 5
-[   30.500274] reg_write data 1
-[   30.505498] reg_write data 2
-[   30.516583] reg_write data 2
-[   30.523073] reg_write data 0
-[   30.528680] reg_write data 76
-[   30.534094] reg_write data 8
-[   30.547696] reg_write data 0
-[   30.556258] reg_write data 4e
-[   30.562552] reg_write data 0
-[   30.567957] reg_write data 4b
-[   30.573420] reg_write data f
-[   30.585604] reg_write data 14
-[   30.595161] reg_write data 0
-[   30.601233] reg_write data 14
-[   30.606649] reg_write data 30
-[   30.619005] reg_write data 10
-[   30.629642] reg_write data 10
-[   30.635530] reg_write data 10
-[   30.646470] reg_write data e
-[   30.656361] reg_write data e
-[   30.662689] After reg_write_table and before handle crop 
-[   30.668402] reg_write data 0
-[   30.677493] reg_write data 0
-[   30.686033] reg_write data 2
-[   30.699089] reg_write data 7f
-[   30.704896] reg_write data 0
-[   30.715097] reg_write data 0
-[   30.721452] reg_write data 1
-[   30.726670] reg_write data df
-[   30.739048] reg_write data 2
-[   30.748171] reg_write data 80
-[   30.753844] reg_write data 1
-[   30.764183] reg_write data e0
-[   30.770811] After handle crop 
-[   30.774056] reg_write data 0
-[   30.785301] reg_write data 0
-[   30.794767] reg_write data 1
-[   30.801166] reg_write data 0
-[   30.806427] reg_write data 0
-[   30.818211] reg_write data 0
-[   30.824026] before reg_write_table again 
-[   30.828422] reg_write data 1
-[   30.836704] RVC_Call rcar_csi2_s_stream before END
-[   30.842397] rcar_csi2_s_stream go to mutex_unclock
-[   30.847720] 
-[   30.847720] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_capture_start, 621
-[   30.847821] 
-[   30.847821] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_fill_hw, 589
-[   30.857386] limit = 1 , vin->continuous 0, HW_BUFFER_NUM 3 
-[   30.871943] 
-[   30.871943] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_fill_hw_slot, 564
-[   30.872324] rcar-vin e803f000.video: Filling HW slot: 0
-[   30.887151] 
-[   30.887151] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_set_slot_addr, 535
-[   30.887241] 
-[   30.887241] [RVC] ../drivers/media/platform/rza-vin/rza-v4l2.c, rvin_format_from_pixel, 74
-[   30.896881] VNMB_REG(0) 40380000, 30
-[   30.910323] 
-[   30.910323] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c,end of rvin_set_slot_addr, 555
-[   30.910335] 
-[   30.910335] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c,end of rvin_fill_hw, 595
-[   30.920345] 
-[   30.920345] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_crop_scale_comp, 259
-[   30.929857] VNSPPRC_REG 64
-[   30.939507] VNEPPRC_REG 383
-[   30.942284] default VNSLPRC_REG 18
-[   30.945123] VNELPRC_REG 1f7
-[   30.948566] 
-[   30.948566] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_crop_scale_comp_gen3, 211
-[   30.951428] 
-[   30.951428] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_get_bwidth, 185
-[   30.961509] 
-[   30.961509] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_get_bwidth, 185
-[   30.970720] VNIS_REG 280
-[   30.979926] 
-[   30.979926] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_setup, 319
-[   30.982529]  input MEDIA_BUS_FMT_UYVY8_2X8 
-[   30.995520] Enable VSYNC Field RCAR_GEN3 dmr2 20000
-[   31.000474] output V4L2_PIX_FMT_NV12 dmr 0
-[   31.004638] interrupts 2
-[   31.007194] VNINTS_REG 40020000
-[   31.010362] VNIE_REG 2
-[   31.012741] VNDMR_REG 0
-[   31.012757] VNDMR2_REG 8021000
-[   31.015232] VNMC_REG 3004000b
-[   31.018311] 
-[   31.018311] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_capture_on, 601
-[   31.021322] rcar-vin e803f000.video: Capture on in single mode
-[   31.036407] Single Frame VNFC_REG 0
-[   31.068444] 
-[   31.068444] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_irq, 736
-[   31.068679] 
-[   31.068679] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_get_interrupt_status, 502
-[   31.077931] VNINTS_REG c0030012
-[   31.088035] 
-[   31.088035] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_ack_interrupt, 509
-[   31.091239] VNINTS_REG 0
-[   31.100750] 
-[   31.100750] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_get_active_slot, 523
-[   31.103304] VNMS_REG 8
-[   31.113274] rcar-vin e803f000.video: IRQ 00: 0       buf0: x buf1: 0 buf2: 0 more: 1
-[   31.122952] 
-[   31.122952] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_seq_field_done, 684
-[   31.123141] 
-[   31.123141] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_fill_hw, 589
-[   31.132707] limit = 1 , vin->continuous 0, HW_BUFFER_NUM 3 
-[   31.147265] 
-[   31.147265] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_fill_hw_slot, 564
-[   31.147310] rcar-vin e803f000.video: Filling HW slot: 0
-[   31.162037] 
-[   31.162037] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_set_slot_addr, 535
-[   31.162120] 
-[   31.162120] [RVC] ../drivers/media/platform/rza-vin/rza-v4l2.c, rvin_format_from_pixel, 74
-[   31.171636] VNMB_REG(0) 40200000, 30
-[   31.185050] 
-[   31.185050] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c,end of rvin_set_slot_addr, 555
-[   31.185057] 
-[   31.185057] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c,end of rvin_fill_hw, 595
-[   31.195049] 
-[   31.195049] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_capture_on, 601
-[   31.204531] rcar-vin e803f000.video: Capture on in single mode
-[   31.219607] Single Frame VNFC_REG 0
-[   31.265059] 
-[   31.265059] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_irq, 736
-[   31.265298] 
-[   31.265298] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_get_interrupt_status, 502
-[   31.274604] VNINTS_REG c0030012
-[   31.284746] 
-[   31.284746] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_ack_interrupt, 509
-[   31.287966] VNINTS_REG 0
-[   31.297459] 
-[   31.297459] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_get_active_slot, 523
-[   31.300014] VNMS_REG 8
-[   31.309963] rcar-vin e803f000.video: IRQ 01: 0       buf0: x buf1: 0 buf2: 0 more: 0
-[   31.319641] 
-[   31.319641] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_seq_field_done, 684
-[   31.319880] 
-[   31.319880] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_fill_hw, 589
-[   31.329475] limit = 1 , vin->continuous 0, HW_BUFFER_NUM 3 
-0 (0) [-] 0 460800 bytes 31.106266 31.337943 -4.354 fps
-write buf(0)
-Content of buf 0 at address b6ee0000
-Content of buf 0 at address b6ee0001
-Content of buf 0 at address b6ee0002
-Content of buf 0 at address b6ee0003
-Content of buf 0 at address b6ee0004
-Content of buf 0 at address b6ee0005
-Content of buf 0 at address b6ee0006
-Content of buf 0 at address b6ee0007
-Content of buf 0 at address b6ee0008
-Content of buf 0 at address b6ee0009
-write buf(0)
-1 (1) [-] 1 460800 bytes 31.302954 31.495876 5.084 fps
-write buf(1)
-Content of buf 0 at address b6e6f000
-Content of buf 0 at address b6e6f001
-Content of buf 0 at address b6e6f002
-Content of buf 0 a[   31.344033] 
-[   31.344033] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_fill_hw_slot, 564
-t address b6e6f0[   31.625433] 
-[   31.625433] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_buffer_queue, 902
-[   31.638535] 
-[   31.638535] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_fill_hw, 589
-[   31.648998] limit = 1 , vin->continuous 0, HW_BUFFER_NUM 3 
-[   31.663587] 
-[   31.663587] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_fill_hw_slot, 564
-[   31.664025] rcar-vin e803f000.video: Filling HW slot: 0
-[   31.678865] 
-[   31.678865] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_set_slot_addr, 535
-[   31.678978] 
-[   31.678978] [RVC] ../drivers/media/platform/rza-vin/rza-v4l2.c, rvin_format_from_pixel, 74
-[   31.688627] VNMB_REG(0) 40200000, 30
-[   31.702065] 
-[   31.702065] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c,end of rvin_set_slot_addr, 555
-[   31.702073] 
-[   31.702073] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c,end of rvin_fill_hw, 595
-[   31.712087] 
-[   31.712087] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_capture_start, 621
-[   31.721559] 
-[   31.721559] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_fill_hw, 589
-[   31.731035] limit = 1 , vin->continuous 0, HW_BUFFER_NUM 3 
-[   31.745584] 
-[   31.745584] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_fill_hw_slot, 564
-[   31.745604] 
-[   31.745604] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c,end of rvin_fill_hw, 595
-[   31.755013] 
-[   31.755013] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_crop_scale_comp, 259
-[   31.764532] VNSPPRC_REG 64
-[   31.774182] VNEPPRC_REG 383
-[   31.776965] default VNSLPRC_REG 18
-[   31.779796] VNELPRC_REG 1f7
-[   31.783244] 
-[   31.783244] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_crop_scale_comp_gen3, 211
-[   31.786106] 
-[   31.786106] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_get_bwidth, 185
-[   31.796201] 
-[   31.796201] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_get_bwidth, 185
-[   31.805411] VNIS_REG 280
-[   31.814619] 
-[   31.814619] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_setup, 319
-[   31.817222]  input MEDIA_BUS_FMT_UYVY8_2X8 
-[   31.830248] Enable VSYNC Field RCAR_GEN3 dmr2 20000
-[   31.835187] output V4L2_PIX_FMT_NV12 dmr 0
-[   31.839346] interrupts 2
-[   31.841900] VNINTS_REG 40020000
-[   31.845069] VNIE_REG 2
-[   31.847452] VNDMR_REG 0
-[   31.847470] VNDMR2_REG 8021000
-[   31.849943] VNMC_REG 3004000b
-[   31.853023] 
-[   31.853023] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_capture_on, 601
-[   31.856054] rcar-vin e803f000.video: Capture on in single mode
-[   31.871129] Single Frame VNFC_REG 0
-03
-Content of buf 0 at address b6e6f004
-Content of buf 0 at address b6e6f005
-Content of buf 0 at address b6e6f006
-Content of buf 0 at address b6e6f007
-Content of buf 0 at address b6e6f008
-Content of buf 0 at address b6e6f009
-[   31.895390] 
-[   31.895390] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_stop_streaming, 1059
-[   31.895825] VNFC_REG 0
-[   31.906875] 
-[   31.906875] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_capture_stop, 658
-[   31.909291] VNMC_REG 3004000b
-[   31.918682] VNMC_REG 3004000a
-[   31.921708] 
-[   31.921708] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_capture_active, 516
-[   31.924701] VNMS_REG c
-
-[   31.934314] 
-[   31.934314] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, return_all_buffers, 849
-[   31.938082] 
-[   31.938082] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_irq, 736
-[   31.947659] 
-[   31.947659] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_get_interrupt_status, 502
-[   31.956274] VNINTS_REG c0030012
-[   31.966378] 
-[   31.966378] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_ack_interrupt, 509
-[   31.969565] VNINTS_REG 0
-[   31.979574] 
-[   31.979574] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_set_stream, 941
-[   31.982645] 
-[   31.982645] [RVC] ../drivers/media/platform/rza-vin/rza-csi2.c, rcar_csi2_s_stream, 507
-[   31.992000] RVC_Call rcar_csi2_stop
-[   32.005202] after FCNTM_REG 65
-[   32.005236] after PHYDIM_REG 0
-[   32.008366] after PHYIM_REG 800000bc
-[   32.011468] after VINDM_REG 2002a
-[   32.015071] after VINSM1_REG 5000
-[   32.018467] after VINSM3_REG c1f0
-[   32.021814] after PHYOM_REG 13
-[   32.025252] 
-[   32.025252] [RVC] ../drivers/media/platform/rza-vin/rza-csi2.c, rcar_csi2_stop, 471
-[   32.028422] AF FCNTM_REG 66
-[   32.037688] AF PHYDIM_REG 0
-[   32.040536] AF PHYIM_REG 15
-[   32.043353] AF VINDM_REG 2002a
-[   32.046178] AF VINSM1_REG 6000
-[   32.049296] AF VINSM3_REG c0f0
-[   32.052395] AF PHYOM_REG 0
-[   32.055493] 
-[   32.055493] [RVC] ../drivers/media/platform/rza-vin/rza-csi2.c, rcar_csi2_reset, 261
-[   32.168241] SRST_REG 0
-[   32.179731] RVC_Call rcar_csi2_s_stream before END
-[   32.187412] rcar_csi2_s_stream go to mutex_unclock
-Captured 2 frames in 0.159916 seconds (12.506564 fps, 5763024.471261 B/s).
-2 buffers released.
-[   32.192566] 
-[   32.192566] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_disable_interrupts, 495
+Content of buf 0 at address b6f50000
+Content of buf 0 at address b6f50001
+Content of buf 0 [   27.921386] 
+[   27.921386] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_fill_hw_slot, 597
+at address b6f50002
+Conten[   28.078079] 
+[   28.078079] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_stop_streaming, 1098
+[   28.091913] VNFC_REG 0
+[   28.102771] 
+[   28.102771] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_capture_stop, 691
+[   28.105207] VNMC_REG 4000b
+[   28.114617] VNMC_REG 4000a
+[   28.117410] 
+[   28.117410] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_capture_active, 535
+[   28.120168] VNMS_REG c
+[   28.129722] VNMS_CA 1
+t of buf 0 at ad[   28.132164] 
+[   28.132164] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, return_all_buffers, 887
+dress b6f50003
+Content [   28.135142] 
+[   28.135142] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_set_stream, 979
+of buf 0 at addr[   28.146746] 
+[   28.146746] [RVC] ../drivers/media/platform/rza-vin/rza-csi2.c, rcar_csi2_s_stream, 510
+ess b6f50004
+Co[   28.157737] RVC_Call rcar_csi2_stop
+ntent of buf 0 a[   28.173655] after FCNTM_REG 3b
+t address b6f500[   28.173681] after PHYDIM_REG 0
+05
+Content of b[   28.178103] after PHYIM_REG b8
+uf 0 at address [   28.182644] after VINDM_REG 0
+b6f50006
+Conten[   28.187141] after VINSM1_REG b000
+t of buf 0 at ad[   28.191556] after VINSM3_REG c0f0
+dress b6f50007
+[   28.196267] after PHYOM_REG 13
+Content of buf 0[   28.201132] 
+[   28.201132] [RVC] ../drivers/media/platform/rza-vin/rza-csi2.c, rcar_csi2_stop, 474
+ at address b6f5[   28.205506] AF FCNTM_REG 3d
+0008
+Content of[   28.216117] AF PHYDIM_REG 0
+ buf 0 at addres[   28.220308] AF PHYIM_REG 8000006c
+s b6f50009
+writ[   28.224549] AF VINDM_REG 0
+e buf(0)
+[   28.229264] AF VINSM1_REG d000
+[   28.233435] AF VINSM3_REG c1f0
+[   28.237336] AF PHYOM_REG 0
+[   28.240416] 
+[   28.240416] [RVC] ../drivers/media/platform/rza-vin/rza-csi2.c, rcar_csi2_reset, 261
+[   28.297670] SRST_REG 0
+[   28.309632] RVC_Call rcar_csi2_s_stream before END
+[   28.317494] rcar_csi2_s_stream go to mutex_unclock
+Captured 1 frames in 0.002039 seconds (490.221551 fps, 150596060.383530 B/s).
+1 buffers released.
+[   28.322727] 
+[   28.322727] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_disable_interrupts, 513
 $ 
-
-
-THE SECOND TIME
-$ /root/yavta_debug  /dev/video0 -c2 -n2 -f NV12 -s 640x480 -F"/tmp/NV12_2f.bin"
-[   32.226821] 
-[   32.226821] [RVC] ../drivers/media/platform/rza-vin/rza-v4l2.c, rvin_mc_release, 1071
-[   79.797348] 
-[   79.797348] [RVC] ../drivers/media/platform/rza-vin/rza-v4l2.c, rvin_mc_open, 1041
-[   79.809657] 
-[   79.809657] [RVC] ../drivers/media/platform/rza-vin/rza-v4l2.c, rvin_get_sd_format, 232
-[   79.820056] 
-[   79.820056] [RVC] ../drivers/media/platform/rza-vin/rza-csi2.c, rcar_csi2_get_pad_format, 580
-[   79.829946] 
-[   79.829946] [RVC] ../drivers/media/platform/rza-vin/rza-v4l2.c, rvin_format_bytesperline, 85
-[   79.840204] 
-[   79.840204] [RVC] ../drivers/media/platform/rza-vin/rza-v4l2.c, rvin_format_from_pixel, 74
-Device /dev/video0 opened.
-[   79.851605] 
-[   79.851605] [RVC] ../drivers/media/platform/rza-vin/rza-v4l2.c,end of rvin_mc_open, 1059
-Device `R_Car_VIN' on `platform:e803f000.video' is a video capture device.
-[   79.903946] 
-[   79.903946] [RVC] ../drivers/media/platform/rza-vin/rza-v4l2.c, rvin_querycap, 380
-[   79.929557] 
-[   79.929557] [RVC] ../drivers/media/platform/rza-vin/rza-v4l2.c, rvin_mc_s_fmt_vid_cap, 828
-[   79.939933] 
-[   79.939933] [RVC] ../drivers/media/platform/rza-vin/rza-v4l2.c, __rvin_mc_try_format, 811
-[   79.950315] 
-[   79.950315] [RVC] ../drivers/media/platform/rza-vin/rza-v4l2.c, rvin_format_align, 132
-[   79.960239] 
-[   79.960239] [RVC] ../drivers/media/platform/rza-vin/rza-v4l2.c, rvin_format_from_pixel, 74
-[   79.969902] 
-[   79.969902] [RVC] ../drivers/media/platform/rza-vin/rza-v4l2.c, __rvin_format_aling_update, 110
-[   79.979963] 
-[   79.979963] [RVC] ../drivers/media/platform/rza-vin/rza-v4l2.c, rvin_format_bytesperline, 85
-[   79.990320] 
-[   79.990320] [RVC] ../drivers/media/platform/rza-vin/rza-v4l2.c, rvin_format_from_pixel, 74
-[   80.000386] 
-[   80.000386] [RVC] ../drivers/media/platform/rza-vin/rza-v4l2.c, rvin_format_sizeimage, 96
-[   80.010778] rcar-vin e803f000.video: Format 640x480 bpl: 640 size: 460800
-Video format set: NV12 (3231564e) 640x480 (stride 640) bu[   80.071706] 
-[   80.071706] [RVC] ../drivers/media/platform/rza-vin/rza-v4l2.c, rvin_g_fmt_vid_cap, 418
-ffer size 460800
-Video format: NV12 (3231564e) 640x480 (stride 640) buffer size 460800
-2 buffers requested.
-length: 460800 offset: 0
-Buffer 0 mapped at address 0xb6eb2000.
-length: 460800 offset: 462848
-Buffer 1 mapped at address 0xb6e4[   80.073640] 
-[   80.073640] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_queue_setup, 870
-1000.
-[   80.144133] 
-[   80.144133] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_buffer_queue, 902
-[   80.156559] 
-[   80.156559] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_buffer_queue, 902
-[   80.166904] 
-[   80.166904] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_start_streaming, 1030
-[   80.176460] 
-[   80.176460] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_set_stream, 941
-[   80.186941] 
-[   80.186941] [RVC] ../drivers/media/platform/rza-vin/rza-csi2.c, rcar_csi2_get_pad_format, 580
-[   80.197010] 
-[   80.197010] [RVC] ../drivers/media/platform/rza-vin/rza-csi2.c, rcar_csi2_s_stream, 507
-[   80.208211] RVC_Call rcar_csi2_start
-[   80.221611] 
-[   80.221611] [RVC] ../drivers/media/platform/rza-vin/rza-csi2.c, rcar_csi2_start, 364
-[   80.222091] rza-csi2 e8209000.csi2: Input size (640x480p)
-[   80.237094] before FCNTM_REG 0
-[   80.237114] before PHYDIM_REG 0
-[   80.240205] before PHYIM_REG 0
-[   80.243400] before VINDM_REG 0
-[   80.246511] before VINSM1_REG 0
-[   80.249674] before VINSM3_REG c000
-[   80.252885] before PHYOM_REG 0
-[   80.256372] Check virtual channel setting 805e
-[   80.259494] <2 Check virtual channel setting 805e
-[   80.263980] Check virtual channel setting 815e
-[   80.268790] <2 Check virtual channel setting 815e805e
-[   80.273294]  Check virtual channel setting 815e805e,  815e, 0, 8000, 40, 1e 
-[   80.285518] 
-[   80.285518] [RVC] ../drivers/media/platform/rza-vin/rza-csi2.c, rcar_csi2_calc_phy_timing, 322
-[   80.285614] PHYTIM3_REG e09
-[   80.295827] PHYTIM2_REG 30f0a
-[   80.298780] PHYTIM1_REG 338f
-[   80.301827] INTSTATE_REG 281b9c19
-[   80.304731] TREF_REG 1
-[   80.308199] 
-[   80.308199] [RVC] ../drivers/media/platform/rza-vin/rza-csi2.c, rcar_csi2_reset, 261
-[   80.361868] SRST_REG 0
-[   80.372906] FLD_REG 1
-[   80.375412] VCDT_REG 815e805e
-[   80.378096] LSWAP_REG 4
-[   80.381183] PHYCNT_REG 13
-[   80.383675] PHYCNT_REG 0
-[   80.386326] PHYCNT_REG 20013
-[   80.389003] PHYCNT_REG 30013
-[   80.391980] 
-[   80.391980] [RVC] ../drivers/media/platform/rza-vin/rza-csi2.c, rcar_csi2_wait_phy_start, 271
-[   80.395235] rza-csi2 e8209000.csi2: PHCLM_REG d
-[   80.410090] rza-csi2 e8209000.csi2: PHDLM_REG 3003, priv->lanes 2, lane_mask 3
-[   80.417463] phy_start FCNTM_REG 0
-[   80.417495] phy_start PHYDIM_REG 0
-[   80.420849] phy_start PHYIM_REG f4
-[   80.424316] phy_start VINDM_REG 0
-[   80.427865] phy_start VINSM1_REG 0
-[   80.431246] phy_start VINSM3_REG c000
-[   80.434683] phy_start PHYOM_REG 13
-[   80.438419] RVC_Call finish rcar_csi2_start
-[   80.446107] imx219_s_power
-[   80.449234] imx219 2-0010: clk enable
-[   80.453028] imx219_s_stream
-[   80.455873] Before reg_write_table 
-[   80.459514] reg_write data 1
-[   80.493498] reg_write data 5
-[   80.500880] reg_write data c
-[   80.506385] reg_write data ff
-[   80.520049] reg_write data ff
-[   80.533593] reg_write data 5
-[   80.540161] reg_write data 9
-[   80.545418] reg_write data 1
-[   80.558528] reg_write data 0
-[   80.568239] reg_write data 18
-[   80.574117] reg_write data 0
-[   80.584515] reg_write data a
-[   80.591100] reg_write data 83
-[   80.596428] reg_write data d
-[   80.608837] reg_write data 78
-[   80.618584] reg_write data 1
-[   80.624225] reg_write data 1
-[   80.634683] reg_write data 0
-[   80.641135] reg_write data 0
-[   80.646278] reg_write data 8
-[   80.658492] reg_write data 8
-[   80.667635] reg_write data 5
-[   80.673146] reg_write data 1
-[   80.678597] reg_write data 2
-[   80.684017] reg_write data 2
-[   80.696289] reg_write data 0
-[   80.705517] reg_write data 76
-[   80.711921] reg_write data 8
-[   80.717377] reg_write data 0
-[   80.725657] reg_write data 4e
-[   80.738082] reg_write data 0
-[   80.743826] reg_write data 4b
-[   80.754104] reg_write data f
-[   80.760660] reg_write data 14
-[   80.766013] reg_write data 0
-[   80.777802] reg_write data 14
-[   80.786138] reg_write data 30
-[   80.792494] reg_write data 10
-[   80.798131] reg_write data 10
-[   80.803437] reg_write data 10
-[   80.815792] reg_write data e
-[   80.822556] reg_write data e
-[   80.828003] After reg_write_table and before handle crop 
-[   80.833494] reg_write data 0
-[   80.839036] reg_write data 0
-[   80.849599] reg_write data 2
-[   80.865449] reg_write data 7f
-[   80.872157] reg_write data 0
-[   80.877725] reg_write data 0
-[   80.886454] reg_write data 1
-[   80.899403] reg_write data df
-[   80.905216] reg_write data 2
-[   80.915634] reg_write data 80
-[   80.922394] reg_write data 1
-[   80.927899] reg_write data e0
-[   80.933299] After handle crop 
-[   80.936446] reg_write data 0
-[   80.959292] reg_write data 0
-[   80.965605] reg_write data 1
-[   80.978998] reg_write data 0
-[   80.989186] reg_write data 0
-[   80.994831] reg_write data 0
-[   81.005371] before reg_write_table again 
-[   81.010673] reg_write data 1
-[   81.016437] RVC_Call rcar_csi2_s_stream before END
-[   81.021638] rcar_csi2_s_stream go to mutex_unclock
-[   81.026828] 
-[   81.026828] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_capture_start, 621
-[   81.026918] 
-[   81.026918] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_fill_hw, 589
-[   81.036433] limit = 1 , vin->continuous 0, HW_BUFFER_NUM 3 
-[   81.051008] 
-[   81.051008] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_fill_hw_slot, 564
-[   81.051437] rcar-vin e803f000.video: Filling HW slot: 0
-[   81.066288] 
-[   81.066288] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_set_slot_addr, 535
-[   81.066390] 
-[   81.066390] [RVC] ../drivers/media/platform/rza-vin/rza-v4l2.c, rvin_format_from_pixel, 74
-[   81.076017] VNMB_REG(0) 40280000, 30
-[   81.089441] 
-[   81.089441] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c,end of rvin_set_slot_addr, 555
-[   81.089448] 
-[   81.089448] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c,end of rvin_fill_hw, 595
-[   81.099449] 
-[   81.099449] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_crop_scale_comp, 259
-[   81.108969] VNSPPRC_REG 64
-[   81.118619] VNEPPRC_REG 383
-[   81.121396] default VNSLPRC_REG 18
-[   81.124228] VNELPRC_REG 1f7
-[   81.127662] 
-[   81.127662] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_crop_scale_comp_gen3, 211
-[   81.130523] 
-[   81.130523] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_get_bwidth, 185
-[   81.140610] 
-[   81.140610] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_get_bwidth, 185
-[   81.149821] VNIS_REG 280
-[   81.159028] 
-[   81.159028] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_setup, 319
-[   81.161652]  input MEDIA_BUS_FMT_UYVY8_2X8 
-[   81.174644] Enable VSYNC Field RCAR_GEN3 dmr2 20000
-[   81.179583] output V4L2_PIX_FMT_NV12 dmr 0
-[   81.183742] interrupts 2
-[   81.186297] VNINTS_REG 40020000
-[   81.189466] VNIE_REG 2
-[   81.191854] VNDMR_REG 0
-[   81.191871] VNDMR2_REG 8021000
-[   81.194345] VNMC_REG 3004000b
-[   81.197425] 
-[   81.197425] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_capture_on, 601
-[   81.200440] rcar-vin e803f000.video: Capture on in single mode
-[   81.215529] Single Frame VNFC_REG 0
-[   81.250895] 
-[   81.250895] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_irq, 736
-[   81.251143] 
-[   81.251143] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_get_interrupt_status, 502
-[   81.260360] VNINTS_REG c0030012
-[   81.270443] 
-[   81.270443] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_ack_interrupt, 509
-[   81.273658] VNINTS_REG 0
-[   81.283149] 
-[   81.283149] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_get_active_slot, 523
-[   81.285703] VNMS_REG 8
-[   81.295587] rcar-vin e803f000.video: IRQ 00: 0       buf0: x buf1: 0 buf2: 0 more: 1
-[   81.305291] 
-[   81.305291] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_seq_field_done, 684
-[   81.305551] 
-[   81.305551] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_fill_hw, 589
-[   81.315142] limit = 1 , vin->continuous 0, HW_BUFFER_NUM 3 
-[   81.329698] 
-[   81.329698] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_fill_hw_slot, 564
-[   81.329727] rcar-vin e803f000.video: Filling HW slot: 0
-[   81.344434] 
-[   81.344434] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_set_slot_addr, 535
-[   81.344499] 
-[   81.344499] [RVC] ../drivers/media/platform/rza-vin/rza-v4l2.c, rvin_format_from_pixel, 74
-[   81.353993] VNMB_REG(0) 40100000, 30
-[   81.367409] 
-[   81.367409] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c,end of rvin_set_slot_addr, 555
-[   81.367421] 
-[   81.367421] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c,end of rvin_fill_hw, 595
-[   81.377414] 
-[   81.377414] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_capture_on, 601
-[   81.386893] rcar-vin e803f000.video: Capture on in single mode
-[   81.401966] Single Frame VNFC_REG 0
-[   81.447929] 
-[   81.447929] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_irq, 736
-[   81.448166] 
-[   81.448166] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_get_interrupt_status, 502
-[   81.457333] VNINTS_REG c0030012
-[   81.467480] 
-[   81.467480] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_ack_interrupt, 509
-[   81.470701] VNINTS_REG 0
-[   81.480185] 
-[   81.480185] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_get_active_slot, 523
-[   81.482748] VNMS_REG 8
-[   81.492623] rcar-vin e803f000.video: IRQ 01: 0       buf0: x buf1: 0 buf2: 0 more: 0
-[   81.502294] 
-[   81.502294] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_seq_field_done, 684
-[   81.502513] 
-[   81.502513] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_fill_hw, 589
-[   81.512114] limit = 1 , vin->continuous 0, HW_BUFFER_NUM 3 
-0 (0) [-] 0 460800 bytes 81.288633 81.513762 -4.483 fps
-write buf(0)
-Content of buf 0 at address b6eb2000
-Content of buf 0 at address b6eb2001
-Content of buf 0 at address b6eb2002
-Content of buf 0 at address b6eb2003
-Content of buf 0 at address b6eb2004
-Content of buf 0 at address b6eb2005
-Content of buf 0 at address b6eb2006
-Content of buf 0 at address b6eb2007
-Content of buf 0 at address b6eb2008
-Content of buf 0 at address b6eb2009
-write buf(0)
-1 (1) [-] 1 460800 bytes 81.485623 81.627109 5.076 fps
-write buf(1)
-Content of buf 0 at address b6e41000
-Content of buf 0 at address b6e41001
-Content of b[   81.526679] 
-[   81.526679] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_fill_hw_slot, 564
-uf 0 at address [   81.767183] 
-[   81.767183] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_buffer_queue, 902
-[   81.780954] 
-[   81.780954] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_fill_hw, 589
-[   81.791403] limit = 1 , vin->continuous 0, HW_BUFFER_NUM 3 
-[   81.806012] 
-[   81.806012] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_fill_hw_slot, 564
-[   81.806483] rcar-vin e803f000.video: Filling HW slot: 0
-[   81.821279] 
-[   81.821279] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_set_slot_addr, 535
-[   81.821373] 
-[   81.821373] [RVC] ../drivers/media/platform/rza-vin/rza-v4l2.c, rvin_format_from_pixel, 74
-[   81.830996] VNMB_REG(0) 40100000, 30
-[   81.844447] 
-[   81.844447] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c,end of rvin_set_slot_addr, 555
-[   81.844455] 
-[   81.844455] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c,end of rvin_fill_hw, 595
-[   81.854465] 
-[   81.854465] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_capture_start, 621
-[   81.863934] 
-[   81.863934] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_fill_hw, 589
-[   81.873404] limit = 1 , vin->continuous 0, HW_BUFFER_NUM 3 
-[   81.887963] 
-[   81.887963] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_fill_hw_slot, 564
-[   81.887969] 
-[   81.887969] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c,end of rvin_fill_hw, 595
-[   81.897359] 
-[   81.897359] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_crop_scale_comp, 259
-[   81.906872] VNSPPRC_REG 64
-[   81.916525] VNEPPRC_REG 383
-[   81.919302] default VNSLPRC_REG 18
-[   81.922133] VNELPRC_REG 1f7
-[   81.925568] 
-[   81.925568] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_crop_scale_comp_gen3, 211
-[   81.928469] 
-[   81.928469] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_get_bwidth, 185
-[   81.938572] 
-[   81.938572] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_get_bwidth, 185
-[   81.947797] VNIS_REG 280
-[   81.957021] 
-[   81.957021] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_setup, 319
-[   81.959624]  input MEDIA_BUS_FMT_UYVY8_2X8 
-[   81.972631] Enable VSYNC Field RCAR_GEN3 dmr2 20000
-[   81.977578] output V4L2_PIX_FMT_NV12 dmr 0
-[   81.981736] interrupts 2
-[   81.984298] VNINTS_REG 40020000
-[   81.987468] VNIE_REG 2
-[   81.989847] VNDMR_REG 0
-[   81.989877] VNDMR2_REG 8021000
-[   81.992351] VNMC_REG 3004000b
-[   81.995436] 
-[   81.995436] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_capture_on, 601
-[   81.998460] rcar-vin e803f000.video: Capture on in single mode
-[   82.013549] Single Frame VNFC_REG 0
-b6e41002
-Content of buf 0 at address b6e41003
-Content of buf 0 at address b6e41004
-Content of buf 0 at address b6e41005
-Content of buf 0 at address b6e41006
-Content of buf 0 at address b6e41007
-Content of buf 0 at address b6e41008
-Content of buf 0 at address b6e41009
-write buf([   82.041997] 
-[   82.041997] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_stop_streaming, 1059
-[   82.042413] VNFC_REG 0
-[   82.053523] 
-[   82.053523] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_capture_stop, 658
-[   82.055945] VNMC_REG 3004000b
-[   82.065339] VNMC_REG 3004000a
-[   82.068386] 
-[   82.068386] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_capture_active, 516
-[   82.071382] VNMS_REG 8
-1)
-[   82.080995] 
-[   82.080995] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, return_all_buffers, 849
-[   82.084546] 
-[   82.084546] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_irq, 736
-[   82.094137] 
-[   82.094137] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_get_interrupt_status, 502
-[   82.102770] VNINTS_REG c0030012
-[   82.112859] 
-[   82.112859] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_ack_interrupt, 509
-[   82.116031] VNINTS_REG 0
-[   82.126201] 
-[   82.126201] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_set_stream, 941
-[   82.129317] 
-[   82.129317] [RVC] ../drivers/media/platform/rza-vin/rza-csi2.c, rcar_csi2_s_stream, 507
-[   82.138789] RVC_Call rcar_csi2_stop
-[   82.151963] after FCNTM_REG 5d
-[   82.151982] after PHYDIM_REG 0
-[   82.155070] after PHYIM_REG 800000c4
-[   82.158226] after VINDM_REG 2002a
-[   82.161839] after VINSM1_REG f000
-[   82.165195] after VINSM3_REG c1f0
-[   82.168590] after PHYOM_REG 13
-[   82.172027] 
-[   82.172027] [RVC] ../drivers/media/platform/rza-vin/rza-csi2.c, rcar_csi2_stop, 471
-[   82.175119] AF FCNTM_REG 5f
-[   82.184358] AF PHYDIM_REG 0
-[   82.187232] AF PHYIM_REG 80000078
-[   82.190049] AF VINDM_REG 2002a
-[   82.193402] AF VINSM1_REG f000
-[   82.196480] AF VINSM3_REG c1f0
-[   82.199587] AF PHYOM_REG 0
-[   82.202670] 
-[   82.202670] [RVC] ../drivers/media/platform/rza-vin/rza-csi2.c, rcar_csi2_reset, 261
-[   82.285365] SRST_REG 0
-[   82.297737] RVC_Call rcar_csi2_s_stream before END
-[   82.305320] rcar_csi2_s_stream go to mutex_unclock
-Captured 2 frames in 0.115413 seconds (17.329054 fps, 7985228.298076 B/s).
-2 buffers released.
-[   82.310602] 
-[   82.310602] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_disable_interrupts, 495
-$ [   82.344301] 
-[   82.344301] [RVC] ../drivers/media/platform/rza-vin/rza-v4l2.c, rvin_mc_release, 1071
-[   99.658657] random: crng init done
-
-THE THIRD
-    1.090503] RPC: Registered tcp NFSv4.1 backchannel transport module.
-[    1.140384] workingset: timestamp_bits=30 max_order=11 bucket_order=0
-[    1.159095] NFS: Registering the id_resolver key type
-[    1.160761] Key type id_resolver registered
-[    1.160870] Key type id_legacy registered
-[    1.161315] nfs4filelayout_init: NFSv4 File Layout Driver Registering...
-[    1.161492] nfs4flexfilelayout_init: NFSv4 Flexfile Layout Driver Registering...
-[    1.162104] jffs2: version 2.2. (NAND) �© 2001-2006 Red Hat, Inc.
-[    1.188300] Key type asymmetric registered
-[    1.189172] Asymmetric key parser 'x509' registered
-[    1.193611] Block layer SCSI generic (bsg) driver version 0.4 loaded (major 250)
-[    1.194088] io scheduler noop registered
-[    1.194137] io scheduler deadline registered
-[    1.195824] io scheduler cfq registered (default)
-[    1.195913] io scheduler mq-deadline registered
-[    1.241704] vdc5fb fcff7400.display: fcff7400.display: [gwp0700cnwv04] dotclock 33.000 MHz, dcdr 2
-[    1.276337] vdc5fb: Layer 2 Enabled (800x480 @ 0x80000000)
-[    1.377144] vdc5fb fcff7400.display: update_regs timeout reg=00000080, bits=00000001, now=00000001
-[    1.477786] vdc5fb fcff7400.display: update_regs timeout reg=00000100, bits=00003111, now=00001001
-[    1.578052] vdc5fb fcff7400.display: update_regs timeout reg=00000180, bits=00110011, now=00010011
-[    1.738545] Console: switching to colour frame buffer device 100x30
-[    1.795909] graphics fb0: registered fcff7400.display as 800x480 @ 59 Hz, 16 bpp.
-[    1.833933] Serial: 8250/16550 driver, 4 ports, IRQ sharing disabled
-[    1.899912] SuperH (H)SCI(F) driver initialized
-[    1.917818] e8009000.serial: ttySC0 at MMIO 0xe8009000 (irq = 19, base_baud = 0) is a scif
-[    2.538180] console [ttySC0] enabled
-[    2.577521] 1 ofpart partitions found on MTD device 20000000.qspi
-[    2.591634] Creating 1 MTD partitions on "20000000.qspi":
-[    2.602414] 0x000000800000-0x000001800000 : "user"
-[    2.633610] random: fast init done
-[    2.704769] libphy: Fixed MDIO Bus: probed
-[    2.724799] usbcore: registered new interface driver usb-storage
-[    2.739994] i2c /dev entries driver
-[    2.821338] i2c-riic e803a800.i2c: registered with 400000Hz bus speed
-[    2.899855] ft5x06_set_mode: changed mode to 0x00
-[    2.918010] input: FT5X06 Multiple Touch Controller as /devices/platform/e803ac00.i2c/i2c-3/3-0038/input/input0
-[    2.995930] at24 3-0050: 16384 byte 24c128 EEPROM, writable, 64 bytes/write
-[    3.013936] i2c-riic e803ac00.i2c: registered with 400000Hz bus speed
-[    3.036219] imx219_probe Aug 12
-[    3.047370] imx219_probe 1
-[    3.055482] imx219_ctrls_init
-[    3.064733] imx219_s_ctrl
-[    3.071448] V4L2_CID_HFLIP
-[    3.099346] imx219_s_ctrl
-[    3.108954] V4L2_CID_VFLIP
-[    3.117167] imx219_s_ctrl
-[    3.124289] V4L2_CID_ANALOGUE_GAIN
-[    3.132034] imx219_s_ctrl
-[    3.138121] V4L2_CID_GAIN
-[    3.144449] imx219_s_ctrl
-[    3.149989] V4L2_CID_TEST_PATTERN
-[    3.156310] imx219_s_ctrl_test_pattern
-[    3.162859] imx219_s_ctrl_test_pattern DISABLE
-[    3.170040] imx219_probe 2
-[    3.175321] imx219_probe 3
-[    3.180475] imx219_s_power
-[    3.186153] imx219 2-0010: clk enable
-[    3.192310] imx219_video_probe check chip ID 
-[    3.200656] imx219 2-0010: Model ID 0x0219, Lot ID 0x686b22, Chip ID 0x0411
-[    3.210518] imx219_s_power
-[    3.215795] imx219 2-0010: clk disable
-[    3.221924] v4l2_async_register_subdev
-[    3.228130] imx219_probe 4 camera driver probed ok
-[    3.247779] 
-[    3.247779] [RVC] ../drivers/media/platform/rza-vin/rza-csi2.c, rcar_csi2_probe, 812
-[    3.248054] 
-[    3.248054] [RVC] ../drivers/media/platform/rza-vin/rza-csi2.c, rcar_csi2_probe_resources, 774
-[    3.264750] rza-csi2 e8209000.csi2: rcar_csi2_probe_resources 
-[    3.290280] called v4l2_device_register c0411200
-[    3.298238] rza-csi2 e8209000.csi2: call rcar_csi2_parse_dt
-[    3.306522] 
-[    3.306522] [RVC] ../drivers/media/platform/rza-vin/rza-csi2.c, rcar_csi2_parse_dt, 711
-[    3.307389] 
-[    3.307389] [RVC] ../drivers/media/platform/rza-vin/rza-csi2.c, rcar_csi2_parse_v4l2, 671
-[    3.323065] rza-csi2 e8209000.csi2: Found '/i2c@e803a800/imx219@10'
-[    3.348816] call v4l2_async_notifier_register c0411200
-[    3.357488] rcar_csi2_notify_bound
-[    3.363978] 
-[    3.363978] [RVC] ../drivers/media/platform/rza-vin/rza-csi2.c, rcar_csi2_notify_bound, 625
-[    3.364080] 
-[    3.364080] [RVC] ../drivers/media/platform/rza-vin/rza-csi2.c, rcar_csi2_notify_complete, 650
-[    3.407161] priv->subdev.name rza_csi2 e8209000.csi2 
-[    3.436732] v4l2_async_register_subdev
-[    3.444382] v4l2_async_find_match failed
-[    3.452242] rza-csi2 e8209000.csi2: RVC debug 2 lanes found
-[    3.471142] 
-[    3.471142] [RVC] ../drivers/media/platform/rza-vin/rza-core.c, rcar_vin_probe, 1027
-[    3.474880] 
-[    3.474880] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_dma_probe, 1183
-[    3.493334] rvin_dma_probe call v4l2_device_register c0675328 
-[    3.512205] 
-[    3.512205] [RVC] ../drivers/media/platform/rza-vin/rza-core.c, rvin_group_init, 892
-[    3.522849] 
-[    3.522849] [RVC] ../drivers/media/platform/rza-vin/rza-core.c, rvin_group_allocate, 336
-[    3.539819] 
-[    3.539819] [RVC] ../drivers/media/platform/rza-vin/rza-core.c, __rvin_group_allocate, 286
-[    3.581281] 
-[    3.581281] [RVC] ../drivers/media/platform/rza-vin/rza-core.c, rvin_group_add_vin, 308
-[    3.602864] 
-[    3.602864] [RVC] ../drivers/media/platform/rza-vin/rza-core.c, rvin_group_read_id, 246
-[    3.621157] 
-[    3.621157] [RVC] ../drivers/media/platform/rza-vin/rza-core.c, rvin_group_graph_parse, 778
-[    3.639140] 
-[    3.639140] [RVC] ../drivers/media/platform/rza-vin/rza-core.c, rvin_group_read_id, 246
-[    3.657682] 
-[    3.657682] [RVC] ../drivers/media/platform/rza-vin/rza-core.c, rvin_group_get_remote, 755
-[    3.675797] 
-[    3.675797] [RVC] ../drivers/media/platform/rza-vin/rza-core.c, rvin_group_get_remote, 755
-[    3.694573] 
-[    3.694573] [RVC] ../drivers/media/platform/rza-vin/rza-core.c, rvin_group_graph_parse, 778
-[    3.713466] 
-[    3.713466] [RVC] ../drivers/media/platform/rza-vin/rza-core.c, rvin_group_read_id, 246
-[    3.732148] 
-[    3.732148] [RVC] ../drivers/media/platform/rza-vin/rza-core.c, rvin_group_get_remote, 755
-[    3.750661] 
-[    3.750661] [RVC] ../drivers/media/platform/rza-vin/rza-v4l2.c, rvin_v4l2_register, 1137
-[    3.769814] 
-[    3.769814] [RVC] ../drivers/media/platform/rza-vin/rza-v4l2.c, rvin_format_align, 132
-[    3.788646] 
-[    3.788646] [RVC] ../drivers/media/platform/rza-vin/rza-v4l2.c, rvin_format_from_pixel, 74
-[    3.807148] rvin_format_align DEFAULT V4L2_FIELD_NONE
-[    3.835704] 
-[    3.835704] [RVC] ../drivers/media/platform/rza-vin/rza-v4l2.c, __rvin_format_aling_update, 110
-[    3.835835] 
-[    3.835835] [RVC] ../drivers/media/platform/rza-vin/rza-v4l2.c, rvin_format_bytesperline, 85
-[    3.855070] 
-[    3.855070] [RVC] ../drivers/media/platform/rza-vin/rza-v4l2.c, rvin_format_from_pixel, 74
-[    3.874105] 
-[    3.874105] [RVC] ../drivers/media/platform/rza-vin/rza-v4l2.c, rvin_format_sizeimage, 96
-[    3.893285] rcar-vin e803f000.video: Format 800x600 bpl: 1600 size: 960000
-[    3.948426] rcar-vin e803f000.video: Device registered as video0
-[    3.962696] 
-[    3.962696] [RVC] ../drivers/media/platform/rza-vin/rza-core.c, rvin_group_graph_register, 849
-[    3.963046] rcar-vin e803f000.video: Call Notifier registration
-[    3.993980] rcar-vin e803f000.video: Entity type for entity rza_csi2 e8209000.csi2 was not initialized!
-[    4.012622] 
-[    4.012622] [RVC] ../drivers/media/platform/rza-vin/rza-core.c, rvin_group_notify_bound, 734
-[    4.012752] 
-[    4.012752] [RVC] ../drivers/media/platform/rza-vin/rza-core.c, rvin_group_notify_complete, 705
-[    4.031662] rvin_group_notify_complete call v4l2_device_register_subdev_nodes c0675328
-[    4.079054] 
-[    4.079054] [RVC] ../drivers/media/platform/rza-vin/rza-core.c, rvin_group_update_links, 657
-[    4.079296] 
-[    4.079296] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_get_chsel, 1262
-[    4.101030] chsel 0
-[    4.119925] 
-[    4.119925] [RVC] ../drivers/media/platform/rza-vin/rza-core.c, rvin_group_add_link, 635
-[    4.437851] sh_mobile_sdhi e8228000.sd: mmc0 base at 0xe8228000 max clock rate 132 MHz
-[    4.481202] usbcore: registered new interface driver usbhid
-[    4.494213] usbhid: USB HID core driver
-[    4.509789] NET: Registered protocol family 10
-[    4.572240] Segment Routing with IPv6
-[    4.587319] sit: IPv6, IPv4 and MPLS over IPv4 tunneling driver
-[    4.617517] NET: Registered protocol family 17
-[    4.633256] Key type dns_resolver registered
-[    4.645926] rza2mevb_init_late: Error: Could not find QSPI clock
-[    4.725128] hctosys: unable to open rtc device (rtc0)
-[    4.785689] VFS: Mounted root (axfs filesystem) readonly on device 0:11.
-[    4.806565] devtmpfs: mounted
-[    4.818222] Freeing unused kernel memory: 52K
-[    4.827699] This architecture does not have kernel memory protection.
-Starting logging: OK
-read-only file system detected...done
-Starting network: OK
-Wed Nov  1 09:00:00 UTC 2017
-[   10.794716] Console: switching to colour dummy device 80x30
-/etc/init.d/S99_rea_setup: line 34: fbv: not found
-/etc/init.d/S99_rea_setup: line 47: alsactl: not found
-
-Welcome to Buildroot
-buildroot login: root
-$ media-ctl -d /dev/media0 -l "'rza_csi2 e8209000.csi2':1 -> 'rza_vin e803f000.v
-ideo':0 [1]"
-e8209000.csi2':1 [fmt:UYVY8_2X8/640x480 field:none]"
-/root/yavta_debug  /dev/video0 -c2 -n2 -f NV12 -s 640x480 -F"/tmp/NV12_2f.bin"$ media-ctl -V "'rza_csi2 e8209000."
-$ /root/yavta_debug  /dev/video0 -c2 -n2 -f NV12 -s 640x480 -F"/tmp/NV12_2f.bin"
-[   23.680795] 
-[   23.680795] [RVC] ../drivers/media/platform/rza-vin/rza-csi2.c, rcar_csi2_set_pad_format, 569
-[   27.209509] 
-[   27.209509] [RVC] ../drivers/media/platform/rza-vin/rza-v4l2.c, rvin_mc_open, 1041
-[   27.223038] 
-[   27.223038] [RVC] ../drivers/media/platform/rza-vin/rza-v4l2.c, rvin_get_sd_format, 232
-[   27.232776] 
-[   27.232776] [RVC] ../drivers/media/platform/rza-vin/rza-csi2.c, rcar_csi2_get_pad_format, 588
-[   27.242611] 
-[   27.242611] [RVC] ../drivers/media/platform/rza-vin/rza-v4l2.c, rvin_format_bytesperline, 85
-[   27.252862] 
-[   27.252862] [RVC] ../drivers/media/platform/rza-vin/rza-v4l2.c, rvin_format_from_pixel, 74
-Device /dev/video0 opened.
-[   27.264245] 
-[   27.264245] [RVC] ../drivers/media/platform/rza-vin/rza-v4l2.c,end of rvin_mc_open, 1059
-Device `R_Car_VIN' on `p[   27.317885] 
-[   27.317885] [RVC] ../drivers/media/platform/rza-vin/rza-v4l2.c, rvin_querycap, 380
-latform:e803f000[   27.331264] 
-[   27.331264] [RVC] ../drivers/media/platform/rza-vin/rza-v4l2.c, rvin_mc_s_fmt_vid_cap, 828
-.video' is a vid[   27.342592] 
-[   27.342592] [RVC] ../drivers/media/platform/rza-vin/rza-v4l2.c, __rvin_mc_try_format, 811
-eo capture devic[   27.353889] 
-[   27.353889] [RVC] ../drivers/media/platform/rza-vin/rza-v4l2.c, rvin_format_align, 132
-e.
-[   27.364953] 
-[   27.364953] [RVC] ../drivers/media/platform/rza-vin/rza-v4l2.c, rvin_format_from_pixel, 74
-[   27.376120] 
-[   27.376120] [RVC] ../drivers/media/platform/rza-vin/rza-v4l2.c, __rvin_format_aling_update, 110
-[   27.386179] 
-[   27.386179] [RVC] ../drivers/media/platform/rza-vin/rza-v4l2.c, rvin_format_bytesperline, 85
-[   27.396526] 
-[   27.396526] [RVC] ../drivers/media/platform/rza-vin/rza-v4l2.c, rvin_format_from_pixel, 74
-[   27.406624] 
-[   27.406624] [RVC] ../drivers/media/platform/rza-vin/rza-v4l2.c, rvin_format_sizeimage, 96
-[   27.417009] rcar-vin e803f000.video: Format 640x480 bpl: 640 size: 460800
-Video format set: NV12 (3231564e) 640x480 (stride 640) buffer size 460[   27.475271] 
-[   27.475271] [RVC] ../drivers/media/platform/rza-vin/rza-v4l2.c, rvin_g_fmt_vid_cap, 418
-800
-Video format: NV12 (3231564e) 640x480 (stride 640) buffer size 460800
-2 buffers requested.
-length: 460800 offset: 0
-Buffer 0 mapped at address 0xb6f66000.
-length: 460800 [   27.477277] 
-[   27.477277] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_queue_setup, 870
-offset: 462848
-[   27.540025] 
-[   27.540025] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_buffer_queue, 902
-Buffer 1 mapped [   27.552663] 
-[   27.552663] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_buffer_queue, 902
-at address 0xb6e[   27.563310] 
-[   27.563310] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_start_streaming, 1030
-f5000.
-[   27.574221] 
-[   27.574221] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_set_stream, 941
-[   27.585521] 
-[   27.585521] [RVC] ../drivers/media/platform/rza-vin/rza-csi2.c, rcar_csi2_get_pad_format, 588
-[   27.595920] 
-[   27.595920] [RVC] ../drivers/media/platform/rza-vin/rza-csi2.c, rcar_csi2_s_stream, 507
-[   27.607083] RVC_Call rcar_csi2_start
-[   27.620461] 
-[   27.620461] [RVC] ../drivers/media/platform/rza-vin/rza-csi2.c, rcar_csi2_start, 364
-[   27.620902] rza-csi2 e8209000.csi2: Input size (640x480p)
-[   27.635878] before FCNTM_REG 0
-[   27.635898] before PHYDIM_REG 0
-[   27.639026] before PHYIM_REG 0
-[   27.642245] before VINDM_REG 0
-[   27.645346] before VINSM1_REG 0
-[   27.648425] before VINSM3_REG 0
-[   27.651602] before PHYOM_REG 0
-[   27.654850] Check virtual channel setting 805e
-[   27.657939] <2 Check virtual channel setting 805e
-[   27.662444] Check virtual channel setting 815e
-[   27.667187] <2 Check virtual channel setting 815e805e
-[   27.671680]  Check virtual channel setting 815e805e,  815e, 0, 8000, 40, 1e 
-[   27.683947] 
-[   27.683947] [RVC] ../drivers/media/platform/rza-vin/rza-csi2.c, rcar_csi2_calc_phy_timing, 322
-[   27.684031] PHYTIM3_REG e09
-[   27.694224] PHYTIM2_REG 30f0a
-[   27.697040] PHYTIM1_REG 338f
-[   27.700062] INTSTATE_REG 0
-[   27.702991] TREF_REG 1
-[   27.705738] 
-[   27.705738] [RVC] ../drivers/media/platform/rza-vin/rza-csi2.c, rcar_csi2_reset, 261
-[   27.764050] SRST_REG 0
-[   27.774923] FLD_REG 1
-[   27.777454] VCDT_REG 815e805e
-[   27.779774] LSWAP_REG 4
-[   27.783224] PHYCNT_REG 13
-[   27.785780] PHYCNT_REG 0
-[   27.788435] PHYCNT_REG 20013
-[   27.790998] PHYCNT_REG 30013
-[   27.794094] 
-[   27.794094] [RVC] ../drivers/media/platform/rza-vin/rza-csi2.c, rcar_csi2_wait_phy_start, 271
-[   27.797434] rza-csi2 e8209000.csi2: PHCLM_REG c
-[   27.812351] rza-csi2 e8209000.csi2: PHDLM_REG 3000, priv->lanes 2, lane_mask 3
-[   27.819672] rza-csi2 e8209000.csi2: PHYCNT_REG 30013, 
-[   27.824943] phy_start FCNTM_REG 0
-[   27.824954] phy_start PHYDIM_REG 0
-[   27.828312] phy_start PHYIM_REG 0
-[   27.831754] phy_start VINDM_REG 0
-[   27.835169] phy_start VINSM1_REG 0
-[   27.838512] phy_start VINSM3_REG 0
-[   27.841941] phy_start PHYOM_REG 13
-[   27.845459] rza-csi2 e8209000.csi2: INTSTATE_REG to 0
-[   27.854040] RVC_Call finish rcar_csi2_start
-[   27.858293] imx219_s_power
-[   27.861473] imx219 2-0010: clk enable
-[   27.865333] imx219_s_stream
-[   27.868198] Before reg_write_table 
-[   27.871764] reg_write data 1
-[   27.911596] reg_write data 5
-[   27.919254] reg_write data c
-[   27.931516] reg_write data ff
-[   27.941766] reg_write data ff
-[   27.948308] reg_write data 5
-[   27.953895] reg_write data 9
-[   27.959244] reg_write data 1
-[   27.971571] reg_write data 0
-[   27.981206] reg_write data 18
-[   27.988062] reg_write data 0
-[   27.993686] reg_write data a
-[   27.999036] reg_write data 83
-[   28.013048] reg_write data d
-[   28.022115] reg_write data 78
-[   28.028537] reg_write data 1
-[   28.034212] reg_write data 1
-[   28.039431] reg_write data 0
-[   28.051895] reg_write data 0
-[   28.061238] reg_write data 8
-[   28.067616] reg_write data 8
-[   28.073259] reg_write data 5
-[   28.078608] reg_write data 1
-[   28.090642] reg_write data 2
-[   28.097233] reg_write data 2
-[   28.103214] reg_write data 0
-[   28.114933] reg_write data 76
-[   28.132207] reg_write data 8
-[   28.143767] reg_write data 0
-[   28.149579] reg_write data 4e
-[   28.160978] reg_write data 0
-[   28.170861] reg_write data 4b
-[   28.177253] reg_write data f
-[   28.182766] reg_write data 14
-[   28.191386] reg_write data 0
-[   28.204348] reg_write data 14
-[   28.210312] reg_write data 30
-[   28.220534] reg_write data 10
-[   28.227156] reg_write data 10
-[   28.232863] reg_write data 10
-[   28.241399] reg_write data e
-[   28.256024] reg_write data e
-[   28.261832] After reg_write_table and before handle crop 
-[   28.267773] reg_write data 0
-[   28.274874] reg_write data 0
-[   28.288808] reg_write data 2
-[   28.298919] reg_write data 7f
-[   28.305301] reg_write data 0
-[   28.310603] reg_write data 0
-[   28.323075] reg_write data 1
-[   28.331693] reg_write data df
-[   28.338108] reg_write data 2
-[   28.343592] reg_write data 80
-[   28.349037] reg_write data 1
-[   28.361066] reg_write data e0
-[   28.370471] After handle crop 
-[   28.374407] reg_write data 0
-[   28.379925] reg_write data 0
-[   28.391040] reg_write data 1
-[   28.400451] reg_write data 0
-[   28.406878] reg_write data 0
-[   28.412077] reg_write data 0
-[   28.423504] before reg_write_table again 
-[   28.427908] reg_write data 1
-[   28.433692] RVC_Call v4l2_subdev_call
-[   28.437510] after1 FCNTM_REG 0
-[   28.437542] after1 PHYDIM_REG 0
-[   28.440682] after1 PHYIM_REG 0
-[   28.443996] after1 VINDM_REG 0
-[   28.447113] after1 VINSM1_REG 1000
-[   28.450208] after1 VINSM3_REG c100
-[   28.453747] after1 PHYOM_REG 13
-[   28.457200] RVC_Call rcar_csi2_s_stream before END
-[   28.465232] rcar_csi2_s_stream go to mutex_unclock
-[   28.470326] 
-[   28.470326] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_capture_start, 621
-[   28.470398] 
-[   28.470398] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_fill_hw, 589
-[   28.479891] limit = 1 , vin->continuous 0, HW_BUFFER_NUM 3 
-[   28.494442] 
-[   28.494442] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_fill_hw_slot, 564
-[   28.494859] rcar-vin e803f000.video: Filling HW slot: 0
-[   28.509655] 
-[   28.509655] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_set_slot_addr, 535
-[   28.509720] 
-[   28.509720] [RVC] ../drivers/media/platform/rza-vin/rza-v4l2.c, rvin_format_from_pixel, 74
-[   28.519326] VNMB_REG(0) 40380000, 30
-[   28.532745] 
-[   28.532745] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c,end of rvin_set_slot_addr, 555
-[   28.532751] 
-[   28.532751] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c,end of rvin_fill_hw, 595
-[   28.542759] 
-[   28.542759] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_crop_scale_comp, 259
-[   28.552269] VNSPPRC_REG 64
-[   28.561925] VNEPPRC_REG 383
-[   28.564715] default VNSLPRC_REG 18
-[   28.567553] VNELPRC_REG 1f7
-[   28.570987] 
-[   28.570987] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_crop_scale_comp_gen3, 211
-[   28.573850] 
-[   28.573850] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_get_bwidth, 185
-[   28.583930] 
-[   28.583930] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_get_bwidth, 185
-[   28.593144] VNIS_REG 280
-[   28.602349] 
-[   28.602349] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_setup, 319
-[   28.604956]  input MEDIA_BUS_FMT_UYVY8_2X8 
-[   28.617952] Enable VSYNC Field RCAR_GEN3 dmr2 20000
-[   28.622921] output V4L2_PIX_FMT_NV12 dmr 0
-[   28.627073] interrupts 2
-[   28.629641] VNINTS_REG 40020000
-[   28.632813] VNIE_REG 2
-[   28.635190] VNDMR_REG 0
-[   28.635201] VNDMR2_REG 8021000
-[   28.637676] VNMC_REG 3004000b
-[   28.640755] 
-[   28.640755] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_capture_on, 601
-[   28.643760] rcar-vin e803f000.video: Capture on in single mode
-[   28.658849] Single Frame VNFC_REG 0
-[   28.692481] 
-[   28.692481] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_irq, 736
-[   28.692730] 
-[   28.692730] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_get_interrupt_status, 502
-[   28.701924] VNINTS_REG c0030012
-[   28.712039] 
-[   28.712039] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_ack_interrupt, 509
-[   28.715277] VNINTS_REG 0
-[   28.724796] 
-[   28.724796] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_get_active_slot, 523
-[   28.727355] VNMS_REG 8
-[   28.737311] rcar-vin e803f000.video: IRQ 00: 0       buf0: x buf1: 0 buf2: 0 more: 1
-[   28.746970] 
-[   28.746970] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_seq_field_done, 684
-[   28.747214] 
-[   28.747214] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_fill_hw, 589
-[   28.756826] limit = 1 , vin->continuous 0, HW_BUFFER_NUM 3 
-[   28.771387] 
-[   28.771387] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_fill_hw_slot, 564
-[   28.771416] rcar-vin e803f000.video: Filling HW slot: 0
-[   28.786126] 
-[   28.786126] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_set_slot_addr, 535
-[   28.786199] 
-[   28.786199] [RVC] ../drivers/media/platform/rza-vin/rza-v4l2.c, rvin_format_from_pixel, 74
-[   28.795756] VNMB_REG(0) 40200000, 30
-[   28.809183] 
-[   28.809183] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c,end of rvin_set_slot_addr, 555
-[   28.809189] 
-[   28.809189] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c,end of rvin_fill_hw, 595
-[   28.819181] 
-[   28.819181] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_capture_on, 601
-[   28.828683] rcar-vin e803f000.video: Capture on in single mode
-[   28.843783] Single Frame VNFC_REG 0
-[   28.889189] 
-[   28.889189] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_irq, 736
-[   28.889398] 
-[   28.889398] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_get_interrupt_status, 502
-[   28.898844] VNINTS_REG c0030012
-[   28.908951] 
-[   28.908951] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_ack_interrupt, 509
-[   28.912169] VNINTS_REG 0
-[   28.921674] 
-[   28.921674] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_get_active_slot, 523
-[   28.924236] VNMS_REG 8
-[   28.934240] rcar-vin e803f000.video: IRQ 01: 0       buf0: x buf1: 0 buf2: 0 more: 0
-[   28.943901] 
-[   28.943901] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_seq_field_done, 684
-[   28.944186] 
-[   28.944186] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_fill_hw, 589
-[   28.953782] limit = 1 , vin->continuous 0, HW_BUFFER_NUM 3 
-0 (0) [-] 0 460800 bytes 28.724889 28.957091 -4.343 fps
-write buf(0)
-Content of buf 0 at address b6f66000
-Content of buf 0 at address b6f66001
-Content of buf 0 at address b6f66002
-Content of buf 0 at address b6f66003
-Content of buf 0 at address b6f66004
-Content of buf 0 at address b6f66005
-Content of buf 0 at address b6f66006
-Content of buf 0 at address b6f66007
-Content of buf 0 at address b6f66008
-Content of buf 0 at address b6f66009
-write buf(0)
-1 (1) [-] 1 460800 bytes 28.921823 29.114210 5.078 fps
-write buf(1)
-Content of buf 0 at address b6ef5000
-Content of buf 0 at address b6ef5001
-Content of buf 0 at addres[   28.968339] 
-[   28.968339] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_fill_hw_slot, 564
-s b6ef5002
-Cont[   29.218884] 
-[   29.218884] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_buffer_queue, 902
-[   29.231640] 
-[   29.231640] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_fill_hw, 589
-[   29.242130] limit = 1 , vin->continuous 0, HW_BUFFER_NUM 3 
-[   29.256751] 
-[   29.256751] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_fill_hw_slot, 564
-[   29.257220] rcar-vin e803f000.video: Filling HW slot: 0
-[   29.272069] 
-[   29.272069] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_set_slot_addr, 535
-[   29.272134] 
-[   29.272134] [RVC] ../drivers/media/platform/rza-vin/rza-v4l2.c, rvin_format_from_pixel, 74
-[   29.281751] VNMB_REG(0) 40200000, 30
-[   29.295183] 
-[   29.295183] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c,end of rvin_set_slot_addr, 555
-[   29.295189] 
-[   29.295189] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c,end of rvin_fill_hw, 595
-[   29.305213] 
-[   29.305213] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_capture_start, 621
-[   29.314682] 
-[   29.314682] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_fill_hw, 589
-[   29.324172] limit = 1 , vin->continuous 0, HW_BUFFER_NUM 3 
-[   29.338724] 
-[   29.338724] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_fill_hw_slot, 564
-[   29.338730] 
-[   29.338730] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c,end of rvin_fill_hw, 595
-[   29.348120] 
-[   29.348120] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_crop_scale_comp, 259
-[   29.357666] VNSPPRC_REG 64
-[   29.367322] VNEPPRC_REG 383
-[   29.370112] default VNSLPRC_REG 18
-[   29.372958] VNELPRC_REG 1f7
-[   29.376393] 
-[   29.376393] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_crop_scale_comp_gen3, 211
-[   29.379304] 
-[   29.379304] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_get_bwidth, 185
-[   29.389383] 
-[   29.389383] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_get_bwidth, 185
-[   29.398597] VNIS_REG 280
-[   29.407803] 
-[   29.407803] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_setup, 319
-[   29.410410]  input MEDIA_BUS_FMT_UYVY8_2X8 
-[   29.423416] Enable VSYNC Field RCAR_GEN3 dmr2 20000
-[   29.428361] output V4L2_PIX_FMT_NV12 dmr 0
-[   29.432503] interrupts 2
-[   29.435077] VNINTS_REG 40020000
-[   29.438248] VNIE_REG 2
-[   29.440626] VNDMR_REG 0
-[   29.440645] VNDMR2_REG 8021000
-[   29.443119] VNMC_REG 3004000b
-[   29.446198] 
-[   29.446198] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_capture_on, 601
-[   29.449255] rcar-vin e803f000.video: Capture on in single mode
-[   29.464335] Single Frame VNFC_REG 0
-ent of buf 0 at address b6ef5003
-Content of buf 0 at address b6ef5004
-Content of buf 0 at address b6ef5005
-Content of buf 0 at address b6ef5006
-Content of buf 0 at address b6ef5007
-Content of buf [   29.485175] 
-[   29.485175] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_stop_streaming, 1059
-[   29.485560] VNFC_REG 0
-[   29.496584] 
-[   29.496584] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_capture_stop, 658
-[   29.499024] VNMC_REG 3004000b
-[   29.508436] VNMC_REG 3004000a
-[   29.511461] 
-[   29.511461] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_capture_active, 516
-[   29.514458] VNMS_REG 8
-0 at address b6e[   29.524069] 
-[   29.524069] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, return_all_buffers, 849
-[   29.527313] 
-[   29.527313] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_irq, 736
-[   29.538087] 
-[   29.538087] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_get_interrupt_status, 502
-[   29.546720] VNINTS_REG c0030012
-[   29.556802] 
-[   29.556802] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_ack_interrupt, 509
-f5008
-Content of buf 0 [   29.559967] VNINTS_REG 0
-at address b6ef5[   29.570350] 
-[   29.570350] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_set_stream, 941
-009
-write buf(1[   29.574859] 
-[   29.574859] [RVC] ../drivers/media/platform/rza-vin/rza-csi2.c, rcar_csi2_s_stream, 507
-)
-[   29.585216] RVC_Call rcar_csi2_stop
-[   29.599922] after FCNTM_REG 5e
-[   29.599941] after PHYDIM_REG 0
-[   29.603114] after PHYIM_REG 70
-[   29.606201] after VINDM_REG 2002a
-[   29.609289] after VINSM1_REG f000
-[   29.612687] after VINSM3_REG c1f0
-[   29.616034] after PHYOM_REG 13
-[   29.619464] 
-[   29.619464] [RVC] ../drivers/media/platform/rza-vin/rza-csi2.c, rcar_csi2_stop, 471
-[   29.622590] AF FCNTM_REG 5f
-[   29.631797] AF PHYDIM_REG 0
-[   29.634663] AF PHYIM_REG 70
-[   29.637480] AF VINDM_REG 2002a
-[   29.640306] AF VINSM1_REG f000
-[   29.643428] AF VINSM3_REG c1f0
-[   29.646512] AF PHYOM_REG 0
-[   29.649593] 
-[   29.649593] [RVC] ../drivers/media/platform/rza-vin/rza-csi2.c, rcar_csi2_reset, 261
-[   29.765381] SRST_REG 0
-[   29.777377] RVC_Call rcar_csi2_s_stream before END
-[   29.785226] rcar_csi2_s_stream go to mutex_unclock
-Captured 2 frames in 0.159070 seconds (12.573069 fps, 5793670.204074 B/s).
-2 buffers released.
-[   29.790354] 
-[   29.790354] [RVC] ../drivers/media/platform/rza-vin/rza-dma.c, rvin_disable_interrupts, 495
-$ 
-
-
