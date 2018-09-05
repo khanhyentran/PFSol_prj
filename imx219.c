@@ -165,6 +165,36 @@ static const struct imx219_reg miscellaneous[] = {
 	{ 0x479B, 0x0E }, /* CIS Tuning */
 	{ IMX219_TABLE_END, 0x00 }
 };
+
+static const struct imx219_reg miscellaneous_trial1[] = {
+	{ 0x0114, 0x01 }, /* CSI_LANE_MODE[1:0} */ //RVC change 03 -> 01 to support 2 lanes
+	{ 0x0128, 0x01 }, /* DPHY_CNTRL */
+	{ 0x012A, 0x0C }, /* EXCK_FREQ[15:8] */
+	{ 0x012B, 0x00 }, /* EXCK_FREQ[7:0] */
+	{ 0x0160, 0x07 }, /* FRM_LENGTH_A[15:8] */
+	{ 0x0161, 0x80 }, /* FRM_LENGTH_A[7:0] */
+	{ 0x0162, 0x0A }, /* LINE_LENGTH_A[15:8] */
+	{ 0x0163, 0x00 }, /* LINE_LENGTH_A[7:0] */
+
+	{ 0x018C, 0x08 }, /* CSI_DATA_FORMAT_A[15:8] */ //RVC change 0A -> 08 to support RAW8
+	{ 0x018D, 0x08 }, /* CSI_DATA_FORMAT_A[7:0] */  //RVC change 0A -> 08 to support RAW8
+	{ 0x0174, 0x01 }, /* BINNING_MODE_H_A */
+	{ 0x0175, 0x01 }, /* BINNING_MODE_V_A */
+	{ 0x0176, 0x01 }, /* BINNING_MODE_H_A */
+	{ 0x0177, 0x01 }, /* BINNING_MODE_V_A */
+	{ 0x0301, 0x05 }, /* VTPXCK_DIV */
+	{ 0x0304, 0x02 }, /* PREPLLCK_VT_DIV[3:0] */
+	{ 0x0305, 0x02 }, /* PREPLLCK_OP_DIV[3:0] */
+	{ 0x0306, 0x00 }, /* PLL_VT_MPY[10:8] */
+	{ 0x0307, 0x76 }, /* PLL_VT_MPY[7:0] */
+	
+	{ 0x0309, 0x08 }, /* OPPXCK_DIV[4:0] */
+	{ 0x030C, 0x00 }, /* PLL_OP_MPY[10:8] */
+	{ 0x030D, 0x4E }, /* PLL_OP_MPY[7:0] */
+
+	{ IMX219_TABLE_END, 0x00 }
+};
+
 static const struct imx219_reg start[] = {
 	{ 0x0100, 0x01 }, /* mode select streaming on */
 	{ IMX219_TABLE_END, 0x00 }
@@ -368,77 +398,34 @@ static int imx219_s_stream(struct v4l2_subdev *sd, int enable)
 		return reg_write_table(client, stop);
 printk("Before reg_write_table \n");
 	reg_write_table(client, sw_reset);//RVC add for SW reset
-	ret = reg_write_table(client, miscellaneous);
+	ret = reg_write_table(client, miscellaneous_trial1);
 	if (ret)
 		return ret;
 printk("After reg_write_table and before handle crop \n");
 	/* Handle crop */
-	ret = reg_write(client, 0x0164, priv->crop_rect.left >> 8);
-	ret |= reg_write(client, 0x0165, priv->crop_rect.left & 0xff);
-	ret |= reg_write(client, 0x0166, (priv->crop_rect.width - 1) >> 8);
-	ret |= reg_write(client, 0x0167, (priv->crop_rect.width - 1) & 0xff);
-	ret |= reg_write(client, 0x0168, priv->crop_rect.top >> 8);
-	ret |= reg_write(client, 0x0169, priv->crop_rect.top & 0xff);
-	ret |= reg_write(client, 0x016A, (priv->crop_rect.height - 1) >> 8);
-	ret |= reg_write(client, 0x016B, (priv->crop_rect.height - 1) & 0xff);
-	ret |= reg_write(client, 0x016C, priv->crop_rect.width >> 8);
-	ret |= reg_write(client, 0x016D, priv->crop_rect.width & 0xff);
-	ret |= reg_write(client, 0x016E, priv->crop_rect.height >> 8);
-	ret |= reg_write(client, 0x016F, priv->crop_rect.height & 0xff);
-	if (ret)
-		return ret;
+	ret = reg_write(client, 0x0164, 0x01);
+	ret |= reg_write(client, 0x0165, 0x68);
+	ret |= reg_write(client, 0x0166, 0x0B);
+	ret |= reg_write(client, 0x0167, 0x67);
+	ret |= reg_write(client, 0x0168, 0x01);
+	ret |= reg_write(client, 0x0169, 0x10);
+	ret |= reg_write(client, 0x016A, 0x08);
+	ret |= reg_write(client, 0x016B, 0x8F);
+	ret |= reg_write(client, 0x016C, 0x05);
+	ret |= reg_write(client, 0x016D, 0x00);
+	ret |= reg_write(client, 0x016E, 0x03);
+	ret |= reg_write(client, 0x016F, 0xC0);
 printk("After handle crop \n");
-	/* Handle flip/mirror */
-	if (priv->hflip)
-		reg |= 0x1;
-	if (priv->vflip)
-		reg |= 0x2;
-	ret = reg_write(client, 0x0172, reg);
-	if (ret)
-		return ret;
+
 	/* Handle analogue gain */
-	ret = reg_write(client, 0x0157, priv->analogue_gain);
+	ret = reg_write(client, 0x0157, 0x80);
 	if (ret)
 		return ret;
 	/* Handle digital gain */
-	ret = reg_write(client, 0x0158, priv->digital_gain >> 8);
-	ret |= reg_write(client, 0x0159, priv->digital_gain & 0xff);
+	ret = reg_write(client, 0x015A, 0x07);
+	ret |= reg_write(client, 0x015B, 0x70);
 	if (ret)
 		return ret;
-	/* Handle test pattern */
-	if (priv->test_pattern) {
-	printk("before test_pattern \n");
-		ret = reg_write(client, 0x0600, priv->test_pattern >> 8);
-		ret |= reg_write(client, 0x0601, priv->test_pattern & 0xff);
-		ret |= reg_write(client, 0x0602,
-				 priv->test_pattern_solid_color_r >> 8);
-		ret |= reg_write(client, 0x0603,
-				 priv->test_pattern_solid_color_r & 0xff);
-		ret |= reg_write(client, 0x0604,
-				 priv->test_pattern_solid_color_gr >> 8);
-		ret |= reg_write(client, 0x0605,
-				 priv->test_pattern_solid_color_gr & 0xff);
-		ret |= reg_write(client, 0x0606,
-				 priv->test_pattern_solid_color_b >> 8);
-		ret |= reg_write(client, 0x0607,
-				 priv->test_pattern_solid_color_b & 0xff);
-		ret |= reg_write(client, 0x0608,
-				 priv->test_pattern_solid_color_gb >> 8);
-		ret |= reg_write(client, 0x0609,
-				 priv->test_pattern_solid_color_gb & 0xff);
-		ret |= reg_write(client, 0x0620, priv->crop_rect.left >> 8);
-		ret |= reg_write(client, 0x0621, priv->crop_rect.left & 0xff);
-		ret |= reg_write(client, 0x0622, priv->crop_rect.top >> 8);
-		ret |= reg_write(client, 0x0623, priv->crop_rect.top & 0xff);
-		ret |= reg_write(client, 0x0624, priv->crop_rect.width >> 8);
-		ret |= reg_write(client, 0x0625, priv->crop_rect.width & 0xff);
-		ret |= reg_write(client, 0x0626, priv->crop_rect.height >> 8);
-		ret |= reg_write(client, 0x0627, priv->crop_rect.height & 0xff);
-	printk("After test_pattern \n");
-	} else {
-		ret = reg_write(client, 0x0600, 0x00);
-		ret |= reg_write(client, 0x0601, 0x00);
-	}
 	if (ret)
 		return ret;
 	printk("before reg_write_table again \n");
