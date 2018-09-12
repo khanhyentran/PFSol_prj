@@ -1,0 +1,25 @@
+$ media-ctl -d /dev/media0 -l "'rza_csi2 e8209000.csi2':1 -> 'rza_vin e803f000.video':0 [1]"
+$ media-ctl -V "'rza_csi2 e8209000.csi2':1 [fmt:SRGGB8_1X8/800x480 field:none]"
+$ /root/yavta_debug  /dev/video0 -c1 -n1 -f SRGGB8 -s 800x480 -F"/tmp/SRGGB8_800x480.bin"
+Device /dev/video0 opened.
+Device `R_Car_VIN' on `platform:e803f000.video' is a video capture device.
+Video format set: SRGGB8 (42474752) 800x480 (stride 800) buffer size 384000
+Video format: SRGGB8 (42474752) 800x480 (stride 800) buffer size 384000
+1 buffers requested.
+length: 384000 offset: 0
+Buffer 0 mapped at address 0xb6eb9000.
+0 (0) [-] 0 384000 bytes 29.774906 29.776454 1.062 fps
+write buf(0)
+Content of buf 7 at address b6eb9000
+Content of buf 7 at address b6eb9001
+Content of buf 7 at address b6eb9002
+Content of buf 7 at address b6eb9003
+Content of buf 7 at address b6eb9004
+Content of buf 7 at address b6eb9005
+Content of buf 7 at address b6eb9006
+Content of buf 7 at address b6eb9007
+Content of buf 7 at address b6eb9008
+Content of buf 7 at address b6eb9009
+write buf(0)
+Captured 1 frames in 0.943160 seconds (1.060265 fps, 407141.843446 B/s).
+1 buffers released.
