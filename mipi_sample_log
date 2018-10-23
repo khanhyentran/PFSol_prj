@@ -1,5 +1,13 @@
 $ ./mipi_sample 
 main 
+open_resources 
+mipi_set_base_addr 
+map_mipi.size=0x26c
+map_mipi.addr=0xe8209000
+map_mipi.base=0xb6fa1000
+mipi_set_base_addr 
+Could not map memory for captured frames: Invalid argument
+open resource failed
 MIPI_RIIC_INIT 
 i2c_open 
 i2c_set_address 
@@ -44,5 +52,8 @@ MIPI_RIIC_SEND
 MIPI_RIIC_SEND 
 MIPI_RIIC_SEND 
 R_MIPI_Open 
+R_MIPI_CameraClkStart 
+MIPI_RIIC_SEND 
+R_MIPI_Setup 
+R_MIPI_SetMode 
 Segmentation fault
-$ 
