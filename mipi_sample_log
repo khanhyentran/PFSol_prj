@@ -57,3 +57,19 @@ MIPI_RIIC_SEND
 R_MIPI_Setup 
 R_MIPI_SetMode 
 Segmentation fault
+
+
+===#########################################################################
+# relocate for debugging
+#########################################################################
+if [ "$1" == "reloc" ] ; then
+
+  if [ "$2" == "" ] ; then
+    #arm-linux-gnueabihf-objdump -h $OUT/u-boot
+    arm-linux-gnueabihf-objdump -h $OUT/u-boot-reloc
+
+    echo "you need to specifythe relocadd from u-boot"
+    echo "=> bdinfo"
+    echo "./build.sh reloc 0x2096E000"
+    exit
+  fi
