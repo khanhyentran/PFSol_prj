@@ -1,13 +1,27 @@
+mem r w 0xe8209000
+e8209000: 0001 0000 0000 0000 0000 0000 0003 0000 
+e8209010: 801e 011e 021e 031e 0000 0001 0000 0000 
+e8209020: 3f21 0000 0000 0000 0000 ffff ffff ffff 
+e8209030: 0000 0000 0000 0004 0000 0000 0000 0000 
+$ mem r w 0xe803f000
+e803f000: 0000 0000 0018 0000 0000 0000 0000 0000 
+e803f010: 0000 0000 0000 0000 0000 0000 0000 0000 
+e803f020: 0000 0000 0000 0000 0000 0000 0000 0000 
+e803f030: 0000 0000 0000 0000 0000 0000 0000 0000 
 $ ./mipi_sample 
 main 
 open_resources 
 mipi_set_base_addr 
 map_mipi.size=0x26c
 map_mipi.addr=0xe8209000
-map_mipi.base=0xb6fa1000
-mipi_set_base_addr 
-Could not map memory for captured frames: Invalid argument
-open resource failed
+map_mipi.base=0xb6f9d000
+vin_set_base_addr 
+map_vin.size=0x26c
+map_vin.addr=0xe8209000
+map_vin.base=0xb6f9d000
+map_ram.size=0x100000
+map_ram.addr=0x40200000
+map_ram.base=0xb6e9c000
 MIPI_RIIC_INIT 
 i2c_open 
 i2c_set_address 
@@ -55,21 +69,21 @@ R_MIPI_Open
 R_MIPI_CameraClkStart 
 MIPI_RIIC_SEND 
 R_MIPI_Setup 
-R_MIPI_SetMode 
-Segmentation fault
-
-
-===#########################################################################
-# relocate for debugging
-#########################################################################
-if [ "$1" == "reloc" ] ; then
-
-  if [ "$2" == "" ] ; then
-    #arm-linux-gnueabihf-objdump -h $OUT/u-boot
-    arm-linux-gnueabihf-objdump -h $OUT/u-boot-reloc
-
-    echo "you need to specifythe relocadd from u-boot"
-    echo "=> bdinfo"
-    echo "./build.sh reloc 0x2096E000"
-    exit
-  fi
+R_MIPI_SetMode ...
+R_MIPI_SetBufferAdr 
+R_MIPI_CaptureStart 
+timeval_subtract 
+capture time = 0:000331 sec
+save_image 
+write error 
+$ mem r w 0xe8209000
+e8209000: 0001 0000 0000 0000 0013 0003 0003 0000 
+e8209010: 802a 011e 021e 031e 0000 0001 0000 0000 
+e8209020: 3f21 0000 0000 0000 0000 ffff ffff ffff 
+e8209030: 0000 0000 0000 0004 9c10 281b 2020 0000 
+$  mem r w 0xe803f000
+e803f000: 0000 0000 0000 0000 0000 0000 0000 0000 
+e803f010: 0000 0000 0000 0000 0000 0000 0000 0000 
+e803f020: 0000 0000 0000 0000 0000 0000 0000 0000 
+e803f030: 0000 0000 0000 0000 0000 0000 0000 0000 
+$ [  124.228648] random: crng init done
