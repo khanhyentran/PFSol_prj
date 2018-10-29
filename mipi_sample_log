@@ -1,3 +1,22 @@
+Welcome to Buildroot
+buildroot login: root
+$ echo hello > /sys/class/spi_master/spi0/spi0.0/eeprom
+$ hexdump -C -n 16 /sys/class/spi_master/spi0/spi0.0/eeprom
+00000000  68 65 6c 6c 6f 0a 37 38  39 30 31 32 33 34 35 36  |hello.7890123456|
+00000010
+$ echo a > /sys/class/spi_master/spi0/spi0.0/eeprom
+[   32.097948] spi_master spi0: receive timeout
+[   32.103098] at25 spi0.0: SPI transfer failed: -110
+[   32.108873] spi_master spi0: failed to transfer one message from queue
+sh: write error: Connection timed out
+$ hexdump -C -n 16 /sys/class/spi_master/spi0/spi0.0/eeprom
+[   41.057045] spi_master spi0: receive timeout
+[   41.062229] at25 spi0.0: SPI transfer failed: -110
+[   41.068102] spi_master spi0: failed to transfer one message from queue
+hexdump: /sys/class/spi_master/spi0/spi0.0/eeprom: Connection timed out
+$ 
+
+
 mem r w 0xe8209000
 e8209000: 0001 0000 0000 0000 0000 0000 0003 0000 
 e8209010: 801e 011e 021e 031e 0000 0001 0000 0000 
