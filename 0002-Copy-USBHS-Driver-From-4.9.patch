@@ -1,0 +1,256 @@
+From e4a0f50b2c1bdb82e3bd0981040ccd24baa2a8de Mon Sep 17 00:00:00 2001
+From: Nghia Tran <nghia.tran.hx@rvc.renesas.com>
+Date: Fri, 19 Jan 2018 16:47:52 +0700
+Subject: [PATCH 2/2] Copy USBHS Driver From 4.9
+
+This patch copy usbhs driver from Linux 4.9 and no change anything.
+
+Signed-off-by: Nghia Tran <nghia.tran.hx@rvc.renesas.com>
+---
+ arch/arm/boot/dts/r7s72100-rskrza1.dts |  5 +++
+ arch/arm/boot/dts/r7s72100.dtsi        | 22 +++++++++++
+ drivers/usb/renesas_usbhs/Makefile     |  2 +-
+ drivers/usb/renesas_usbhs/common.c     | 19 +++++++++-
+ drivers/usb/renesas_usbhs/common.h     |  5 +++
+ drivers/usb/renesas_usbhs/rza.c        | 67 ++++++++++++++++++++++++++++++++++
+ drivers/usb/renesas_usbhs/rza.h        |  5 +++
+ include/linux/usb/renesas_usbhs.h      |  1 +
+ 8 files changed, 124 insertions(+), 2 deletions(-)
+ create mode 100644 drivers/usb/renesas_usbhs/rza.c
+ create mode 100644 drivers/usb/renesas_usbhs/rza.h
+
+diff --git a/arch/arm/boot/dts/r7s72100-rskrza1.dts b/arch/arm/boot/dts/r7s72100-rskrza1.dts
+index cbf4f02..251a1c0 100644
+--- a/arch/arm/boot/dts/r7s72100-rskrza1.dts
++++ b/arch/arm/boot/dts/r7s72100-rskrza1.dts
+@@ -325,6 +325,11 @@
+ 	xtal-48mhz;
+ };
+ 
++&usbhs0 {
++ 	status = "okay";
++ 	xtal-48mhz;
++};
++
+ /* RSK LCD: 800x600 LCD */
+ /* Pacer TFT LCD Panel, Model gwp0700cnwv04 */
+ #if XIP_KERNEL_WITHOUT_EXTERNAL_RAM
+diff --git a/arch/arm/boot/dts/r7s72100.dtsi b/arch/arm/boot/dts/r7s72100.dtsi
+index c7b722b..2c524fa 100644
+--- a/arch/arm/boot/dts/r7s72100.dtsi
++++ b/arch/arm/boot/dts/r7s72100.dtsi
+@@ -764,6 +764,28 @@
+ 		status = "disabled";
+ 	};
+ 
++	usbhs0: usbhs@e8010000 {
++		compatible = "renesas,r7s72100-usbhs";
++		reg = <0xe8010000 0x1A0>;
++		interrupts = <GIC_SPI (73-32) IRQ_TYPE_LEVEL_HIGH>;
++		clocks = <&mstp7_clks R7S72100_CLK_USB0>;
++		renesas,buswait = <4>;
++		power-domains = <&cpg_clocks>;
++		status = "disabled";
++		/* dma-mask = <0>; */
++	};
++
++	usbhs1: usbhs@e8207000 {
++		compatible = "renesas,r7s72100-usbhs";
++		reg = <0xe8207000 0x1A0>;
++		interrupts = <GIC_SPI (74-32) IRQ_TYPE_LEVEL_HIGH>;
++		clocks = <&mstp7_clks R7S72100_CLK_USB1>;
++		renesas,buswait = <4>;
++		power-domains = <&cpg_clocks>;
++		status = "disabled";
++		/* dma-mask = <0>; */
++	};
++
+ 	vdc50: display@fcff7400 {
+ 		compatible = "renesas,r7s72100-vdc5fb";
+ 		reg = <0xfcff7400 0x00000700>,
+diff --git a/drivers/usb/renesas_usbhs/Makefile b/drivers/usb/renesas_usbhs/Makefile
+index fac147a..5c5b51b 100644
+--- a/drivers/usb/renesas_usbhs/Makefile
++++ b/drivers/usb/renesas_usbhs/Makefile
+@@ -5,7 +5,7 @@
+ 
+ obj-$(CONFIG_USB_RENESAS_USBHS)	+= renesas_usbhs.o
+ 
+-renesas_usbhs-y			:= common.o mod.o pipe.o fifo.o rcar2.o rcar3.o
++renesas_usbhs-y			:= common.o mod.o pipe.o fifo.o rcar2.o rcar3.o rza.o
+ 
+ ifneq ($(CONFIG_USB_RENESAS_USBHS_HCD),)
+ 	renesas_usbhs-y		+= mod_host.o
+diff --git a/drivers/usb/renesas_usbhs/common.c b/drivers/usb/renesas_usbhs/common.c
+index f0ce304..093fbc4 100644
+--- a/drivers/usb/renesas_usbhs/common.c
++++ b/drivers/usb/renesas_usbhs/common.c
+@@ -26,6 +26,7 @@
+ #include "common.h"
+ #include "rcar2.h"
+ #include "rcar3.h"
++#include "rza.h"
+ 
+ /*
+  *		image of renesas_usbhs
+@@ -493,6 +494,14 @@ static const struct of_device_id usbhs_of_match[] = {
+ 		.compatible = "renesas,rcar-gen3-usbhs",
+ 		.data = (void *)USBHS_TYPE_RCAR_GEN3,
+ 	},
++	{
++		.compatible = "renesas,r7s72100-usbhs",
++		.data = (void *)USBHS_TYPE_RZA1,
++	},
++	{
++		.compatible = "renesas,rza1-usbhs",
++		.data = (void *)USBHS_TYPE_RZA1,
++	},
+ 	{ },
+ };
+ MODULE_DEVICE_TABLE(of, usbhs_of_match);
+@@ -519,7 +528,8 @@ static struct renesas_usbhs_platform_info *usbhs_parse_dt(struct device *dev)
+ 		dparam->enable_gpio = gpio;
+ 
+ 	if (dparam->type == USBHS_TYPE_RCAR_GEN2 ||
+-	    dparam->type == USBHS_TYPE_RCAR_GEN3)
++	    dparam->type == USBHS_TYPE_RCAR_GEN3 ||
++	    dparam->type == USBHS_TYPE_RZA1)
+ 		dparam->has_usb_dmac = 1;
+ 
+ 	return info;
+@@ -589,6 +599,13 @@ static int usbhs_probe(struct platform_device *pdev)
+ 			priv->dparam.pipe_size = ARRAY_SIZE(usbhsc_new_pipe);
+ 		}
+ 		break;
++	case USBHS_TYPE_RZA1:
++		priv->pfunc = usbhs_rza1_ops;
++		if (!priv->dparam.pipe_configs) {
++			priv->dparam.pipe_configs = usbhsc_new_pipe;
++			priv->dparam.pipe_size = ARRAY_SIZE(usbhsc_new_pipe);
++		}
++		break;
+ 	default:
+ 		if (!info->platform_callback.get_id) {
+ 			dev_err(&pdev->dev, "no platform callbacks");
+diff --git a/drivers/usb/renesas_usbhs/common.h b/drivers/usb/renesas_usbhs/common.h
+index 8c5fc12..1e42d66 100644
+--- a/drivers/usb/renesas_usbhs/common.h
++++ b/drivers/usb/renesas_usbhs/common.h
+@@ -107,6 +107,9 @@ struct usbhs_priv;
+ #define D2FIFOCTR	0x00F2	/* for R-Car Gen2 */
+ #define D3FIFOSEL	0x00F4	/* for R-Car Gen2 */
+ #define D3FIFOCTR	0x00F6	/* for R-Car Gen2 */
++#define SUSPMODE0	0x0102	/* for RZ/A */
++#define SUSPM		(1 << 14)
++
+ 
+ /* SYSCFG */
+ #define SCKE	(1 << 10)	/* USB Module Clock Enable */
+@@ -115,6 +118,8 @@ struct usbhs_priv;
+ #define DRPD	(1 << 5)	/* D+ Line/D- Line Resistance Control */
+ #define DPRPU	(1 << 4)	/* D+ Line Resistance Control */
+ #define USBE	(1 << 0)	/* USB Module Operation Enable */
++#define UCKSEL	(1 << 2)	/* Clock Select for RZ/A1 */
++#define UPLLE	(1 << 1)	/* USB PLL Enable for RZ/A1 */
+ 
+ /* DVSTCTR */
+ #define EXTLP	(1 << 10)	/* Controls the EXTLP pin output state */
+diff --git a/drivers/usb/renesas_usbhs/rza.c b/drivers/usb/renesas_usbhs/rza.c
+new file mode 100644
+index 0000000..27851b4
+--- /dev/null
++++ b/drivers/usb/renesas_usbhs/rza.c
+@@ -0,0 +1,67 @@
++// SPDX-License-Identifier: GPL-1.0+
++/*
++ * Renesas USB driver RZ/A initialization and power control
++ *
++ * Copyright (C) 2018 Renesas Electronics Corporation
++ */
++
++#include <linux/delay.h>
++#include <linux/io.h>
++#include <linux/of_device.h>
++#include "common.h"
++#include "rza.h"
++
++static int usbhs_rza1_hardware_init(struct platform_device *pdev)
++{
++	struct usbhs_priv *priv = usbhs_pdev_to_priv(pdev);
++	struct device_node *usb_x1_clk, *extal_clk;
++	u32 freq_usb = 0, freq_extal = 0;
++
++	/* Input Clock Selection (NOTE: ch0 controls both ch0 and ch1) */
++	usb_x1_clk = of_find_node_by_name(NULL, "usb_x1");
++	extal_clk = of_find_node_by_name(NULL, "extal");
++	of_property_read_u32(usb_x1_clk, "clock-frequency", &freq_usb);
++	of_property_read_u32(extal_clk, "clock-frequency", &freq_extal);
++	if (freq_usb == 0) {
++		if (freq_extal == 12000000) {
++			/* Select 12MHz XTAL */
++			usbhs_bset(priv, SYSCFG, UCKSEL, UCKSEL);
++		}
++		else {
++			dev_err(usbhs_priv_to_dev(priv), "A 48MHz USB "
++				"clock or 12MHz main clock is required."
++				"\n");
++			return -EIO;
++		}
++	}
++
++	/* Enable USB PLL (NOTE: ch0 controls both ch0 and ch1) */
++	usbhs_bset(priv, SYSCFG, UPLLE, UPLLE);
++	udelay(1000);
++	usbhs_bset(priv, SUSPMODE0, SUSPM, SUSPM);
++
++	return 0;
++}
++
++static int usbhs_rza1_hardware_exit(struct platform_device *pdev)
++{
++	return 0;
++}
++
++static int usbhs_rza1_power_ctrl(struct platform_device *pdev,
++				void __iomem *base, int enable)
++{
++	return 0;
++}
++
++static int usbhs_rza_get_id(struct platform_device *pdev)
++{
++	return USBHS_GADGET;
++}
++
++const struct renesas_usbhs_platform_callback usbhs_rza1_ops = {
++	.hardware_init = usbhs_rza1_hardware_init,
++	.hardware_exit = usbhs_rza1_hardware_exit,
++	.power_ctrl = usbhs_rza1_power_ctrl,
++	.get_id = usbhs_rza_get_id,
++};
+diff --git a/drivers/usb/renesas_usbhs/rza.h b/drivers/usb/renesas_usbhs/rza.h
+new file mode 100644
+index 0000000..6ab189f
+--- /dev/null
++++ b/drivers/usb/renesas_usbhs/rza.h
+@@ -0,0 +1,5 @@
++
++// SPDX-License-Identifier: GPL-2.0
++#include "common.h"
++
++extern const struct renesas_usbhs_platform_callback usbhs_rza1_ops;
+diff --git a/include/linux/usb/renesas_usbhs.h b/include/linux/usb/renesas_usbhs.h
+index 00a47d0..8beb78a 100644
+--- a/include/linux/usb/renesas_usbhs.h
++++ b/include/linux/usb/renesas_usbhs.h
+@@ -185,6 +185,7 @@ struct renesas_usbhs_driver_param {
+ 
+ #define USBHS_TYPE_RCAR_GEN2	1
+ #define USBHS_TYPE_RCAR_GEN3	2
++#define USBHS_TYPE_RZA1		3
+ 
+ /*
+  * option:
+-- 
+1.9.1
+

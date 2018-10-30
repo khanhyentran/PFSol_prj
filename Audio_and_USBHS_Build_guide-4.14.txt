@@ -1,0 +1,194 @@
+************************************************************************************
+RZA1 Linux: Add Audio and USBHS driver for RZA1 in linux 4.14
+************************************************************************************
+
+--------------------------
+I. Prepare for building
+--------------------------
+
+- Get the BSP from github:
+	$ git clone https://github.com/renesas-rz/rza_linux-4.14_bsp.git
+	$ cd rza_linux-4.14_bsp
+	$ export WORK=$(pwd)
+
+--------------------------
+II. Build filesystem
+--------------------------
+
+(1) Enable squashfs in menuconfig
+	$ cd $WORK
+	$ ./build.sh buildroot menuconfig
+	Press [1] to choose  buildroot-2017.02 then press [1] to choose Linaro toolchain
+	In menuconfig, enable squashfs root filesystem: 
+		Filesystem images > [*] squashfs root filesystem
+	Save the menuconfig	
+	
+(2) Build filesystem
+	$ ./build.sh buildroot	
+	
+------------------------------
+IV. Build u-boot
+------------------------------
+	Build u-boot with command:
+	$ cd $WORK
+	$ ./build.sh u-boot
+	
+------------------------------
+V. Build uImage
+------------------------------
+(1)	Build the uImage kernel
+	$ cd $WORK
+	$ ./build.sh kernel uImage
+	$ git checkout 7b12dde1a8481efd57815cb41165c0002587670c
+	
+(2) Apply patch file for Audio and USBHS driver
+  - Please copy and apply these patch file to modify audio driver for RSK board:
+	$ cd $WORK/output/linux-4.14
+	$ patch -p1 < 0001-Copy-Audio-Driver-From-4.9.patch
+	$ patch -p1 < 0002-Copy-USBHS-Driver-From-4.9.patch
+
+(3) Configure to enable Audio and USBHS driver in menuconfig
+	
+	* For Audio driver:
+		$ cd $WORK
+		$ ./build.sh kernel menuconfig
+	- Enable below configs:
+		Device Drivers ---> [*] Sound card support ---> [*] Advanced Linux Sound Architecture ---> ...
+		... ---> [*] ALSA for SoC audio support ---> SoC Audio support for SuperH ---> [*] SCUX sound support on RSK-RZA1 
+	- Save the menuconfig
+		$ ./build.sh buildroot menuconfig
+	- Enable below configs:
+		Target packages ---> Audio and video applications -1-> [*] alsa-utils -1-> [*] amixer
+																			  -2-> [*] aplay/arecord
+																			  -3-> [*] alsamixer
+														  -2-> [*] mpg123
+		
+		
+	* For USBHS driver:
+		$ cd $WORK
+		$ ./build.sh kernel menuconfig
+	- Disable below configs:
+		Device Drivers ---> [*] USB support ---> [ ] R8A66597 HCD support
+		
+	- Enable below configs:
+		Device Drivers ---> [*] USB support  -1-> [*] USB Gadget Support
+											 -2-> [*] Renesas USBHS controller
+		Device Drivers ---> [*] USB support  -1-> [*] USB Gadget Support  -1-> [*] USB Gadget precomposed configurations ---> (X) Ethernet Gadget (with CDC Ethernet support) 
+																		  -2-> [*] RNDIS support
+																		  -3-> USB Peripheral Controller ---> [*] Renesas USBHS controller
+	
+  - Save the menuconfig
+	
+(4) Rebuild the kernel
+	$ ./build.sh kernel uImage
+
+----------------------
+VI. Build xipImage
+----------------------
+
+------------------------
+VII. Deploy to RSK board
+------------------------
+
+- Use Program_QSPI.bat file (on Window PC) or Program_QSPI.sh file (on Linux PC) to deploy u-boot, device tree, kernel, filesystem.
+  (1) For u-boot: $WORK/output/u-boot-2017.05/u-boot.bin
+  (2) For device tree: $WORK/output/linux-4.14/arch/arm/boot/dts/r7s72100-rskrza1.dtb (change to r7s72100-rskrza1.dtb.bin)
+  (3) For kernel:
+		+ In case uImage: $WORK/output/linux-4.14/arch/arm/boot/uImage (change to uImage.bin)
+  (4) For file system
+		+ In case squashfs: $WORK/output/buildroot-2017.02/output/images/rootfs.squashfs (change to rootfs.squashfs.bin)
+
+-----------------
+VIII. Testing
+-----------------
+
+*** Audio driver:
+
+	- Please follow guideline at: https://github.com/renesas-rz/rza_linux-4.9_bsp/blob/master/doc/testing/audio.txt
+	- Test result:
+		* Playback
+		- To play WAV file:
+			$ cd sounds
+			$ aplay ring.wav
+				Playing WAVE 'ring.wav' : Signed 16 bit Little Endian, Rate 48000 Hz, Stereo
+		- To run mp3 file:
+			$ mpg123 SampleAudio_0.7mb.mp3
+				High Performance MPEG 1.0/2.0/2.5 Audio Player for Layers 1, 2 and 3
+				version 1.25.2; written and copyright by Michael Hipp and others
+				free software (LGPL) without any warranty but with best wishes
+				
+				Terminal control enabled, press 'h' for listing of keys and functions.
+				
+				Playing MPEG stream 1 of 1: SampleAudio_0.7mb.mp3 ...
+				[src/libmpg123/id3.c:731] warning: ID3v2: unrealistic small tag lengh 0, skipping
+				
+				MPEG 1.0 L III cbr128 44100 j-s
+
+		* Record
+		- Due to read-only filesystem, it is only possible to record to file at /tmp directory
+		- To record audio file:
+			$ arecord -f S16_LE -c1 -r44100 -d 50 /tmp/test-mic.wav
+				Recording WAVE '/tmp/test-mic.wav' : Signed 16 bit Little Endian, Rate 44100 Hz, Mono
+		- Play recorded file:
+			$ cd /tmp
+			$ aplay test-mic.wav
+				Playing WAVE 'test-mic.wav' : Signed 16 bit Little Endian, Rate 44100 Hz, Mono
+
+*** USBHS driver:
+ 
+	- Please follow guideline at: https://github.com/renesas-rz/rza_linux-4.14_bsp/blob/master/doc/testing/usb-function.txt
+	- Test result
+		JP11 = Open
+		- Connect Host PC to CN8 on RSK board.
+				$ [  412.499329] g_ether gadget: high-speed config #2: RNDIS
+		
+		RSK board:
+			$ ifconfig -a
+				eth0      Link encap:Ethernet  HWaddr F2:B5:07:7E:F7:96
+						  BROADCAST MULTICAST  MTU:1500  Metric:1
+						  RX packets:0 errors:0 dropped:0 overruns:0 frame:0
+						  TX packets:0 errors:0 dropped:0 overruns:0 carrier:0
+						  collisions:0 txqueuelen:1000
+						  RX bytes:0 (0.0 B)  TX bytes:0 (0.0 B)
+						  Interrupt:58 Base address:0x3000
+
+				lo        Link encap:Local Loopback
+						  inet addr:127.0.0.1  Mask:255.0.0.0
+						  inet6 addr: ::1/128 Scope:Host
+						  UP LOOPBACK RUNNING  MTU:65536  Metric:1
+						  RX packets:0 errors:0 dropped:0 overruns:0 frame:0
+						  TX packets:0 errors:0 dropped:0 overruns:0 carrier:0
+						  collisions:0 txqueuelen:1000
+						  RX bytes:0 (0.0 B)  TX bytes:0 (0.0 B)
+
+				sit0      Link encap:IPv6-in-IPv4
+						  NOARP  MTU:1480  Metric:1
+						  RX packets:0 errors:0 dropped:0 overruns:0 frame:0
+						  TX packets:0 errors:0 dropped:0 overruns:0 carrier:0
+						  collisions:0 txqueuelen:1000
+						  RX bytes:0 (0.0 B)  TX bytes:0 (0.0 B)
+
+				usb0      Link encap:Ethernet  HWaddr 5A:46:C0:C8:34:73
+						  BROADCAST MULTICAST  MTU:1500  Metric:1
+						  RX packets:0 errors:0 dropped:0 overruns:0 frame:0
+						  TX packets:0 errors:0 dropped:0 overruns:0 carrier:0
+						  collisions:0 txqueuelen:1000
+						  RX bytes:0 (0.0 B)  TX bytes:0 (0.0 B)
+			$ ifconfig usb0 up
+			$ ifconfig usb0 192.168.0.69
+			
+		HOST PC: 
+			$ sudo ifconfig enp0s20f0u13 up		/* enp0s20f0u13 is the name of RSK board show on Host PC by using $ sudo ifconfig -a, 
+												 *	it can be difference with other Host PC */
+			$ sudo ifconfig enp0s20f0u13 192.168.0.70
+			$ ping 192.168.0.69
+				PING 192.168.0.69 (192.168.0.69) 56(84) bytes of data.
+				64 bytes from 192.168.0.69: icmp_req=2 ttl=64 time=3.74 ms
+				64 bytes from 192.168.0.69: icmp_req=3 ttl=64 time=2.67 ms
+				64 bytes from 192.168.0.69: icmp_req=4 ttl=64 time=1.54 ms
+				64 bytes from 192.168.0.69: icmp_req=5 ttl=64 time=2.94 ms
+
+************
+End
+************
+
