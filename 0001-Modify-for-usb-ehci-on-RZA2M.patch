@@ -1,0 +1,75 @@
+From e4c321ce67a91406fe79daea2847332534f37420 Mon Sep 17 00:00:00 2001
+From: Nghia Tran <nghia.tran.hx@rvc.renesas.com>
+Date: Tue, 6 Nov 2018 18:27:16 +0700
+Subject: [PATCH 1/2] Modify for usb ehci on RZA2M
+
+---
+ drivers/clk/renesas/r7s9210-cpg-mssr.c   | 3 +++
+ drivers/phy/renesas/Kconfig              | 2 +-
+ drivers/phy/renesas/phy-rcar-gen3-usb2.c | 9 +++++++++
+ 3 files changed, 13 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/clk/renesas/r7s9210-cpg-mssr.c b/drivers/clk/renesas/r7s9210-cpg-mssr.c
+index 3922967..174b4e8 100644
+--- a/drivers/clk/renesas/r7s9210-cpg-mssr.c
++++ b/drivers/clk/renesas/r7s9210-cpg-mssr.c
+@@ -87,6 +87,9 @@ enum clk_ids {
+ 	DEF_MOD_STB("scif1",	 46,	R7S9210_CLK_P1C),
+ 	DEF_MOD_STB("scif0",	 47,	R7S9210_CLK_P1C),
+ 
++	DEF_MOD_STB("usb1",	 60,	R7S9210_CLK_B),
++	DEF_MOD_STB("usb0",	 61,	R7S9210_CLK_B),
++
+ 	DEF_MOD_STB("ether1",	 64,	R7S9210_CLK_B),
+ 	DEF_MOD_STB("ether0",	 65,	R7S9210_CLK_B),
+ 
+diff --git a/drivers/phy/renesas/Kconfig b/drivers/phy/renesas/Kconfig
+index e340a92..e646845 100644
+--- a/drivers/phy/renesas/Kconfig
++++ b/drivers/phy/renesas/Kconfig
+@@ -19,7 +19,7 @@ config PHY_RCAR_GEN3_PCIE
+ config PHY_RCAR_GEN3_USB2
+ 	tristate "Renesas R-Car generation 3 USB 2.0 PHY driver"
+ 	depends on ARCH_RENESAS
+-	depends on EXTCON
++	#depends on EXTCON
+ 	depends on USB_SUPPORT
+ 	select GENERIC_PHY
+ 	select USB_COMMON
+diff --git a/drivers/phy/renesas/phy-rcar-gen3-usb2.c b/drivers/phy/renesas/phy-rcar-gen3-usb2.c
+index d0f412c..ba48915 100644
+--- a/drivers/phy/renesas/phy-rcar-gen3-usb2.c
++++ b/drivers/phy/renesas/phy-rcar-gen3-usb2.c
+@@ -34,6 +34,7 @@
+ #define USB2_VBCTRL		0x60c
+ #define USB2_LINECTRL1		0x610
+ #define USB2_ADPCTRL		0x630
++#define USB2_PHYCLK_CTRL	0x644
+ 
+ /* INT_ENABLE */
+ #define USB2_INT_ENABLE_UCOM_INTEN	BIT(3)
+@@ -325,6 +326,13 @@ static int rcar_gen3_phy_usb2_init(struct phy *p)
+ {
+ 	struct rcar_gen3_chan *channel = phy_get_drvdata(p);
+ 	void __iomem *usb2_base = channel->base;
++	int temp;
++
++	writel(0x00000001, usb2_base + USB2_PHYCLK_CTRL);
++	writel(0x00000000, usb2_base + USB2_COMMCTRL);
++	temp = readl(usb2_base + USB2_USBCTR);
++	writel(temp & 0xfffffffd, usb2_base + USB2_USBCTR);
++	udelay(100);
+ 
+ 	/* Initialize USB2 part */
+ 	writel(USB2_INT_ENABLE_INIT, usb2_base + USB2_INT_ENABLE);
+@@ -410,6 +418,7 @@ static irqreturn_t rcar_gen3_phy_usb2_irq(int irq, void *_ch)
+ 	{ .compatible = "renesas,usb2-phy-r8a7796" },
+ 	{ .compatible = "renesas,usb2-phy-r8a77965" },
+ 	{ .compatible = "renesas,rcar-gen3-usb2-phy" },
++	{ .compatible = "renesas,usb2-phy-r7s9210" },
+ 	{ }
+ };
+ MODULE_DEVICE_TABLE(of, rcar_gen3_phy_usb2_match_table);
+-- 
+1.9.1
+
