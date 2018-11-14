@@ -8,6 +8,9 @@
 #include "mipi.h"
 static void *mipi_base;
 static void *vin_base;
+
+//#define INTS 1
+
 /* Mipi Driver Status */
 static uint8_t Mipi_State = MIPI_RESET;
 
@@ -198,7 +201,7 @@ mipi_error_t R_MIPI_Setup(void)
 {
 	mipi_error_t merr = MIPI_OK;
 #ifdef DEBUG
-	printf("R_MIPI_Setup \n");
+	printf("R_MIPI_Setup debug\n");
 #endif
 	uint32_t vnmc, value;
 	
@@ -245,14 +248,20 @@ mipi_error_t R_MIPI_Setup(void)
 		
 		/* MIPI CAPTURE MODE*/
 		Mipi_CaptureMode = CONTINUOUS_MODE;
-	
-		/* Ack interrupts */ /*From Linux*/
-		vin_write32(VNINTS_REG, 0x00000000);
+#if 0	
+		/* Ack interrupts */ /*From Linux*/ //10030000
+		//printf("R_MIPI_Setup, before write VNINTS_REG %x \n",vin_read32(VNINTS_REG));
+		vin_write32(VNINTS_REG, 0x10);
+		printf("R_MIPI_Setup, After write VNINTS_REG %x \n",vin_read32(VNINTS_REG));
 		/* Enable interrupts */ /*From Linux*/
-		vin_write32(VNIE_REG, 0x00000010);
-	
+		printf("R_MIPI_Setup, before write VNIE_REG %x \n",vin_read32(VNIE_REG));
+		vin_write32(VNIE_REG, 0x10);
+		printf("R_MIPI_Setup, after write VNIE_REG %x \n",vin_read32(VNIE_REG));
 		/* Enable module */ //From Linux
-		vin_write32(VNMC_REG, vnmc | VNMC_ME);
+		printf("R_MIPI_Setup, before write VNMC_REG %x \n",vin_read32(VNMC_REG));
+		//vin_write32(VNMC_REG, 0x4000b);
+		//printf("R_MIPI_Setup, after write VNMC_REG %x \n",vin_read32(VNMC_REG));
+#endif
 	}
 
 	return merr;
@@ -288,10 +297,13 @@ mipi_error_t R_MIPI_SetBufferAdr(uint8_t buffer_no, /*uint8_t*  bufferBase*/ uin
 #ifdef DEBUG
 	printf("R_MIPI_SetBufferAdr \n");
 #endif	
+#ifdef INTS
 	uint32_t vin_intf = vin_read32(VNIE_REG);
+	printf("R_MIPI_SetBufferAdr 1 VNIE_REG %x\n", vin_intf);
 	uint32_t mipi_intf = mipi_read32(INTCLOSE_REG);
 	vin_write32(VNIE_REG, 0);
 	mipi_write32(INTCLOSE_REG, 0x181FFCDD);
+#endif
 	/*Video n Interrupt Enable Register (VnIE)*/
 	
 	/* Check MIPI State */
@@ -317,19 +329,21 @@ mipi_error_t R_MIPI_SetBufferAdr(uint8_t buffer_no, /*uint8_t*  bufferBase*/ uin
     if( merr == MIPI_OK ){
 		if( buffer_no == 0 ){
 				vin_write32(VNMB_REG(0), phys_addr);
-				printf("R_MIPI_SetBufferAdr 0 to %x\n", vin_read32(VNMB_REG(0));
+				printf("R_MIPI_SetBufferAdr 0 to %x\n", vin_read32(VNMB_REG(0)));
 		} else if( buffer_no == 1 ){
 				vin_write32(VNMB_REG(1), phys_addr);
-				printf("R_MIPI_SetBufferAdr 1 to %x\n", vin_read32(VNMB_REG(1));
+				printf("R_MIPI_SetBufferAdr 1 to %x\n", vin_read32(VNMB_REG(1)));
 		} else {
 				vin_write32(VNMB_REG(2), phys_addr);
-				printf("R_MIPI_SetBufferAdr 2 to %x\n", vin_read32(VNMB_REG(2));
+				printf("R_MIPI_SetBufferAdr 2 to %x\n", vin_read32(VNMB_REG(2)));
 		}	
 	}
 	/*Restore Interrupt*/
+#ifdef INTS
 	vin_write32(VNIE_REG, vin_intf);
+	printf("R_MIPI_SetBufferAdr 2 VNIE_REG %x\n", vin_intf);
 	mipi_write32(INTCLOSE_REG, mipi_intf);
-
+#endif
 	return merr;
 }
 
@@ -339,18 +353,24 @@ mipi_error_t R_MIPI_CaptureStart(void){
 #ifdef DEBUG
 	printf("R_MIPI_CaptureStart \n");
 #endif		
+#ifdef INTS
 	uint32_t intstate;
 	uint32_t vin_intf = vin_read32(VNIE_REG);
+	printf("R_MIPI_CaptureStart 1 VNIE_REG %x\n", vin_intf);
 	uint32_t mipi_intf = mipi_read32(INTCLOSE_REG);
 	vin_write32(VNIE_REG, 0);
 	mipi_write32(INTCLOSE_REG, 0x181FFCDD);
-	
+	printf("Defined INTS VNIE_REG %x\n", vin_read32(VNIE_REG));
+#endif	
 	/* Check MIPI State */
     if( ( Mipi_State != MIPI_STOP ) && ( Mipi_State != MIPI_CAPTURE ) ){
         merr = MIPI_STATUS_ERR;
 		printf("R_MIPI_CaptureStart MIPI_STATUS_ERR\n");
     }
     if( merr == MIPI_OK ){
+		printf("R_MIPI_CaptureStart before setting VNMC_ME bit %x\n", vin_read32(VNMC_REG));
+		vin_write32(VNMC_REG, vin_read32(VNMC_REG) | (1 << 0));
+		printf("R_MIPI_CaptureStart after setting VNMC_ME bit %x\n", vin_read32(VNMC_REG));
 		if( Mipi_CaptureMode == SINGLE_MODE ){ //Single Capture Mode 
 			vin_write32(VNFC_REG, 0x00000002);
 			printf("R_MIPI_CaptureStart SINGLE_MODE %x\n",vin_read32(VNFC_REG));
@@ -359,19 +379,31 @@ mipi_error_t R_MIPI_CaptureStart(void){
 			vin_write32(VNFC_REG, 0x00000001);
 			printf("R_MIPI_CaptureStart Continuous mode %x\n",vin_read32(VNFC_REG));		
 		}
+
 		/*Video n Interrupt Enable Register (VnIE)*/
 		//vin_write32(VNMC_REG | (1 << 0), 1);//From Linux?
-		//vin_write32(VNIE_REG, 0x10); //From Linux?
+		vin_write32(VNIE_REG, 0x10); //From Linux?
+		printf("R_MIPI_CaptureStart from Linux setting VNIE %x\n", vin_read32(VNIE_REG));
+
+		vin_write32(VNINTS_REG, vin_read32(VNINTS_REG));//From Linux?
+		printf("R_MIPI_CaptureStart from Linux setting VNINTS %x\n", vin_read32(VNINTS_REG));
+
+#ifdef INTS		
 		intstate = mipi_read32(INTSTATE_REG);
 		mipi_write32(INTSTATE_REG, intstate);	
 		intstate = vin_read32(VNINTS_REG);
-		printf("R_MIPI_CaptureStart VNINTS_REG %x\n",intstate);		
-		vin_write32(VNINTS_REG, intstate);	
+		printf("R_MIPI_CaptureStart 2 VNINTS_REG %x\n",intstate);		
+		vin_write32(VNINTS_REG, intstate);
+#endif	
 		Mipi_State = MIPI_CAPTURE;
 	}
-	/*Restore interrupt*/	
+	/*Restore interrupt*/
+#ifdef INTS
+printf("R_MIPI_CaptureStart before setting VNIE %x\n", vin_read32(VNIE_REG));
 	vin_write32(VNIE_REG, vin_intf);
+printf("R_MIPI_CaptureStart after setting VNIE %x\n", vin_read32(VNIE_REG));
 	mipi_write32(INTCLOSE_REG, mipi_intf);
+#endif
 	return merr;
 }
 
@@ -381,11 +413,12 @@ mipi_error_t  R_MIPI_CaptureStop(void){
 #ifdef DEBUG
 	printf("R_MIPI_CaptureStop \n");
 #endif	
+#ifdef INTS
 	uint32_t vin_intf = vin_read32(VNIE_REG);
 	uint32_t mipi_intf = mipi_read32(INTCLOSE_REG);
 	vin_write32(VNIE_REG, 0);
 	mipi_write32(INTCLOSE_REG, 0x181FFCDD);
-	
+#endif	
 	/* Check MIPI State */
     if( Mipi_State != MIPI_CAPTURE ){
         merr = MIPI_STATUS_ERR;
@@ -403,8 +436,10 @@ mipi_error_t  R_MIPI_CaptureStop(void){
     }
 	
 	/*Restore interrupt*/	
+#ifdef INTS
 	vin_write32(VNIE_REG, vin_intf);
 	mipi_write32(INTCLOSE_REG, mipi_intf);
+#endif
 	return merr;
 }
 
