@@ -1,0 +1,12 @@
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0xc00ed024 in ?? ()
+(gdb) c
+Continuing.
+
+
+
+^C
+Program received signal SIGTRAP, Trace/breakpoint trap.
+cpu_v7_do_idle () at arch/arm/mm/proc-v7.S:81
+81		ret	lr
+(gdb) 
