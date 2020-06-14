@@ -28,13 +28,6 @@
 #define	QSPI_SMDMCR		(0x0060)
 #define	QSPI_SMDRENR		(0x0064)
 
-#define QSPI_PHYADJ1	(0x0070)
-#define QSPI_PHYADJ2	(0x0074)
-#define QSPI_PHYCNT		(0x007c)
-#define	QSPI_PHYOFFSET1		(0x0080)
-#define	QSPI_PHYOFFSET2		(0x0084)
-#define	QSPI_PHYINT		(0x0088)
-
 /* CMNCR */
 #define	CMNCR_MD		(1u << 31)
 #define	CMNCR_SFDE		(1u << 24)
@@ -237,7 +230,13 @@
 #define STATUS_PEC                      (1 << 7)
 #define CMD_PAGE_PROGRAM				0x02
 
+#define RZA2MEVB	CONFIG_ARCH_R7S9210
+#if RZA2MEVB
 #define QSPI0_BASE	(0x1F800000)
+#else
+#define QSPI0_BASE	(0x3FEFA000)
+#endif /* RZA2MEVB */
+
 #define XIP_BASE	(0x18000000)
 
 #define MEM_REGION_SIZE		(256)
@@ -252,7 +251,10 @@ enum operations { OP_IDLE= 0, OP_READ, OP_ERASE, OP_PROG };
 struct qspi_flash {
 	//spinlock_t lock;
 	void * __iomem *reg;
-	void __iomem *mmio;//KYT add
+#if RZA2MEVB
+	void * __iomem *mmio;
+#endif /* RZA2MEVB */
+
 	/* dual - Single to dual flash */
 	int dual;
 

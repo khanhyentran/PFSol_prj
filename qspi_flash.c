@@ -1,7 +1,7 @@
 /*
  * Sample driver for erase/program/read of QSPI flash while executing an XIP
  * kernel out of the QSPI flash.
- * While communcating with the SPI flash, system will be off and the QSPI
+ * While communicating with the SPI flash, system will be off and the QSPI
  * peripheral will be in SPI mode meaning no kernel functions can be called.
  */
 
@@ -15,25 +15,34 @@
 #include <linux/interrupt.h>	/* for requesting interrupts */
 #include <linux/sched.h>
 #include <linux/ctype.h> 
-#include <asm/uaccess.h>
-#include <asm/io.h>
+#include <linux/uaccess.h>
+#include <linux/io.h>
+#include <asm/cacheflush.h>	/* for cache flush */
 #include <linux/miscdevice.h>	/* Misc Driver */
 #include "qspi_flash.h"
 
 /* Options */
 //#define DEBUG
 
+#define HYPERFLASH 0
 
-/* Spansion S25FL512S */
-#define S25FL512S_512_256K
-#ifdef S25FL512S_512_256K
+/*** Choose only one of the following Flash devices ***/
+#if 0
+  /* Spansion S25FL512S */
   #define S25FL512S_512_256K
   #define FLASH_PAGE_SIZE 512
   #define FLASH_ERASE_SIZE (256*1024)
 #endif
 
+#if 1
+  /* Macronix MX25L51245G */
+  #define MX25L51245G
+  #define FLASH_PAGE_SIZE 256
+  #define FLASH_ERASE_SIZE (64*1024)
+#endif
 
-#define DRIVER_VERSION	"2016-07-05"
+
+#define DRIVER_VERSION	"2020-06-12"
 #define DRIVER_NAME	"qspi_flash"
 
 #ifdef DEBUG
@@ -340,7 +349,7 @@ static int qspi_flash_recv_data(struct qspi_flash *qf,
 			case 0x35: /* Read configuration register */
 			case 0x16: /* Read Bank register (CMD_BANKADDR_BRRD) */
 			case 0xC8: /* Read Bank register (CMD_EXTNADDR_RDEAR) */
-			case 0xB5: /* Read NONVolatile Configuration register (Micron) */
+			case 0xB5: /* Read NON-Volatile Configuration register (Micron) */
 			case 0x85: /* Read Volatile Configuration register (Micron) */
 				combine = 1;
 				len *= 2;	// get twice as much data.
@@ -349,12 +358,12 @@ static int qspi_flash_recv_data(struct qspi_flash *qf,
 	}
 
 	/* Flash devices with this command wait for bit 7 to go high (not LOW) when
-	   erase or writting is done, so we need to AND the results, not OR them,
+	   erase or writing is done, so we need to AND the results, not OR them,
 	   when running in dual SPI flash mode */
 	if( qf->this_cmd == 0x70 )
 		qf->combine_status_mode = 1; /* AND results (WIP = 1 when ready) */
 	else
-		qf->combine_status_mode = 0; /* OR resutls (WIP = 0 when ready) */
+		qf->combine_status_mode = 0; /* OR results (WIP = 0 when ready) */
 
 	/* Reset after each command */
 	qf->disable_combine = 0;
@@ -408,11 +417,11 @@ static int qspi_flash_recv_data(struct qspi_flash *qf,
 
 		/* wait spi transfered */
 		if ((ret = qspi_flash_wait_for_tend(qf)) < 0) {
-			/* data recive timeout */
+			/* data receive timeout */
 			return ret;
 		}
 
-		/* Just read both regsiters. We'll figure out what parts
+		/* Just read both registers. We'll figure out what parts
 		   are valid later */
 		smrdr0 = qspi_read32(qf, QSPI_SMRDR0);
 		smrdr1 = qspi_read32(qf, QSPI_SMRDR1);
@@ -420,7 +429,7 @@ static int qspi_flash_recv_data(struct qspi_flash *qf,
 		if( !combine ) {
 			if (unit == 8) {
 				/* Dual Memory */
-				/* SMDR1 has the begining of the RX data (but
+				/* SMDR1 has the beginning of the RX data (but
 				   only when 8 bytes are being read) */
 				*buf++ = (u8)(smrdr1 & 0xff);
 				*buf++ = (u8)((smrdr1 >> 8) & 0xff);
@@ -444,7 +453,7 @@ static int qspi_flash_recv_data(struct qspi_flash *qf,
 			   checked for erase/write operations */
 			/* Combine results together */
 			if ( unit == 8 ) {
-				/* SMRDR1 always has the begining of the RX data stream */
+				/* SMRDR1 always has the beginning of the RX data stream */
 				if( qf->combine_status_mode) { /* AND results together */
 					*buf++ = (u8)(smrdr1 & 0xff) & (u8)((smrdr1 >> 8) & 0xff);
 					*buf++ = (u8)((smrdr1 >> 16) & 0xff) & (u8)((smrdr1 >> 24) & 0xff);
@@ -512,8 +521,8 @@ static int qspi_flash_send_cmd(struct qspi_flash *qf,
 
 static int qspi_flash_wait_ready(struct qspi_flash *qf)
 {
-#ifdef S25FL512S_512_256K
-	/* Spansion */
+#if defined(S25FL512S_512_256K) || defined(MX25L51245G)
+	/* Spansion, Macronix */
 	u8 cmd = 0x05;	/* Read Status Register-1 */
 #endif
 	u8 status[2] = {0,0};
@@ -532,9 +541,9 @@ static int qspi_flash_wait_ready(struct qspi_flash *qf)
 		/* Display results (for debug only) */
 		//debugout_PRINT_HEX(status[0]); debugout(','); debugout_PRINT_HEX(status[1]); debugout_NEWLINE();
 
-#ifdef S25FL512S_512_256K
+#if defined(S25FL512S_512_256K) || defined(MX25L51245G)
 		/* Spansion: Work in progress is bit 0. Both need to be 0 */
-		if( !(status[0] & 1) && !(status[0] & 1) )
+		if( !(status[0] & 1) && !(status[1] & 1) )
 			break; /* WIP == 0 */
 #endif
 
@@ -549,9 +558,9 @@ static int qspi_flash_wait_ready(struct qspi_flash *qf)
 	qspi_flash_recv_data(qf, status, 2, CS_BACK_HIGH);
 
 	/* Check the status register for an Erase or Program Error */
-#ifdef S25FL512S_512_256K
-	/* Bit 6 is P_ERR for Programming error occured
-	 * Bit 5 is E_ERR for Erase error has occured */
+#if defined(S25FL512S_512_256K)
+	/* Bit 6 is P_ERR for Programming error occurred
+	 * Bit 5 is E_ERR for Erase error has occurred */
 	if( (status[0] & 0x60) || (status[1] & 0x60) )
 	{
 		qf->op_err = 1;
@@ -559,6 +568,20 @@ static int qspi_flash_wait_ready(struct qspi_flash *qf)
 		/* Send Clear Status Register command */
 		cmd = 0x30;
 		qspi_flash_send_cmd(qf, &cmd, 1, CS_BACK_HIGH);
+	}
+#elif defined(MX25L51245G)
+	/* The programming and erase errors are located in Security Register */
+        cmd = 0x2B;
+	qspi_flash_send_cmd(qf, &cmd, 1, CS_KEEP_LOW);
+
+	qspi_flash_recv_data(qf, status, 2, CS_BACK_HIGH);
+	/* Bit 6 is P_ERR for Erase error occurred
+	 * Bit 5 is E_ERR for Programming error has occurred */
+	if( (status[0] & 0x60) || (status[1] & 0x60) ) // Do we have dual? If not second check to be removed
+	{
+		qf->op_err = 1;
+
+		/* There is no clear status command needed. */
 	}
 #endif
 
@@ -573,7 +596,7 @@ static int qspi_flash_set_config(struct qspi_flash *qf)
 	u32 value;
 
 	/* NOTES: Set swap (SFDE) so the order of bytes D0 to D7 in the SPI RX/TX FIFO are always in the
-	   same order (LSB=D0, MSB=D7) regardless if the SPI did a byte,word, dwrod fetch */
+	   same order (LSB=D0, MSB=D7) regardless if the SPI did a byte, word, dwrod fetch */
 	value = 
 		CMNCR_MD|	       		/* spi mode */
 		CMNCR_SFDE|			/* swap */
@@ -615,6 +638,9 @@ static int qspi_flash_mode_spi(struct qspi_flash *qf)
 
 	/* Turn off all system interrupts */
 	local_irq_save(qf->flags);
+
+	/* Flush all the cache (makes things much more stable) */
+	flush_cache_all();
 
 	qf->drcr_save = qspi_read32(qf, QSPI_DRCR);
 
@@ -682,7 +708,7 @@ static int qspi_flash_mode_xip(struct qspi_flash *qf)
 	local_irq_restore(qf->flags);
 
 	/*=========================================================*/
-	/* NOW IN XIP MODE. ALL KERNEL FUNCTIONS ARE NOW AVAILIBLE */
+	/* NOW IN XIP MODE. ALL KERNEL FUNCTIONS ARE NOW AVAILABLE */
 	/*=========================================================*/
 
 	return 0;
@@ -690,9 +716,15 @@ static int qspi_flash_mode_xip(struct qspi_flash *qf)
 
 static int qspi_flash_do_read(struct qspi_flash *qf, u8 *buf, int len)
 {
-#ifdef S25FL512S_512_256K
-	/* Spansion */
-	u8 cmd[6] = {0x0C}; /* Read Fast (4-byte Address) - (Requires dummy cycles) */
+#if RZA2MEVB
+	memcpy(buf, qf->mmio + (qf->op_addr & 0xFFFFFFF) / 4 , len);
+
+	qf->op_addr += len;
+#else
+#if defined(S25FL512S_512_256K) || defined(MX25L51245G)
+	/* Spansion: Read Fast (4-byte Address) - (Requires dummy cycles) */
+	/* Macronix: FAST READ4B (4-byte Address) - (Requires dummy cycles) */
+	u8 cmd[6] = {0x0C};
 #endif
 	int ret;
 
@@ -702,7 +734,7 @@ static int qspi_flash_do_read(struct qspi_flash *qf, u8 *buf, int len)
 	cmd[3] = (qf->op_addr >> 8)  & 0xFF;
 	cmd[4] = (qf->op_addr)       & 0xFF;
 
-#ifdef S25FL512S_512_256K
+#if defined(S25FL512S_512_256K) || defined(MX25L51245G)
 	/* Insert dummy cycles into read command */
 	cmd[5] = 0xFF;	/* 8 dummy cycles (1 bytes) */
 #endif
@@ -725,13 +757,14 @@ static int qspi_flash_do_read(struct qspi_flash *qf, u8 *buf, int len)
 
 	/* Exit SPI Mode (re-enter XIP mode) */
 	qspi_flash_mode_xip(&my_qf);
-	
+#endif /* RZA2MEVB */
+
 	return 0;
 }
 static int qspi_flash_do_erase(struct qspi_flash *qf)
 {
-#ifdef S25FL512S_512_256K
-	/* Spansion */
+#if defined(S25FL512S_512_256K) || defined(MX25L51245G)
+	/* Spansion, Macronix */
 	u8 cmd[5] = {0xDC}; /* Erase 256 kB (4-byte Address) */
 	u8 cmd_wren = 0x06;	/* Write Enable command */
 #endif
@@ -759,14 +792,13 @@ static int qspi_flash_do_erase(struct qspi_flash *qf)
 
 	/* Exit SPI Mode (re-enter XIP mode) */
 	qspi_flash_mode_xip(&my_qf);
-	
-	return ret;
 
+	return ret;
 }
 static int qspi_flash_do_program(struct qspi_flash *qf, u8 *buf, int len)
 {
-#ifdef S25FL512S_512_256K
-	/* Spansion */
+#if defined(S25FL512S_512_256K) || defined(MX25L51245G)
+	/* Spansion, Macronix */
 	u8 cmd[5] = {0x12}; /* Page Program (4-byte Address) */
 	u8 cmd_wren = 0x06;	/* Write Enable */
 #endif
@@ -870,7 +902,7 @@ static int qspi_flash_release(struct inode * inode, struct file * filp)
 buf: The buffer to fill with you data
 length: The size of the buffer that you need to fill
 
-ppos: a pointer to the 'position' index that the file structre is using to konw
+ppos: a pointer to the 'position' index that the file structure is using to know
 	where in the file you are. You need to update this to show that you are
 	moving your way through the file.
 
@@ -968,7 +1000,7 @@ static ssize_t qspi_flash_read(struct file * file, char __user * buf, size_t len
 			return -EFAULT;
 		}
 		*ppos += 1;
-		return 1;		
+		return 1;
 	}
 
 	my_qf.op = OP_IDLE;
@@ -986,7 +1018,7 @@ static ssize_t qspi_flash_write(struct file * file, const char __user * buf,  si
 
 	DPRINTK("(BEFORE) op=%d,addr=0x%X,dual=%d,prog_buffer_cnt=%d,op_err=%d\n",my_qf.op,my_qf.op_addr,my_qf.dual,prog_buffer_cnt,my_qf.op_err);
 
-	/* Operation already errored out. Need to READ to reset */
+	/* Operation already had an error. Need to READ to reset */
 	if ( my_qf.op_err ) {
 		//*ppos += count;
 		//return count;
@@ -1004,7 +1036,6 @@ static ssize_t qspi_flash_write(struct file * file, const char __user * buf,  si
 	in_buf = memdup_user(buf, count);
 	if(IS_ERR(in_buf))
 		return PTR_ERR(in_buf);
-
 
 	/* Continuation of a write command */
 	if( my_qf.op == OP_PROG ) {
@@ -1029,7 +1060,7 @@ static ssize_t qspi_flash_write(struct file * file, const char __user * buf,  si
 	else if( in_buf[0] == 'e' ) /* "er" */
 	{
 		if ( count < 6 )
-			goto err_inval;;	
+			goto err_inval;
 		my_qf.op = OP_ERASE;
 		my_qf.op_addr = *(u32 *)(in_buf + 2 );
 		qspi_flash_do_erase(&my_qf);
@@ -1112,7 +1143,7 @@ static ssize_t qspi_flash_store_dual(struct device *dev,
 }
 
 static struct device_attribute qspi_flash_device_attributes[] = {
-	__ATTR(	dual,0666,qspi_flash_show_dual,qspi_flash_store_dual),
+	__ATTR(	dual,0660,qspi_flash_show_dual,qspi_flash_store_dual),
 };
 
 /* This 'init' function of the driver will run when the system is booting.
@@ -1123,7 +1154,7 @@ static struct device_attribute qspi_flash_device_attributes[] = {
    A 'device' is registered in the system after a platform_device_register()
    in your board-xxxx.c is called.
    If this is a simple driver that will only ever control 1 device,
-	   you can do the device regis139tration in the init routine and avoid having
+	   you can do the device registration in the init routine and avoid having
    to edit your board-xxx.c file.
 
   For more info, read:
@@ -1135,6 +1166,20 @@ static int __init qspi_flash_init(void)
 	int i;
 	u8 cmd = 0x9F; /* Read Identification (RDID 9Fh) */
 	u8 id[5];
+#if HYPERFLASH
+	u32 ssldr;
+	u32 drcmr;
+	u32 drenr;
+#endif /* HYPERFLASH */
+
+#if RZA2MEVB
+	my_qf.mmio = ioremap(0x20000000, 0x6000000);
+	if (my_qf.mmio == NULL) {
+		ret = -ENOMEM;
+		printk("mmio ioremap error.\n");
+		goto clean_up;
+	}
+#endif /* RZA2MEVB */
 
 	my_qf.reg = ioremap(QSPI0_BASE, 0x100);
 	if (my_qf.reg == NULL) {
@@ -1166,10 +1211,33 @@ static int __init qspi_flash_init(void)
 	}
 
 	/* Set defaults */
+#if RZA2MEVB
+	my_qf.dual = 0;
+#else
 	my_qf.dual = 1;
+#endif /* RZA2MEVB */
 
 	debugout(' ');	/* dummy call to set up ioremap */
 
+#if (RZA2MEVB && HYPERFLASH)
+	local_irq_save(my_qf.flags);
+
+	ssldr = qspi_read32(&my_qf, QSPI_SSLDR);
+	drcmr = qspi_read32(&my_qf, QSPI_DRCMR);
+	drenr = qspi_read32(&my_qf, QSPI_DRENR);
+
+	qspi_write32(&my_qf, 0x00070707, QSPI_SSLDR);
+	qspi_write32(&my_qf, DRCMR_CMD(cmd), QSPI_DRCMR);
+	qspi_write32(&my_qf, 0x00004000, QSPI_DRENR);
+
+	memcpy(id, my_qf.mmio, sizeof(u8) * 5);
+
+	qspi_write32(&my_qf, ssldr, QSPI_SSLDR);
+	qspi_write32(&my_qf, drcmr, QSPI_DRCMR);
+	qspi_write32(&my_qf, drenr, QSPI_DRENR);
+
+	local_irq_restore(my_qf.flags);
+#else
 	/* Enter SPI Mode (exit XIP mode) */
 	ret = qspi_flash_mode_spi(&my_qf);
 	if( ret ) {
@@ -1185,8 +1253,9 @@ static int __init qspi_flash_init(void)
 
 	/* Exit SPI Mode (re-enter XIP mode) */
 	qspi_flash_mode_xip(&my_qf);
+#endif /* RZA2MEVB */
 	
-#ifdef S25FL512S_512_256K
+#if defined(S25FL512S_512_256K)
 	/* Spansion S25FL512S */
 	DPRINTK("Flash ID = %02X %02X %02X %02X %02X\n",id[0],id[1],id[2],id[3],id[4]);
 	if( (id[0] == 0x01) && /* Spansion */
@@ -1195,10 +1264,21 @@ static int __init qspi_flash_init(void)
 	{
 		printk("%s: Detected Spansion S25FL512S (512B/256kB)\n", DRIVER_NAME);
 	}
-#endif
 	else
 		printk("%s: Warning - SPI Device is not a Spansion S25FL512S\n", DRIVER_NAME);
-	
+#elif defined(MX25L51245G)
+	/* Macronix MX25L51245G */
+	DPRINTK("Flash ID = %02X %02X %02X %02X %02X\n",id[0],id[1],id[2],id[3],id[4]);
+
+	if( (id[0] == 0xC2) && /* Macronix */
+	    (id[1] == 0x20) && (id[2] == 0x1A) )
+	{
+		printk("%s: Detected Macronix MX25L51245G (256/64kB)\n", DRIVER_NAME);
+	}
+	else
+		printk("%s: Warning - SPI Device is not Macronix MX25L51245G\n", DRIVER_NAME);
+#endif
+
 	printk("%s: version %s\n", DRIVER_NAME, DRIVER_VERSION);
 
 	return 0;
@@ -1207,13 +1287,17 @@ clean_up:
 	if (my_qf.reg)
 		iounmap(my_qf.reg);
 
+#if RZA2MEVB
+	if (my_qf.mmio)
+		iounmap(my_qf.mmio);
+#endif /* RZA2MEVB */
+
 	/* Remove our sysfs files */
 	for (i = 0; i < ARRAY_SIZE(qspi_flash_device_attributes); i++)
 		device_remove_file(my_dev.this_device, &qspi_flash_device_attributes[i]);
 
 	misc_deregister(&my_dev);
 
-	
 	return ret;
 }
 
@@ -1223,7 +1307,12 @@ static void __exit qspi_flash_exit(void)
 
 	if (my_qf.reg)
 		iounmap(my_qf.reg);
-	
+
+#if RZA2MEVB
+	if (my_qf.mmio)
+		iounmap(my_qf.mmio);
+#endif /* RZA2MEVB */
+
 	/* Remove our sysfs files */
 	for (i = 0; i < ARRAY_SIZE(qspi_flash_device_attributes); i++)
 		device_remove_file(my_dev.this_device, &qspi_flash_device_attributes[i]);
@@ -1237,4 +1326,4 @@ MODULE_LICENSE("GPL v2");
 MODULE_AUTHOR("Chris Brandt");
 MODULE_ALIAS("platform:qspi_flash");
 MODULE_DESCRIPTION("qspi_flash: Program QSPI in XIP mode");
-
+MODULE_INFO(intree, "Y");
