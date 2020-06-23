@@ -1,0 +1,997 @@
+strace            strace-log-merge  strings
+$ strace ./qspi_app e s 25000000
+execve("./qspi_app", ["./qspi_app", "e", "s", "25000000"], 0xbee2fe3c /* 11 vars */) = 0
+brk(NULL)                               = 0x23000
+uname({sysname="Linux", nodename="buildroot", ...}) = 0
+access(0xb6f91818, R_OK)                = -1 ENOENT (No such file or directory)
+openat(AT_FDCWD, 0xb6f93394, O_RDONLY|O_LARGEFILE|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+openat(AT_FDCWD, "/lib/tls/v7l/neon/vfp/libc.so.6", O_RDONLY|O_LARGEFILE|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+stat64("/lib/tls/v7l/neon/vfp", 0xbebce278) = -1 ENOENT (No such file or directory)
+openat(AT_FDCWD, "/lib/tls/v7l/neon/libc.so.6", O_RDONLY|O_LARGEFILE|O_[   90.580348] qspi_flash: qspi_flash_write called. count=2, *ppos=0
+CLOEXEC) = -1 EN[   90.587541] qspi_flash: (BEFORE) op=1,addr=0x25000005,dual=0,prog_buffer_cnt=0,op_err=0
+OENT (No such fi[   90.597219] qspi_flash: 
+[   90.597219] [RVC_DEBUG] qspi_flash_write 1130 count = 2
+le or directory)[   90.606416] qspi_flash: 
+[   90.606416] [RVC_DEBUG] qspi_flash_write 1131 --> DATA = 
+
+stat64("/lib/t[   90.606426] qspi_flash: 64
+ls/v7l/neon", 0x[   90.615808] qspi_flash: 30
+bebce278) = -1 E[   90.619945] qspi_flash: 
+NOENT (No such f[   90.628023] qspi_flash: (AFTER) op=0,addr=0x0,dual=0,prog_buffer_cnt=0,op_err=0
+ile or directory)
+openat(AT_FDCWD, "/lib/tls/v7l/vfp/libc.so.6", O_RDONLY|O_LARGEFILE|O_CLOEXEC) = -1 ENOENT (No such fi[   90.646340] qspi_flash: qspi_flash_write called. coun2
+le or directory)[   90.653963] qspi_flash: (BEFORE) op=0,addr=0x0,dual=0,prog_buffer_cnt=0,op_err=0
+
+stat64("/lib/t[   90.662922] qspi_flash: 
+[   90.662922] [RVC_DEBUG] qspi_flash_write 1130 count = 6
+ls/v7l/vfp", 0xb[   90.672139] qspi_flash: 
+[   90.672139] [RVC_DEBUG] qspi_flash_write 1131 --> DATA = 
+ebce278)  = -1 E[   90.672146] qspi_flash: 65
+NOENT (No such f[   90.681553] qspi_flash: 72
+ile or directory[   90.685635] qspi_flash: 00
+)
+openat(AT_FDC[   90.689787] qspi_flash: 00
+WD, "/lib/tls/v7[   90.693904] qspi_flash: 00
+l/libc.so.6", O_[   90.698023] qspi_flash: 25
+RDONLY|O_LARGEFI[   90.702165] qspi_flash: 
+LE|O_CLOEXEC) = -1 ENOENT (No su[   90.875917] qspi_flash: 
+[   90.875917] [RVC_DEBUG] qspi_flash_do_erase 818 --> DATA = 
+ch file or direc[   90.875929] qspi_flash: FF
+tory)
+stat64("/[   90.885456] qspi_flash: FF
+lib/tls/v7l", 0x[   90.889596] qspi_flash: FF
+bebce278)      =[   90.893713] qspi_flash: FF
+ -1 ENOENT (No s[   90.897830] qspi_flash: FF
+uch file or dire[   90.901973] qspi_flash: FF
+ctory)
+openat(A[   90.906087] qspi_flash: FF
+T_FDCWD, "/lib/t[   90.910226] qspi_flash: FF
+ls/neon/vfp/libc[   90.914343] qspi_flash: FF
+.so.6", O_RDONLY[   90.918461] qspi_flash: FF
+|O_LARGEFILE|O_C[   90.922600] qspi_flash: FF
+LOEXEC) = -1 ENO[   90.926719] qspi_flash: FF
+ENT (No such fil[   90.930858] qspi_flash: FF
+[   90.934977] qspi_flash: FF
+
+stat64("/lib/tl[   90.939096] qspi_flash: FF
+s/neon/vfp", 0xb[   90.943233] qspi_flash: FF
+ebce278) = -1 EN[   90.947349] qspi_flash: FF
+OENT (No such fi[   90.951488] qspi_flash: FF
+le or directory)[   90.955605] qspi_flash: FF
+
+openat(AT_FDCW[   90.959744] qspi_flash: FF
+D, "/lib/tls/neo[   90.963863] qspi_flash: FF
+n/libc.so.6", O_[   90.967981] qspi_flash: FF
+RDONLY|O_LARGEFI[   90.972117] qspi_flash: FF
+LE|O_CLOEXEC) = [   90.976236] qspi_flash: FF
+-1 ENOENT (No su[   90.980373] qspi_flash: FF
+ch file or direc[   90.984491] qspi_flash: FF
+tory)
+stat64("/[   90.988608] qspi_flash: FF
+lib/tls/neon", 0[   90.992747] qspi_flash: FF
+xbebce278)     =[   90.996864] qspi_flash: FF
+ -1 ENOENT (No s[   91.001001] qspi_flash: FF
+uch file or dire[   91.005120] qspi_flash: FF
+ctory)
+openat(A[   91.009238] qspi_flash: FF
+T_FDCWD, "/lib/t[   91.013376] qspi_flash: FF
+ls/vfp/libc.so.6[   91.017493] qspi_flash: FF
+", O_RDONLY|O_LA[   91.021632] qspi_flash: FF
+RGEFILE|O_CLOEXE[   91.025749] qspi_flash: FF
+C) = -1 ENOENT ([   91.029900] qspi_flash: FF
+No such file or [   91.034007] qspi_flash: FF
+directory)
+stat[   91.038124] qspi_flash: FF
+64("/lib/tls/vfp[   91.042266] qspi_flash: FF
+", 0xbebce278)  [   91.046383] qspi_flash: FF
+    = -1 ENOENT [   91.050521] qspi_flash: FF
+(No such file or[   91.054639] qspi_flash: FF
+ directory)
+ope[   91.058757] qspi_flash: FF
+nat(AT_FDCWD, "/[   91.062912] qspi_flash: FF
+lib/tls/libc.so.[   91.067031] qspi_flash: FF
+6", O_RDONLY|O_L[   91.071169] qspi_flash: FF
+ARGEFILE|O_CLOEX[   91.075285] qspi_flash: FF
+EC) = -1 ENOENT [   91.079402] qspi_flash: FF
+(No such file or[   91.083540] qspi_flash: FF
+ directory)
+sta[   91.087657] qspi_flash: FF
+t64("/lib/tls", [   91.091795] qspi_flash: FF
+0xbebce278)     [   91.095912] qspi_flash: FF
+     = -1 ENOENT[   91.100049] qspi_flash: FF
+ (No such file o[   91.104166] qspi_flash: FF
+r directory)
+op[   91.108285] qspi_flash: FF
+enat(AT_FDCWD, "[   91.112422] qspi_flash: FF
+/lib/v7l/neon/vf[   91.116540] qspi_flash: FF
+p/libc.so.6", O_[   91.120676] qspi_flash: FF
+RDONLY|O_LARGEFI[   91.124793] qspi_flash: FF
+LE|O_CLOEXEC) = [   91.128912] qspi_flash: FF
+-1 ENOENT (No su[   91.133051] qspi_flash: FF
+ch file or direc[   91.137166] qspi_flash: FF
+tory)
+stat64("/[   91.141374] qspi_flash: FF
+lib/v7l/neon/vfp[   91.145421] qspi_flash: FF
+", 0xbebce278) =[   91.149563] qspi_flash: FF
+ -1 ENOENT (No s[   91.153680] qspi_flash: FF
+uch file or dire[   91.157798] qspi_flash: FF
+ctory)
+openat(A[   91.161939] qspi_flash: FF
+T_FDCWD, "/lib/v[   91.166056] qspi_flash: FF
+7l/neon/libc.so.[   91.170194] qspi_flash: FF
+6", O_RDONLY|O_L[   91.174312] qspi_flash: FF
+ARGEFILE|O_CLOEX[   91.178430] qspi_flash: FF
+EC) = -1 ENOENT [   91.182568] qspi_flash: FF
+(No such file or[   91.186685] qspi_flash: FF
+ directory)
+sta[   91.190824] qspi_flash: FF
+t64("/lib/v7l/ne[   91.194942] qspi_flash: FF
+on", 0xbebce278)[   91.199060] qspi_flash: FF
+     = -1 ENOENT[   91.203198] qspi_flash: FF
+ (No such file o[   91.207315] qspi_flash: FF
+r directory)
+op[   91.211454] qspi_flash: FF
+enat(AT_FDCWD, "[   91.215573] qspi_flash: FF
+/lib/v7l/vfp/lib[   91.219718] qspi_flash: FF
+c.so.6", O_RDONL[   91.223835] qspi_flash: FF
+Y|O_LARGEFILE|O_[   91.227952] qspi_flash: FF
+CLOEXEC) = -1 EN[   91.232095] qspi_flash: FF
+OENT (No such fi[   91.236211] qspi_flash: FF
+le or directory)[   91.240349] qspi_flash: FF
+
+stat64("/lib/v[   91.244466] qspi_flash: FF
+7l/vfp", 0xbebce[   91.248585] qspi_flash: FF
+278)      = -1 E[   91.252722] qspi_flash: FF
+NOENT (No such f[   91.256839] qspi_flash: FF
+ile or directory[   91.260975] qspi_flash: FF
+)
+openat(AT_FDC[   91.265092] qspi_flash: FF
+WD, "/lib/v7l/li[   91.269210] qspi_flash: FF
+bc.so.6", O_RDON[   91.273346] qspi_flash: FF
+LY|O_LARGEFILE|O[   91.277464] qspi_flash: FF
+_CLOEXEC) = -1 E[   91.281601] qspi_flash: FF
+NOENT (No such f[   91.285719] qspi_flash: FF
+ile or directory[   91.289856] qspi_flash: FF
+)
+stat64("/lib/[   91.293973] qspi_flash: FF
+v7l", 0xbebce278[   91.298091] qspi_flash: FF
+)          = -1 [   91.302229] qspi_flash: FF
+ENOENT (No such [   91.306346] qspi_flash: FF
+file or director[   91.310483] qspi_flash: FF
+y)
+openat(AT_FD[   91.314600] qspi_flash: FF
+CWD, "/lib/neon/[   91.318718] qspi_flash: FF
+vfp/libc.so.6", [   91.322857] qspi_flash: FF
+O_RDONLY|O_LARGE[   91.326973] qspi_flash: FF
+FILE|O_CLOEXEC) [   91.331110] qspi_flash: FF
+= -1 ENOENT (No [   91.335228] qspi_flash: FF
+such file or dir[   91.339346] qspi_flash: FF
+ectory)
+stat64([   91.343484] qspi_flash: FF
+"/lib/neon/vfp",[   91.347602] qspi_flash: FF
+ 0xbebce278)    [   91.351738] qspi_flash: FF
+ = -1 ENOENT (No[   91.355857] qspi_flash: FF
+ such file or di[   91.359994] qspi_flash: FF
+rectory)
+openat[   91.364110] qspi_flash: FF
+(AT_FDCWD, "/lib[   91.368228] qspi_flash: FF
+/neon/libc.so.6"[   91.372366] qspi_flash: FF
+, O_RDONLY|O_LAR[   91.376483] qspi_flash: FF
+GEFILE|O_CLOEXEC[   91.380620] qspi_flash: FF
+) = -1 ENOENT (N[   91.384738] qspi_flash: FF
+o such file or d[   91.388856] qspi_flash: FF
+irectory)
+stat6[   91.392993] qspi_flash: FF
+4("/lib/neon", 0[   91.397111] qspi_flash: FF
+xbebce278)      [   91.401248] qspi_flash: FF
+   = -1 ENOENT ([   91.405369] qspi_flash: FF
+No such file or [   91.409506] qspi_flash: FF
+directory)
+open[   91.413622] qspi_flash: FF
+at(AT_FDCWD, "/l[   91.417740] qspi_flash: FF
+ib/vfp/libc.so.6[   91.421878] qspi_flash: FF
+", O_RDONLY|O_LA[   91.425995] qspi_flash: FF
+RGEFILE|O_CLOEXE[   91.430136] qspi_flash: FF
+C) = -1 ENOENT ([   91.434252] qspi_flash: FF
+No such file or [   91.438370] qspi_flash: FF
+directory)
+stat[   91.442511] qspi_flash: FF
+64("/lib/vfp", 0[   91.446631] qspi_flash: FF
+xbebce278)      [   91.450765] qspi_flash: FF
+    = -1 ENOENT [   91.454884] qspi_flash: FF
+(No such file or[   91.459001] qspi_flash: FF
+ directory)
+ope[   91.463139] qspi_flash: FF
+nat(AT_FDCWD, "/[   91.467256] qspi_flash: FF
+lib/libc.so.6", [   91.471396] qspi_flash: FF
+O_RDONLY|O_LARGE[   91.475513] qspi_flash: FF
+FILE|O_CLOEXEC) [   91.479651] qspi_flash: FF
+= 3
+read(3, "\1[   91.483767] qspi_flash: FF
+77ELF\1\1\1\0\0\[   91.487885] qspi_flash: FF
+0\0\0\0\0\0\0\3\[   91.492023] qspi_flash: FF
+0(\0\1\0\0\0\\x\[   91.496141] qspi_flash: FF
+1\0004\0\0\0"...[   91.500280] qspi_flash: FF
+, 512) = 512
+fs[   91.504396] qspi_flash: FF
+tat64(3, {st_mod[   91.508514] qspi_flash: FF
+e=S_IFREG|0755, [   91.512652] qspi_flash: FF
+st_size=1246708,[   91.516769] qspi_flash: FF
+ ...}) = 0
+mmap[   91.520906] qspi_flash: FF
+2(NULL, 8192, PR[   91.525023] qspi_flash: FF
+OT_READ|PROT_WRI[   91.529141] qspi_flash: FF
+TE, MAP_PRIVATE|[   91.533278] qspi_flash: FF
+MAP_ANONYMOUS, -[   91.537395] qspi_flash: FF
+1, 0) = 0xb6fa20[   91.541534] qspi_flash: FF
+00
+mmap2(NULL, [   91.545652] qspi_flash: FF
+1315620, PROT_RE[   91.549789] qspi_flash: FF
+AD|PROT_EXEC, MA[   91.553907] qspi_flash: FF
+P_PRIVATE|MAP_DE[   91.558025] qspi_flash: FF
+NYWRITE, 3, 0) =[   91.562164] qspi_flash: FF
+ 0xb6e32000
+mpr[   91.566281] qspi_flash: FF
+otect(0xb6f5f000[   91.570419] qspi_flash: FF
+, 61440, PROT_NO[   91.574536] qspi_flash: FF
+NE)  = 0
+mmap2([   91.578654] qspi_flash: FF
+0xb6f6e000, 1228[   91.582792] qspi_flash: FF
+8, PROT_READ|PRO[   91.586909] qspi_flash: FF
+T_WRITE, MAP_PRI[   91.591051] qspi_flash: FF
+VATE|MAP_FIXED|M[   91.595168] qspi_flash: FF
+AP_DENYWRITE, 3,[   91.599283] qspi_flash: FF
+ 0x12c000) = 0xb[   91.603424] qspi_flash: FF
+6f6e000
+mmap2(0[   91.607541] qspi_flash: FF
+xb6f71000, 8996,[   91.611681] qspi_flash: FF
+ PROT_READ|PROT_[   91.615798] qspi_flash: FF
+WRITE, MAP_PRIVA[   91.619934] qspi_flash: FF
+TE|MAP_FIXED|MAP[   91.624051] qspi_flash: FF
+_ANONYMOUS, -1, [   91.628170] qspi_flash: FF
+[   91.632309] qspi_flash: FF
+
+close(3)       [   91.636429] qspi_flash: FF
+                [   91.640566] qspi_flash: FF
+         = 0
+se[   91.644683] qspi_flash: FF
+t_tls(0xb6fa2bd0[   91.648800] qspi_flash: FF
+)               [   91.652940] qspi_flash: FF
+      = 0
+mprot[   91.657054] qspi_flash: FF
+ect(0xb6f6e000, [   91.661244] qspi_flash: FF
+8192, PROT_READ)[   91.665318] qspi_flash: FF
+   = 0
+mprotect[   91.669456] qspi_flash: FF
+(0x21000, 4096, [   91.673559] qspi_flash: FF
+PROT_READ)      [   91.677676] qspi_flash: FF
+= 0
+mprotect(0x[   91.681816] qspi_flash: FF
+b6fa4000, 4096, [   91.685936] qspi_flash: FF
+PROT_READ)   = 0[   91.690074] qspi_flash: FF
+
+openat(AT_FDCW[   91.694193] qspi_flash: FF
+D, 0x10fb0, O_RD[   91.698310] qspi_flash: FF
+WR)       = 3
+w[   91.702452] qspi_flash: FF
+rite(3, 0x1105c,[   91.706569] qspi_flash: FF
+ 2)             [   91.710707] qspi_flash: FF
+       = 2
+writ[   91.714823] qspi_flash: FF
+e(3, "er\0\0\0%"[   91.718942] qspi_flash: FF
+, 6[   91.723081] qspi_flash: FF
+[   91.727199] qspi_flash: FF
+[   91.730192] qspi_flash: FF
+[   91.732926] qspi_flash: FF
+[   91.735656] qspi_flash: FF
+[   91.738386] qspi_flash: FF
+[   91.741136] qspi_flash: FF
+[   91.743869] qspi_flash: FF
+[   91.746600] qspi_flash: FF
+[   91.749329] qspi_flash: FF
+[   91.752080] qspi_flash: FF
+[   91.754813] qspi_flash: FF
+[   91.757544] qspi_flash: FF
+[   91.760295] qspi_flash: FF
+[   91.763027] qspi_flash: FF
+[   91.765758] qspi_flash: FF
+[   91.768488] qspi_flash: FF
+[   91.771239] qspi_flash: FF
+[   91.773972] qspi_flash: FF
+[   91.776703] qspi_flash: FF
+[   91.779453] qspi_flash: FF
+[   91.782186] qspi_flash: FF
+[   91.784918] qspi_flash: FF
+[   91.787648] qspi_flash: FF
+[   91.790397] qspi_flash: FF
+[   91.793131] qspi_flash: FF
+[   91.795861] qspi_flash: FF
+[   91.798591] qspi_flash: FF
+[   91.801343] qspi_flash: FF
+[   91.804076] qspi_flash: FF
+[   91.806806] qspi_flash: FF
+[   91.809557] qspi_flash: FF
+[   91.812289] qspi_flash: FF
+[   91.815019] qspi_flash: FF
+[   91.817749] qspi_flash: FF
+[   91.820499] qspi_flash: FF
+[   91.823232] qspi_flash: FF
+[   91.825962] qspi_flash: FF
+[   91.828692] qspi_flash: FF
+[   91.831443] qspi_flash: FF
+[   91.834177] qspi_flash: FF
+[   91.836908] qspi_flash: FF
+[   91.839660] qspi_flash: FF
+[   91.842393] qspi_flash: FF
+[   91.845124] qspi_flash: FF
+[   91.847855] qspi_flash: FF
+[   91.850604] qspi_flash: FF
+[   91.853337] qspi_flash: FF
+[   91.856068] qspi_flash: FF
+[   91.858799] qspi_flash: FF
+[   91.861551] qspi_flash: FF
+[   91.864283] qspi_flash: FF
+[   91.867014] qspi_flash: 
+[   91.872339] qspi_flash: (AFTER) op=2,addr=0x25000000,dual=0,prog_buffer_cnt=0,op_err=0
+)                = 6
+read(3, [   91.977467] qspi_flash: qspi_flash_read called. length=1, *ppos=8
+"\0", 1)                        = 1
+fstat64(1, {st_mode=S_IFCHR|0600, st_rdev=makedev(0xcc, 0x8), ...}) = 0
+ioctl(1, TCGETS, {B115200 opost isig icanon echo ...}) = 0
+brk(NULL)                               = 0x23000
+brk(0x44000)                            = 0x44000
+write(1, "Erase Complete. Status = OK\n", 28Erase Complete. Status = OK
+) = 28
+close(3)                                = 0
+exit_group(0)                           = ?
++++ exited with 0 +++
+$ strace ./qspi_app p s 25000000 /tmp/t
+execve("./qspi_app", ["./qspi_app", "p", "s", "25000000", "/tmp/t"], 0xbec92e30 /* 11 vars */) = 0
+brk(NULL)                               = 0x23000
+uname({sysname="Linux", nodename="buildroot", ...}) = 0
+access(0xb6fad818, R_OK)                = -1 ENOENT (No such file or directory)
+openat(AT_FDCWD, 0xb6faf394, O_RDONLY|O_LARGEFILE|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+openat(AT_FDCWD, "/lib/tls/v7l/neon/vfp/libc.so.6", O_RDONLY|O_LARGEFILE|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+stat64("/lib/tls/v7l/neon/vfp", 0xbecb1268) = -1 ENOENT (No such file or directory)
+openat(AT_FDCWD, "/lib/tls/v7l/neon/libc.so.6", O_RDONLY|O_LARGEF[  109.808087] qspi_flash: qspi_flash_write called. count=2, *ppos=0
+ILE|O_CLOEXEC) =[  109.815652] qspi_flash: (BEFORE) op=0,addr=0x25000000,dual=0,prog_buffer_cnt=0,op_err=0
+ -1 ENOENT (No s[  109.825214] qspi_flash: 
+[  109.825214] [RVC_DEBUG] qspi_flash_write 1130 count = 2
+uch file or dire[  109.834408] qspi_flash: 
+[  109.834408] [RVC_DEBUG] qspi_flash_write 1131 --> DATA = 
+ctory)
+stat64("[  109.834415] qspi_flash: 64
+/lib/tls/v7l/neo[  109.843804] qspi_flash: 30
+n", 0xbecb1268) [  109.847918] qspi_flash: 
+= -1 ENOENT (No [  109.856029] qspi_flash: (AFTER) op=0,addr=0x25000000,dual=0,prog_buffer_cnt=0,op_err=0
+such file or directory)
+openat(AT_FDCWD, "/lib/tls/v7l/vfp/libc.so.6", O_RDONLY|O_LARGEFILE|O_CLOEXEC) = -1 ENOENT (No such file or direc[  109.876289] qspi_flash: qspi_flash_write c2
+tory)
+stat64("/[  109.884084] qspi_flash: (BEFORE) op=0,addr=0x25000000,dual=0,prog_buffer_cnt=0,op_err=0
+lib/tls/v7l/vfp"[  109.893643] qspi_flash: 
+[  109.893643] [RVC_DEBUG] qspi_flash_write 1130 count = 6
+, 0xbecb1268)  =[  109.902843] qspi_flash: 
+[  109.902843] [RVC_DEBUG] qspi_flash_write 1131 --> DATA = 
+ -1 ENOENT (No s[  109.902849] qspi_flash: 70
+uch file or dire[  109.912231] qspi_flash: 72
+ctory)
+openat(A[  109.916348] qspi_flash: 00
+T_FDCWD, "/lib/t[  109.920495] qspi_flash: 00
+ls/v7l/libc.so.6[  109.924613] qspi_flash: 00
+", O_RDONLY|O_LA[  109.928731] qspi_flash: 25
+RGEFILE|O_CLOEXE[  109.932875] qspi_flash: 
+C) = -1 ENOENT ([  109.940978] qspi_flash: (AFTER) op=3,addr=0x25000000,dual=0,prog_buffer_cnt=0,op_err=0
+No such file or directory)
+stat64("/lib/tls/v7l", 0xbecb1268)      = -1 ENOENT (No such file or directory)
+openat(AT_FDCWD, "/lib/tls/neon/vfp/libc.so.6", O_RDONLY|O_LARGEFILE|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+stat64("/lib/tls/neon/vfp", 0xbecb1268) = [  109.972945] qspi_flash: qspi_flash_write called. count=5, *ppos=8
+-1 ENOENT (No su[  109.980640] qspi_flash: (BEFORE) op=3,addr=0x25000000,dual=0,prog_buffer_cnt=0,op_err=0
+ch file or direc[  109.990192] qspi_flash: 
+[  109.990192] [RVC_DEBUG] qspi_flash_write 1130 count = 5
+tory)
+openat(AT[  109.999357] qspi_flash: 
+[  109.999357] [RVC_DEBUG] qspi_flash_write 1131 --> DATA = 
+_FDCWD, "/lib/tl[  109.999363] qspi_flash: 74
+s/neon/libc.so.6[  110.008761] qspi_flash: 65
+", O_RDONLY|O_LA[  110.012904] qspi_flash: 73
+RGEFILE|O_CLOEXE[  110.017022] qspi_flash: 74
+C) = -1 ENOENT ([  110.021168] qspi_flash: 0A
+No such file or [  110.025284] qspi_flash: 
+directory)
+stat[  110.033380] qspi_flash: 
+[  110.033380] [RVC_DEBUG] qspi_flash_do_program 845 len = 5
+64("/lib/tls/neo[  110.042763] qspi_flash: 
+[  110.042763] [RVC_DEBUG] qspi_flash_do_program 854 --> DATA = 
+n", 0xbecb1268) [  110.042767] qspi_flash: FF
+    = -1 ENOENT [  110.052492] qspi_flash: FF
+(No such file or[  110.056613] qspi_flash: FF
+ directory)
+ope[  110.060772] qspi_flash: FF
+nat(AT_FDCWD, "/[  110.064892] qspi_flash: FF
+lib/tls/vfp/libc[  110.069009] qspi_flash: 
+.so.6", O_RDONLY[  110.077225] qspi_flash: 
+[  110.077225] [RVC_DEBUG] qspi_flash_do_program 963 --> DATA = 
+|O_LARGEFILE|O_C[  110.077233] qspi_flash: FF
+LOEXEC) = -1 ENO[  110.086942] qspi_flash: FF
+ENT (No such fil[  110.091079] qspi_flash: FF
+[  110.095195] qspi_flash: FF
+
+stat64("/lib/tl[  110.099312] qspi_flash: FF
+s/vfp", 0xbecb12[  110.103533] qspi_flash: 
+68)      = -1 EN[  110.111555] qspi_flash: (AFTER) op=3,addr=0x25000000,dual=0,prog_buffer_cnt=5,op_err=0
+OENT (No such file or directory)
+openat(AT_FDCWD, "/lib/tls/libc.so.6", O_RDONLY|O_LARGEFILE|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+stat64("/lib/tls", 0xbecb1268)          = -1 ENOENT (No such file or di[  110.138363] qspi_flash: qspi_flash_read called. length=1, *ppos=13
+rectory)
+openat[  110.146533] qspi_flash: 
+[  110.146533] [RVC_DEBUG] qspi_flash_do_program 845 len = 256
+(AT_FDCWD, "/lib[  110.156173] qspi_flash: 
+[  110.156173] [RVC_DEBUG] qspi_flash_do_program 854 --> DATA = 
+/v7l/neon/vfp/li[  110.156180] qspi_flash: FF
+bc.so.6", O_RDON[  110.165908] qspi_flash: FF
+LY|O_LARGEFILE|O[  110.170044] qspi_flash: FF
+_CLOEXEC) = -1 E[  110.174161] qspi_flash: FF
+NOENT (No such f[  110.178280] qspi_flash: FF
+ile or directory[  110.182428] qspi_flash: FF
+)
+stat64("/lib/[  110.186542] qspi_flash: FF
+v7l/neon/vfp", 0[  110.190684] qspi_flash: FF
+xbecb1268) = -1 [  110.194802] qspi_flash: FF
+ENOENT (No such [  110.198920] qspi_flash: FF
+file or director[  110.203057] qspi_flash: FF
+y)
+openat(AT_FD[  110.207174] qspi_flash: FF
+CWD, "/lib/v7l/n[  110.211312] qspi_flash: FF
+eon/libc.so.6", [  110.215429] qspi_flash: FF
+O_RDONLY|O_LARGE[  110.219568] qspi_flash: FF
+FILE|O_CLOEXEC) [  110.223687] qspi_flash: FF
+= -1 ENOENT (No [  110.227804] qspi_flash: FF
+such file or dir[  110.231944] qspi_flash: FF
+ectory)
+stat64([  110.236062] qspi_flash: FF
+"/lib/v7l/neon",[  110.240220] qspi_flash: FF
+ 0xbecb1268)    [  110.244323] qspi_flash: FF
+ = -1 ENOENT (No[  110.248442] qspi_flash: FF
+ such file or di[  110.252582] qspi_flash: FF
+rectory)
+openat[  110.256700] qspi_flash: FF
+(AT_FDCWD, "/lib[  110.260871] qspi_flash: FF
+/v7l/vfp/libc.so[  110.264991] qspi_flash: FF
+.6", O_RDONLY|O_[  110.269110] qspi_flash: FF
+LARGEFILE|O_CLOE[  110.273247] qspi_flash: FF
+XEC) = -1 ENOENT[  110.277364] qspi_flash: FF
+ (No such file o[  110.281501] qspi_flash: FF
+r directory)
+st[  110.285619] qspi_flash: FF
+at64("/lib/v7l/v[  110.289758] qspi_flash: FF
+fp", 0xbecb1268)[  110.293875] qspi_flash: FF
+      = -1 ENOEN[  110.297993] qspi_flash: FF
+T (No such file [  110.302134] qspi_flash: FF
+or directory)
+o[  110.306251] qspi_flash: FF
+penat(AT_FDCWD, [  110.310389] qspi_flash: FF
+"/lib/v7l/libc.s[  110.314507] qspi_flash: FF
+o.6", O_RDONLY|O[  110.318625] qspi_flash: FF
+_LARGEFILE|O_CLO[  110.322764] qspi_flash: FF
+EXEC) = -1 ENOEN[  110.326882] qspi_flash: FF
+T (No such file [  110.331020] qspi_flash: FF
+or directory)
+s[  110.335137] qspi_flash: FF
+tat64("/lib/v7l"[  110.339254] qspi_flash: FF
+, 0xbecb1268)   [  110.343393] qspi_flash: FF
+       = -1 ENOE[  110.347511] qspi_flash: FF
+NT (No such file[  110.351648] qspi_flash: FF
+ or directory)
+[  110.355766] qspi_flash: FF
+openat(AT_FDCWD,[  110.359903] qspi_flash: FF
+ "/lib/neon/vfp/[  110.364019] qspi_flash: FF
+libc.so.6", O_RD[  110.368137] qspi_flash: FF
+ONLY|O_LARGEFILE[  110.372280] qspi_flash: FF
+|O_CLOEXEC) = -1[  110.376397] qspi_flash: FF
+ ENOENT (No such[  110.380533] qspi_flash: FF
+ file or directo[  110.384652] qspi_flash: FF
+ry)
+stat64("/li[  110.388768] qspi_flash: FF
+b/neon/vfp", 0xb[  110.392904] qspi_flash: FF
+ecb1268)     = -[  110.397023] qspi_flash: FF
+1 ENOENT (No suc[  110.401159] qspi_flash: FF
+h file or direct[  110.405278] qspi_flash: FF
+ory)
+openat(AT_[  110.409395] qspi_flash: FF
+FDCWD, "/lib/neo[  110.413532] qspi_flash: FF
+n/libc.so.6", O_[  110.417649] qspi_flash: FF
+RDONLY|O_LARGEFI[  110.421788] qspi_flash: FF
+LE|O_CLOEXEC) = [  110.425906] qspi_flash: FF
+-1 ENOENT (No su[  110.430045] qspi_flash: FF
+ch file or direc[  110.434161] qspi_flash: FF
+tory)
+stat64("/[  110.438279] qspi_flash: FF
+lib/neon", 0xbec[  110.442417] qspi_flash: FF
+b1268)         =[  110.446540] qspi_flash: FF
+ -1 ENOENT (No s[  110.450673] qspi_flash: FF
+uch file or dire[  110.454791] qspi_flash: FF
+ctory)
+openat(A[  110.458910] qspi_flash: FF
+T_FDCWD, "/lib/v[  110.463048] qspi_flash: FF
+fp/libc.so.6", O[  110.467167] qspi_flash: FF
+_RDONLY|O_LARGEF[  110.471304] qspi_flash: FF
+ILE|O_CLOEXEC) =[  110.475421] qspi_flash: FF
+ -1 ENOENT (No s[  110.479560] qspi_flash: FF
+uch file or dire[  110.483677] qspi_flash: FF
+ctory)
+stat64("[  110.487795] qspi_flash: FF
+/lib/vfp", 0xbec[  110.491934] qspi_flash: FF
+b1268)          [  110.496052] qspi_flash: FF
+= -1 ENOENT (No [  110.500190] qspi_flash: FF
+such file or dir[  110.504309] qspi_flash: FF
+ectory)
+openat([  110.508426] qspi_flash: FF
+AT_FDCWD, "/lib/[  110.512563] qspi_flash: FF
+libc.so.6", O_RD[  110.516680] qspi_flash: FF
+ONLY|O_LARGEFILE[  110.520818] qspi_flash: FF
+[  110.524936] qspi_flash: FF
+
+read(3, "\177EL[  110.529053] qspi_flash: FF
+F\1\1\1\0\0\0\0\[  110.533191] qspi_flash: FF
+0\0\0\0\0\3\0(\0[  110.537309] qspi_flash: FF
+\1\0\0\0\\x\1\00[  110.541446] qspi_flash: FF
+04\0\0\0"..., 51[  110.545565] qspi_flash: FF
+2) = 512
+fstat6[  110.549702] qspi_flash: FF
+4(3, {st_mode=S_[  110.553820] qspi_flash: FF
+IFREG|0755, st_s[  110.557937] qspi_flash: FF
+ize=1246708, ...[  110.562076] qspi_flash: FF
+}) = 0
+mmap2(NU[  110.566195] qspi_flash: FF
+LL, 8192, PROT_R[  110.570332] qspi_flash: FF
+EAD|PROT_WRITE, [  110.574448] qspi_flash: FF
+MAP_PRIVATE|MAP_[  110.578566] qspi_flash: FF
+ANONYMOUS, -1, 0[  110.582704] qspi_flash: FF
+) = 0xb6fbe000
+[  110.586823] qspi_flash: FF
+mmap2(NULL, 1315[  110.590961] qspi_flash: FF
+620, PROT_READ|P[  110.595079] qspi_flash: FF
+ROT_EXEC, MAP_PR[  110.599196] qspi_flash: FF
+IVATE|MAP_DENYWR[  110.603332] qspi_flash: FF
+ITE, 3, 0) = 0xb[  110.607451] qspi_flash: FF
+6e4e000
+mprotec[  110.611587] qspi_flash: FF
+t(0xb6f7b000, 61[  110.615705] qspi_flash: FF
+440, PROT_NONE) [  110.619843] qspi_flash: FF
+ = 0
+mmap2(0xb6[  110.623960] qspi_flash: FF
+f8a000, 12288, P[  110.628077] qspi_flash: FF
+ROT_READ|PROT_WR[  110.632219] qspi_flash: FF
+ITE, MAP_PRIVATE[  110.636333] qspi_flash: FF
+|MAP_FIXED|MAP_D[  110.640470] qspi_flash: FF
+ENYWRITE, 3, 0x1[  110.644588] qspi_flash: FF
+2c000) = 0xb6f8a[  110.648706] qspi_flash: FF
+000
+mmap2(0xb6f[  110.652844] qspi_flash: FF
+8d000, 8996, PRO[  110.656962] qspi_flash: FF
+T_READ|PROT_WRIT[  110.661098] qspi_flash: FF
+E, MAP_PRIVATE|M[  110.665216] qspi_flash: FF
+AP_FIXED|MAP_ANO[  110.669332] qspi_flash: FF
+NYMOUS, -1, 0) =[  110.673470] qspi_flash: FF
+ 0xb6f8d000
+clo[  110.677588] qspi_flash: FF
+se(3)           [  110.681726] qspi_flash: FF
+                [  110.685843] qspi_flash: FF
+     = 0
+set_tl[  110.689980] qspi_flash: FF
+s(0xb6fbebd0)   [  110.694097] qspi_flash: FF
+                [  110.698216] qspi_flash: FF
+  = 0
+mprotect([  110.702353] qspi_flash: FF
+0xb6f8a000, 8192[  110.706471] qspi_flash: FF
+, PROT_READ)   =[  110.710607] qspi_flash: FF
+ 0
+mprotect(0x2[  110.714724] qspi_flash: FF
+1000, 4096, PROT[  110.718842] qspi_flash: FF
+[  110.722980] qspi_flash: FF
+
+mprotect(0xb6fc[  110.727098] qspi_flash: FF
+0000, 4096, PROT[  110.731235] qspi_flash: FF
+_READ)   = 0
+op[  110.735353] qspi_flash: FF
+enat(AT_FDCWD, 0[  110.739491] qspi_flash: FF
+x10fb0, O_RDWR) [  110.743608] qspi_flash: FF
+      = 3
+write[  110.747726] qspi_flash: FF
+(3, 0x1105c, 2) [  110.751867] qspi_flash: FF
+                [  110.755985] qspi_flash: FF
+   = 2
+openat(A[  110.760123] qspi_flash: FF
+T_FDCWD, "/tmp/t[  110.764239] qspi_flash: FF
+", O_RDONLY)    [  110.768357] qspi_flash: FF
+= 4
+write(3, "p[  110.772494] qspi_flash: FF
+r\0\0\0%", 6)   [  110.776612] qspi_flash: FF
+             = 6[  110.780752] qspi_flash: FF
+
+_llseek(4, 0, [  110.784868] qspi_flash: FF
+[5], SEEK_END)  [  110.788986] qspi_flash: FF
+          = 0
+_[  110.793124] qspi_flash: FF
+llseek(4, 0, [0][  110.797242] qspi_flash: FF
+, SEEK_SET)     [  110.801381] qspi_flash: FF
+       = 0
+fsta[  110.805499] qspi_flash: FF
+t64(1, {st_mode=[  110.809636] qspi_flash: FF
+S_IFCHR|0600, st[  110.813755] qspi_flash: FF
+_rdev=makedev(0x[  110.817872] qspi_flash: FF
+cc, 0x8), ...}) [  110.822015] qspi_flash: FF
+= 0
+ioctl(1, TC[  110.826132] qspi_flash: FF
+GETS, {B115200 o[  110.830268] qspi_flash: FF
+post isig icanon[  110.834386] qspi_flash: FF
+[  110.838504] qspi_flash: FF
+
+brk(NULL)      [  110.842642] qspi_flash: FF
+                [  110.846806] qspi_flash: FF
+         = 0x230[  110.850910] qspi_flash: FF
+00
+brk(0x44000)[  110.855030] qspi_flash: FF
+                [  110.859145] qspi_flash: FF
+            = 0x[  110.863292] qspi_flash: FF
+44000
+write(1, [  110.867402] qspi_flash: FF
+"Writting out 5 [  110.871541] qspi_flash: FF
+bytes\n", 21Writ[  110.875658] qspi_flash: FF
+ting out 5 bytes[  110.879797] qspi_flash: FF
+
+)  = 21
+read([  110.883914] qspi_flash: FF
+4, "test\n", 5) [  110.888032] qspi_flash: FF
+                [  110.892171] qspi_flash: FF
+   = 5
+write(3,[  110.896289] qspi_flash: FF
+ "test\n", 5)   [  110.900428] qspi_flash: FF
+                [  110.904546] qspi_flash: FF
+= 5
+read(3, [  110.908663] qspi_flash: FF
+[  110.912805] qspi_flash: FF
+[  110.916648] qspi_flash: FF
+[  110.919379] qspi_flash: FF
+[  110.922131] qspi_flash: FF
+[  110.924864] qspi_flash: FF
+[  110.927596] qspi_flash: FF
+[  110.930346] qspi_flash: FF
+[  110.933081] qspi_flash: FF
+[  110.935813] qspi_flash: FF
+[  110.938542] qspi_flash: FF
+[  110.941292] qspi_flash: FF
+[  110.944026] qspi_flash: FF
+[  110.946757] qspi_flash: FF
+[  110.949505] qspi_flash: FF
+[  110.952239] qspi_flash: FF
+[  110.954970] qspi_flash: FF
+[  110.957700] qspi_flash: FF
+[  110.960450] qspi_flash: FF
+[  110.963183] qspi_flash: FF
+[  110.965914] qspi_flash: FF
+[  110.968644] qspi_flash: FF
+[  110.971392] qspi_flash: FF
+[  110.974125] qspi_flash: FF
+[  110.976856] qspi_flash: FF
+[  110.979605] qspi_flash: FF
+[  110.982337] qspi_flash: FF
+[  110.985068] qspi_flash: FF
+[  110.987798] qspi_flash: FF
+[  110.990547] qspi_flash: FF
+[  110.993280] qspi_flash: FF
+[  110.996011] qspi_flash: FF
+[  110.998741] qspi_flash: FF
+[  111.001492] qspi_flash: FF
+[  111.004225] qspi_flash: FF
+[  111.006957] qspi_flash: FF
+[  111.009706] qspi_flash: FF
+[  111.012439] qspi_flash: FF
+[  111.015171] qspi_flash: FF
+[  111.017901] qspi_flash: FF
+[  111.020653] qspi_flash: FF
+[  111.023386] qspi_flash: FF
+[  111.026118] qspi_flash: FF
+[  111.028848] qspi_flash: FF
+[  111.031604] qspi_flash: FF
+[  111.034337] qspi_flash: FF
+[  111.037067] qspi_flash: FF
+[  111.039818] qspi_flash: FF
+[  111.042553] qspi_flash: FF
+[  111.045284] qspi_flash: FF
+[  111.048014] qspi_flash: FF
+[  111.050763] qspi_flash: FF
+[  111.053497] qspi_flash: FF
+[  111.056228] qspi_flash: FF
+[  111.058958] qspi_flash: FF
+[  111.061725] qspi_flash: FF
+[  111.064459] qspi_flash: FF
+[  111.067189] qspi_flash: FF
+[  111.069940] qspi_flash: FF
+[  111.072674] qspi_flash: FF
+[  111.075404] qspi_flash: FF
+[  111.078135] qspi_flash: FF
+[  111.080886] qspi_flash: FF
+[  111.083619] qspi_flash: FF
+[  111.086350] qspi_flash: FF
+[  111.089081] qspi_flash: FF
+[  111.091830] qspi_flash: FF
+[  111.094563] qspi_flash: FF
+[  111.097293] qspi_flash: FF
+[  111.100043] qspi_flash: FF
+[  111.102776] qspi_flash: FF
+[  111.105507] qspi_flash: FF
+[  111.108237] qspi_flash: FF
+[  111.110989] qspi_flash: FF
+[  111.113723] qspi_flash: FF
+[  111.116454] qspi_flash: 
+[  111.122123] qspi_flash: 
+[  111.122123] [RVC_DEBUG] qspi_flash_do_program 963 --> DATA = 
+[  111.122133] qspi_flash: 74
+[  111.130603] qspi_flash: 65
+[  111.133338] qspi_flash: 73
+[  111.136070] qspi_flash: 74
+[  111.138800] qspi_flash: 0A
+[  111.141560] qspi_flash: FF
+[  111.144297] qspi_flash: FF
+[  111.147028] qspi_flash: FF
+[  111.149784] qspi_flash: FF
+[  111.152517] qspi_flash: FF
+[  111.155248] qspi_flash: FF
+[  111.157979] qspi_flash: FF
+[  111.160732] qspi_flash: FF
+[  111.163466] qspi_flash: FF
+[  111.166196] qspi_flash: FF
+[  111.168927] qspi_flash: FF
+[  111.171677] qspi_flash: FF
+[  111.174410] qspi_flash: FF
+[  111.177141] qspi_flash: FF
+[  111.179890] qspi_flash: FF
+[  111.182622] qspi_flash: FF
+[  111.185353] qspi_flash: FF
+[  111.188084] qspi_flash: FF
+[  111.190834] qspi_flash: FF
+[  111.193568] qspi_flash: FF
+[  111.196299] qspi_flash: FF
+[  111.199029] qspi_flash: FF
+[  111.201779] qspi_flash: FF
+[  111.204513] qspi_flash: FF
+[  111.207243] qspi_flash: FF
+[  111.209994] qspi_flash: FF
+[  111.212727] qspi_flash: FF
+[  111.215459] qspi_flash: FF
+[  111.218189] qspi_flash: FF
+[  111.220939] qspi_flash: FF
+[  111.223673] qspi_flash: FF
+[  111.226405] qspi_flash: FF
+[  111.229136] qspi_flash: FF
+[  111.231899] qspi_flash: FF
+[  111.234633] qspi_flash: FF
+[  111.237365] qspi_flash: FF
+[  111.240120] qspi_flash: FF
+[  111.242853] qspi_flash: FF
+[  111.245584] qspi_flash: FF
+[  111.248315] qspi_flash: FF
+[  111.251068] qspi_flash: FF
+[  111.253802] qspi_flash: FF
+[  111.256534] qspi_flash: FF
+[  111.259265] qspi_flash: FF
+[  111.262018] qspi_flash: FF
+[  111.264752] qspi_flash: FF
+[  111.267483] qspi_flash: FF
+[  111.270235] qspi_flash: FF
+[  111.272969] qspi_flash: FF
+[  111.275700] qspi_flash: FF
+[  111.278430] qspi_flash: FF
+[  111.281179] qspi_flash: FF
+[  111.283913] qspi_flash: FF
+[  111.286644] qspi_flash: FF
+[  111.289374] qspi_flash: FF
+[  111.292126] qspi_flash: FF
+[  111.294859] qspi_flash: FF
+[  111.297590] qspi_flash: FF
+[  111.300340] qspi_flash: FF
+[  111.303073] qspi_flash: FF
+[  111.305804] qspi_flash: FF
+[  111.308534] qspi_flash: FF
+[  111.311284] qspi_flash: FF
+[  111.314018] qspi_flash: FF
+[  111.316749] qspi_flash: FF
+[  111.319499] qspi_flash: FF
+[  111.322231] qspi_flash: FF
+[  111.324964] qspi_flash: FF
+[  111.327694] qspi_flash: FF
+[  111.330445] qspi_flash: FF
+[  111.333178] qspi_flash: FF
+[  111.335909] qspi_flash: FF
+[  111.338639] qspi_flash: FF
+[  111.341390] qspi_flash: FF
+[  111.344122] qspi_flash: FF
+[  111.346853] qspi_flash: FF
+[  111.349605] qspi_flash: FF
+[  111.352338] qspi_flash: FF
+[  111.355068] qspi_flash: FF
+[  111.357799] qspi_flash: FF
+[  111.360549] qspi_flash: FF
+[  111.363283] qspi_flash: FF
+[  111.366014] qspi_flash: FF
+[  111.368744] qspi_flash: FF
+[  111.371494] qspi_flash: FF
+[  111.374228] qspi_flash: FF
+[  111.376959] qspi_flash: FF
+[  111.379708] qspi_flash: FF
+[  111.382442] qspi_flash: FF
+[  111.385173] qspi_flash: FF
+[  111.387904] qspi_flash: FF
+[  111.390652] qspi_flash: FF
+[  111.393386] qspi_flash: FF
+[  111.396117] qspi_flash: FF
+[  111.398847] qspi_flash: FF
+[  111.401599] qspi_flash: FF
+[  111.404331] qspi_flash: FF
+[  111.407062] qspi_flash: FF
+[  111.409814] qspi_flash: FF
+[  111.412546] qspi_flash: FF
+[  111.415277] qspi_flash: FF
+[  111.418007] qspi_flash: FF
+[  111.420755] qspi_flash: FF
+[  111.423489] qspi_flash: FF
+[  111.426219] qspi_flash: FF
+[  111.428950] qspi_flash: FF
+[  111.431700] qspi_flash: FF
+[  111.434433] qspi_flash: FF
+[  111.437164] qspi_flash: FF
+[  111.439913] qspi_flash: FF
+[  111.442647] qspi_flash: FF
+[  111.445377] qspi_flash: FF
+[  111.448108] qspi_flash: FF
+[  111.450859] qspi_flash: FF
+[  111.453592] qspi_flash: FF
+[  111.456323] qspi_flash: FF
+[  111.459053] qspi_flash: FF
+[  111.461803] qspi_flash: FF
+[  111.464536] qspi_flash: FF
+[  111.467267] qspi_flash: FF
+[  111.470017] qspi_flash: FF
+[  111.472750] qspi_flash: FF
+[  111.475481] qspi_flash: FF
+[  111.478211] qspi_flash: FF
+[  111.480961] qspi_flash: FF
+[  111.483693] qspi_flash: FF
+[  111.486422] qspi_flash: FF
+[  111.489153] qspi_flash: FF
+[  111.491903] qspi_flash: FF
+[  111.494635] qspi_flash: FF
+[  111.497365] qspi_flash: FF
+[  111.500116] qspi_flash: FF
+[  111.502849] qspi_flash: FF
+[  111.505580] qspi_flash: FF
+[  111.508310] qspi_flash: FF
+[  111.511063] qspi_flash: FF
+[  111.513796] qspi_flash: FF
+[  111.516527] qspi_flash: FF
+[  111.519257] qspi_flash: FF
+[  111.522008] qspi_flash: FF
+[  111.524741] qspi_flash: FF
+[  111.527472] qspi_flash: FF
+[  111.530225] qspi_flash: FF
+[  111.532957] qspi_flash: FF
+[  111.535688] qspi_flash: FF
+[  111.538419] qspi_flash: FF
+[  111.541168] qspi_flash: FF
+[  111.543900] qspi_flash: FF
+[  111.546631] qspi_flash: FF
+[  111.549361] qspi_flash: FF
+[  111.552115] qspi_flash: FF
+[  111.554848] qspi_flash: FF
+[  111.557579] qspi_flash: FF
+[  111.560329] qspi_flash: FF
+[  111.563063] qspi_flash: FF
+[  111.565794] qspi_flash: FF
+[  111.568524] qspi_flash: FF
+[  111.571275] qspi_flash: FF
+[  111.574007] qspi_flash: FF
+[  111.576738] qspi_flash: FF
+[  111.579492] qspi_flash: FF
+[  111.582225] qspi_flash: FF
+[  111.584958] qspi_flash: FF
+[  111.587689] qspi_flash: FF
+[  111.590442] qspi_flash: FF
+[  111.593174] qspi_flash: FF
+[  111.595905] qspi_flash: FF
+[  111.598635] qspi_flash: FF
+[  111.601384] qspi_flash: FF
+[  111.604117] qspi_flash: FF
+[  111.606849] qspi_flash: FF
+[  111.609599] qspi_flash: FF
+[  111.612332] qspi_flash: FF
+[  111.615063] qspi_flash: FF
+[  111.617793] qspi_flash: FF
+[  111.620543] qspi_flash: FF
+[  111.623276] qspi_flash: FF
+[  111.626006] qspi_flash: FF
+[  111.628736] qspi_flash: FF
+[  111.631487] qspi_flash: FF
+[  111.634220] qspi_flash: FF
+[  111.636951] qspi_flash: FF
+[  111.639702] qspi_flash: FF
+[  111.642435] qspi_flash: FF
+[  111.645165] qspi_flash: FF
+[  111.647895] qspi_flash: FF
+[  111.650647] qspi_flash: FF
+[  111.653380] qspi_flash: FF
+[  111.656110] qspi_flash: FF
+[  111.658840] qspi_flash: FF
+[  111.661591] qspi_flash: FF
+[  111.664323] qspi_flash: FF
+[  111.667054] qspi_flash: FF
+[  111.669803] qspi_flash: FF
+[  111.672536] qspi_flash: FF
+[  111.675267] qspi_flash: FF
+[  111.677997] qspi_flash: FF
+[  111.680747] qspi_flash: FF
+[  111.683480] qspi_flash: FF
+[  111.686211] qspi_flash: FF
+[  111.688941] qspi_flash: FF
+[  111.691691] qspi_flash: FF
+[  111.694424] qspi_flash: FF
+[  111.697155] qspi_flash: FF
+[  111.699904] qspi_flash: FF
+[  111.702637] qspi_flash: FF
+[  111.705367] qspi_flash: FF
+[  111.708097] qspi_flash: FF
+[  111.710849] qspi_flash: FF
+[  111.713581] qspi_flash: FF
+[  111.716312] qspi_flash: FF
+[  111.719042] qspi_flash: FF
+[  111.721792] qspi_flash: FF
+[  111.724525] qspi_flash: FF
+[  111.727256] qspi_flash: FF
+[  111.730006] qspi_flash: FF
+[  111.732740] qspi_flash: FF
+[  111.735471] qspi_flash: FF
+[  111.738201] qspi_flash: FF
+[  111.740951] qspi_flash: FF
+[  111.743684] qspi_flash: FF
+[  111.746414] qspi_flash: FF
+[  111.749144] qspi_flash: FF
+[  111.751894] qspi_flash: FF
+[  111.754626] qspi_flash: FF
+[  111.757357] qspi_flash: FF
+[  111.760109] qspi_flash: FF
+[  111.762842] qspi_flash: FF
+[  111.765573] qspi_flash: FF
+[  111.768304] qspi_flash: FF
+[  111.771054] qspi_flash: FF
+[  111.773787] qspi_flash: FF
+[  111.776517] qspi_flash: FF
+[  111.779248] qspi_flash: FF
+[  111.781999] qspi_flash: FF
+[  111.784732] qspi_flash: FF
+[  111.787463] qspi_flash: FF
+[  111.790213] qspi_flash: FF
+[  111.792946] qspi_flash: FF
+[  111.795677] qspi_flash: FF
+[  111.798408] qspi_flash: FF
+[  111.801157] qspi_flash: FF
+[  111.803890] qspi_flash: FF
+[  111.806621] qspi_flash: FF
+[  111.809351] qspi_flash: FF
+[  111.812101] qspi_flash: FF
+[  111.814834] qspi_flash: FF
+[  111.817566] qspi_flash: FF
+[  111.820316] qspi_flash: FF
+[  111.823049] qspi_flash: FF
+[  111.825781] qspi_flash: FF
+[  111.828512] qspi_flash: 
+"\0", 1)                        = 1
+write(1, "Programming Complete. Status = O"..., 34Programming Complete. Status = OK
+) = 34
+close(4)                                = 0
+close(3)                                = 0
+exit_group(0)                           = ?
++++ exited with 0 +++
+$ strace ./qspi_app p s 25000000 /tmp/t[  113.989770] random: crng init done
+^C
+$ 
+
