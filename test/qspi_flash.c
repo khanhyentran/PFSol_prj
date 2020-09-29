@@ -1,1312 +1,628 @@
 /*
- * Sample driver for erase/program/read of QSPI flash while executing an XIP
- * kernel out of the QSPI flash.
- * While communicating with the SPI flash, system will be off and the QSPI
- * peripheral will be in SPI mode meaning no kernel functions can be called.
+ * Copyright (c) 2020, Renesas Electronics Corporation
+ * All rights reserved.
+ *
+ * SPDX-License-Identifier: BSD-3-Clause
+ *
+ * RZ/G2M: UART driver
  */
+ 
+#include <errno.h>
+#include <stdint.h>
+#include <string.h>
 
-#include <linux/kernel.h>
-#include <linux/module.h>
-#include <linux/fs.h>		/* for struct file_operations */
-#include <linux/errno.h>	/* Error codes */
-#include <linux/slab.h>		/* for kzalloc */
-#include <linux/device.h>	/* for sysfs interface */
-#include <linux/mm.h>
-#include <linux/interrupt.h>	/* for requesting interrupts */
-#include <linux/sched.h>
-#include <linux/ctype.h> 
-#include <linux/uaccess.h>
-#include <linux/io.h>
-#include <asm/cacheflush.h>	/* for cache flush */
-#include <linux/miscdevice.h>	/* Misc Driver */
-#include "qspi_flash.h"
+#include "FreeRTOS.h"
+#include "semphr.h"
 
-/* Options */
-//#define DEBUG
+#include "soc_common.h"
+#include "uartdrv.h"
+#include "interrupts.h"
+#include "lifec.h"
 
+#define SCSMR		0x0000	/* Serial Mode */
+#define SCBRR		0x0004	/* Bit Rate */
+#define SCSCR		0x0008	/* Serial Control */
+#define SCFTDR		0x000C	/* Transmit FIFO Data */
+#define SCFSR		0x0010	/* Serial Status */
+#define SCFRDR		0x0014	/* Receive FIFO Data */
+#define SCFCR		0x0018	/* FIFO Control */
+#define SCFDR		0x001C	/* FIFO Data Count */
+#define SCSPTR		0x0020	/* Serial Port */
+#define SCLSR		0x0024	/* Line Status */
+#define DL			0x0030	/* Frequency Division */
+#define CKS			0x0034	/* Clock Select */
 
-/*** Choose only one of the following Flash devices ***/
-#if 0
-  /* Spansion S25FL512S */
-  #define S25FL512S_512_256K
-  #define FLASH_PAGE_SIZE 512
-  #define FLASH_ERASE_SIZE (256*1024)
-#endif
+/* SCSMR (Serial Mode Register) */
+#define SCSMR_CHR	BIT(6)	/* 7-bit Character Length */
+#define SCSMR_PE	BIT(5)	/* Parity Enable */
+#define SCSMR_ODD	BIT(4)	/* Odd Parity */
+#define SCSMR_STOP	BIT(3)	/* 2 Stop Bit Length */
+#define SCSMR_CKS(x)	(((uint16_t)(x) & 0x3) << 0)	/* Clock Select */
+/* SCSMR_CKS (Clock Select 1 and 0) */
+#define CKS_PCK_1	0x0000	/* B’00: PCK */
+#define CKS_PCK_4	0x0001	/* B’01: PCK/4 */
+#define CKS_PCK_16	0x0002	/* B’10: PCK/16 */
+#define CKS_PCK_64	0x0003	/* B’11: PCK/64 */
 
-#if 1
-  /* Macronix MX25L51245G */
-  #define MX25L51245G
-  #define FLASH_PAGE_SIZE 256
-  #define FLASH_ERASE_SIZE (64*1024)
-#endif
+/* SCSCR (Serial Control Register) */
+#define SCSCR_TEIE	BIT(11)	/* Transmit End Interrupt Enable */
+#define SCSCR_TIE	BIT(7)	/* Transmit Interrupt Enable */
+#define SCSCR_RIE	BIT(6)	/* Receive Interrupt Enable */
+#define SCSCR_TE	BIT(5)	/* Transmit Enable */
+#define SCSCR_RE	BIT(4)	/* Receive Enable */
+#define SCSCR_REIE	BIT(3)	/* Receive Error Interrupt Enable */
+#define SCSCR_TOIE	BIT(2)	/* Timeout Interrupt Enable */
+#define SCSCR_CKE(x)	(((uint16_t)(x) & 0x3) << 0)	/* Clock Enable */
+/* SCSCR_CKE (Clock Enable 1 and 0) */
+#define CKE_ASYNC_1	0x0000	/* The SCK pin is not used */
+#define CKE_ASYNC_2	0x0001	/* The SCK pin outputs the clock (with a frequency 16 times the bit rate) */
+#define CKE_ASYNC_3	0x0002	/* Baud rate generator output for external clock or SCK */
 
+/* SCFSR (Serial Status Register) */
+#define SCFSR_ER	BIT(7)	/* Receive Error */
+#define SCFSR_TEND	BIT(6)	/* Transmission End */
+#define SCFSR_TDFE	BIT(5)	/* Transmit FIFO Data Empty */
+#define SCFSR_BRK	BIT(4)	/* Break Detect */
+#define SCFSR_RDF	BIT(1)	/* Receive FIFO Data Full */
+#define SCFSR_DR	BIT(0)	/* Receive Data Ready */
+#define SCFSR_PER	BIT(2)	/* Parity Error */
+#define SCFSR_FER	BIT(3)	/* Framing Error */
 
-#define DRIVER_VERSION	"2020-06-18"
-#define DRIVER_NAME	"qspi_flash"
+/* SCFCR (FIFO Control Register) */
+#define SCFCR_RSTRG(x)	(((uint16_t)(x) & 0x7) << 8)	/* RTS Output Active Trigger */
+/* SCFCR_RSTRG (RTS Output Active Trigger) */
+#define RSTRG_15	0x0000	/* B’000: 15 */
+#define RSTRG_1		0x0001	/* B’001: 1 */
+#define RSTRG_4		0x0002	/* B’010: 4 */
+#define RSTRG_6 	0x0003	/* B’011: 6 */
+#define RSTRG_8 	0x0004	/* B’100: 8 */
+#define RSTRG_10	0x0005	/* B’101: 10 */
+#define RSTRG_12	0x0006	/* B’110: 12 */
+#define RSTRG_14	0x0007	/* B’111: 14 */
 
-#ifdef DEBUG
-#define DPRINTK(fmt, args...) printk("%s: " fmt, DRIVER_NAME, ## args)
-#else
-#define DPRINTK(fmt, args...)
-#endif
+#define SCFCR_RTRG(x)	(((uint16_t)(x) & 0x3) << 6)	/* Receive FIFO Data Count Trigger */
+/* SCFCR_RTRG (Receive FIFO Data Count Trigger) */
+#define RTRG_1		0x0000
+#define RTRG_4		0x0001
+#define RTRG_8		0x0002
+#define RTRG_14		0x0003
 
+#define SCFCR_TTRG(x)	(((uint16_t)(x) & 0x3) << 4)	/* Transmit FIFO Data Count Trigger */
+/* SCFCR_TTRG (Transmit FIFO Data Count Trigger) */
+#define TTRG_8_8	0x0000	/* B’00: 8 (8) */
+#define TTRG_4_12	0x0001	/* B’01: 4 (12) */
+#define TTRG_2_14	0x0002	/* B’10: 2 (14) */
+#define TTRG_0_16	0x0003	/* B’11: 0 (16) */
 
-#ifdef DEBUG
-const char ASCII_table[] = "0123456789ABCDEF";
-#define ASCII_UPPER(val) (ASCII_table[ val >> 4])
-#define ASCII_LOWER(val) (ASCII_table[ val & 0x0F ])
-#define debugout_PRINT_HEX(val) { debugout( ASCII_UPPER(val) ); debugout( ASCII_LOWER(val) ); }
-#define debugout_NEWLINE() { debugout('\r'); debugout('\n'); }
-static void debugout(u8 text)
+#define SCFCR_MCE	BIT(3)	/* Modem Control Enable */
+#define SCFCR_TFRST	BIT(2)	/* Transmit FIFO Data Register Reset */
+#define SCFCR_RFRST	BIT(1)	/* Receive FIFO Data Register Reset */
+#define SCFCR_LOOP	BIT(0)	/* Loopback Test */
+
+/* SCSPTR (Serial Port Register) */
+#define SCSPTR_RTSIO	BIT(7)	/* Serial Port RTS# Pin Input/Output */
+#define SCSPTR_RTSDT	BIT(6)	/* Serial Port RTS# Pin Data */
+#define SCSPTR_CTSIO	BIT(5)	/* Serial Port CTS# Pin Input/Output */
+#define SCSPTR_CTSDT	BIT(4)	/* Serial Port CTS# Pin Data */
+#define SCSPTR_SCKIO	BIT(3)	/* Serial Port Clock Pin Input/Output */
+#define SCSPTR_SCKDT	BIT(2)	/* Serial Port Clock Pin Data */
+#define SCSPTR_SPB2IO	BIT(1)	/* Serial Port Break Input/Output */
+#define SCSPTR_SPB2DT	BIT(0)	/* Serial Port Break Data */
+
+/* SCLSR (Line Status Register) */
+#define SCLSR_TO	BIT(2)	/* Timeout */
+#define SCLSR_ORER	BIT(0)	/* Overrun Error */
+
+/* CKS (Clock Select Register */
+#define CKS_CKS	BIT(15) /* Switch between SC_CLK and SCK */
+#define CKS_XIN	BIT(14) /* Select SCIF_CLK or SCKi */
+
+#define SCFDR_T_MASK		(0x1f << 8)
+#define SCFDR_R_MASK		(0x1f << 0)
+
+/* Absolute value */
+#define abs(x) (x < 0 ? (-x) : x)
+
+#define UART_FIFO_DEPTH	16
+#define MAX_WAIT_MS		10
+#define QUEUE_LENGTH	5000
+
+typedef enum UART_Channel_Status {
+    UART_CHANNEL_NOT_OPENED,
+    UART_CHANNEL_OPENED,
+} UART_Channel_Status_t; 
+
+typedef struct UART_Data {
+	uint32_t	base;
+	uint16_t	mstpb;
+	uint16_t	lifec;
+	uint16_t	irq_id;
+	UART_Channel_Status_t	channel_status;
+	R_UART_Config_t *p_cfg;
+	QueueHandle_t uart_queue_rx;
+	QueueHandle_t uart_queue_tx;
+} UART_Data_t;
+
+R_UART_Config_t g_uart_config = {
+	115200,
+	R_UART_FCK,
+	R_UART_DATA_8BIT,
+	R_UART_EVEN_PARITY,
+	R_UART_STOPBIT_1,
+	R_UART_LOOPBACK_DISABLE,
+	R_UART_MODEM_CONTROL_DISABLE,
+	R_UART_RTS_ACTIVE_TRIGGER_15,
+	R_UART_RX_FIFO_TRIGGER_8,
+	R_UART_TX_FIFO_TRIGGER_8,
+};
+
+static uint8_t uart_rx_error = 0;
+
+static UART_Data_t UART_ChannelData[] = {
+	[0] = {
+		.base = 0xE6E60000U,
+		.mstpb = MSTPB(2, 07),
+		.lifec = LIFEC_SLAVE_SCIF0,
+		.irq_id = 184,
+		.channel_status = UART_CHANNEL_NOT_OPENED
+	},
+	[1] = {
+		.base = 0xE6E68000U,
+		.mstpb = MSTPB(2, 06),
+		.lifec = LIFEC_SLAVE_SCIF1,
+		.irq_id = 185,
+		.channel_status = UART_CHANNEL_NOT_OPENED
+	},
+	[2] = {
+		.base = 0xE6E88000U,
+		.mstpb = MSTPB(3, 10),
+		.irq_id = 196,
+		.channel_status = UART_CHANNEL_NOT_OPENED
+	},
+	[3] = {
+		.base = 0xE6C50000U,
+		.mstpb = MSTPB(2, 04),
+		.lifec = LIFEC_SLAVE_SCIF3,
+		.irq_id = 55,
+		.channel_status = UART_CHANNEL_NOT_OPENED
+	},
+	[4] = {
+		.base = 0xE6C40000U,
+		.mstpb = MSTPB(2, 03),
+		.lifec = LIFEC_SLAVE_SCIF4,
+		.irq_id = 48,
+		.channel_status = UART_CHANNEL_NOT_OPENED
+	},
+	[5] = {
+		.base = 0xE6F30000U,
+		.mstpb = MSTPB(2, 02),
+		.lifec = LIFEC_SLAVE_SCIF5,
+		.irq_id = 49,
+		.channel_status = UART_CHANNEL_NOT_OPENED
+	},
+};
+
+static void UART_IrqHandler(void *arg)
 {
-	static void *scif_base = NULL;
-#if 0 /* NOTE 1: Only needed if not using current console SCIF (SCIF1 on RSK) */
-	static void *scif_clk = NULL;
-#endif
-	/* SCIF2 */
-	if(!scif_base) {
-#if 0 /* (See NOTE 1 above) */
-		/* SCIF 1 pinmux */
-		r7s72100_pfc_pin_assign(P4_12, ALT7, DIIO_PBDC_DIS);	/* SCIF1 TX */
-		r7s72100_pfc_pin_assign(P4_13, ALT7, DIIO_PBDC_DIS);	/* SCIF1 RX */
+	uint16_t serial_status;
+	uint16_t line_status;
+	uint16_t control;
+	uint16_t sstatus_err, lstatus_err;
+	portBASE_TYPE xHigherPriorityTaskWoken = pdFALSE;
+	UART_Data_t *pUart = (UART_Data_t *)arg;
 
-		/* SCIF 1 clock */
-		scif_clk = clk_get_sys("sh-sci.1", "sci_fck");
-		clk_enable(scif_clk);
-#endif
-		/* SCIF Registers */
-		/* Map registers so we can get at them */
-		/* Please choose your correct SCIF channel */
-//		scif_base = ioremap_nocache(0xE8007800, 0x30); /* SCIF1 */
-		scif_base = ioremap_nocache(0xe8008000, 0x30); /* SCIF2 */
-//		scif_base = ioremap_nocache(0xe8008800, 0x30); /* SCIF3 */
-		#define SCFTDR *(volatile uint8_t *)(scif_base + 0x0C)
-		#define SCSCR *(volatile uint16_t *)(scif_base + 0x08)
-		#define SCBRR *(volatile uint8_t *)(scif_base + 0x04)
-		#define SCFSR *(volatile uint16_t *)(scif_base + 0x10)
-		#define SCFCR *(volatile uint16_t *)(scif_base + 0x18)
-		#define SCFDR *(volatile uint16_t *)(scif_base + 0x1C)
+	/* Disable interrupts */
+	control = readw(pUart->base + SCSCR);
+	writew(control & ~(SCSCR_RIE | SCSCR_TIE), pUart->base + SCSCR);
 
-#if 0 /* (See NOTE 1 above) */
-		/* trigger TDFE on 16 bytes */
-		SCFCR = 0x30;
+	serial_status = readw(pUart->base + SCFSR);
 
-		/* Minimum SCIF setup */
-		SCBRR = 0x11;		// Baud 115200
-		SCSCR = 0x0030;	// Enable TX an RX, but no interrupts
-#endif
+	/* Tx FIFO data empty? */
+	if (serial_status & SCFSR_TDFE) {
+		uint8_t byte;
+		int i = UART_FIFO_DEPTH;
 
-		/* NOTE that the first time this is called, we still
-		 * need to be runing from XIP QSPI flash */
-		return;
+		while (--i && xQueueReceiveFromISR(pUart->uart_queue_tx, &byte, &xHigherPriorityTaskWoken) == pdTRUE) {
+			/* Send the data retrieved from the queue to the FIFO */
+			writeb(byte, pUart->base + SCFTDR);
+		}
+
+		/* Disable Transmission interrupt on Tx FIFO data empty */
+		if (xQueueIsQueueEmptyFromISR(pUart->uart_queue_tx))
+			control &= ~SCSCR_TIE;
+
+		/* Clear Transmit FIFO Data Empty bit */
+		serial_status &= ~SCFSR_TDFE;
 	}
 
-	// wait for TDFE to be set
-	while((SCFSR & (0x1 << 5)) == 0);
+	/* Are any receive events of interest active? */
+	if ((control & ~SCSCR_RIE) != 0) {
+		/* While there is data in the FIFO, read it and put it in the queue */
+		while (readw(pUart->base + SCFDR) & SCFDR_R_MASK) {
 
-	SCFTDR = text;
-	
-	// clear TDFE and wait for reset (meaning data has been sent)
-	SCFSR = SCFSR & ~(1<<5);
-	while((SCFSR & (0x1 << 5)) == 0);
-}
-#else
-#define debugout(t) { }
-#define debugout_PRINT_HEX(val) { }
-#define debugout_NEWLINE() { }
-#endif
+			sstatus_err = readw(pUart->base + SCFSR);
+			lstatus_err = readw(pUart->base + SCLSR);
 
+			if ((lstatus_err & (SCLSR_ORER | SCLSR_TO)) ||
+				(sstatus_err & (SCFSR_ER | SCFSR_FER))) {
+					uart_rx_error = 1;
+					break;
+			}
 
-/* Global variables */
-static int major_num, minor_num;
-static struct qspi_flash my_qf;
-static struct miscdevice my_dev;
+			uint8_t byte = readb(pUart->base + SCFRDR);
 
-u8 prog_buffer[ FLASH_PAGE_SIZE * 2];
-int prog_buffer_cnt = 0;
+			xQueueSendFromISR(pUart->uart_queue_rx, &byte, &xHigherPriorityTaskWoken);
+		}
 
-const u8 SPIDE_for_single[5] = {0x0,
-		0x8,	// 8-bit transfer (1 bytes)
-		0xC,	// 16-bit transfer (2 bytes)
-		0x0,	// 24-bit transfers are invalid!
-		0xF};	// 32-bit transfer (3-4 bytes)
-const u8 SPIDE_for_dual[9] = {0,
-		0x0,	// 8-bit transfers are invalid!
-		0x8,	// 16-bit transfer (1 byte)
-		0x0,	// 24-bit transfers are invalid!
-		0xC,	// 32-bit transfer (4 bytes)
-		0x0,	// 40-bit transfers are invalid!
-		0x0,	// 48-bit transfers are invalid!
-		0x0,	// 56-bit transfers are invalid!
-		0xF};	// 64-bit transfer (8 bytes)
+		/* Clear the Rx interrupt */
+		serial_status &= ~SCFSR_RDF;
+	}
 
-static inline int qspi_is_ssl_negated(struct qspi_flash *qf)
-{
-	return !(qspi_read32(qf, QSPI_CMNSR) & CMNSR_SSLF);
-}
-static int qspi_flash_wait_for_tend(struct qspi_flash *qf)
-{
-	volatile u32 cnt = 100000;
-	do{
-		if(qspi_read32(qf, QSPI_CMNSR) & CMNSR_TEND)
-			return 0;
-		asm("nop");
-		asm("nop");
-		asm("nop");
-		asm("nop");
-		cnt--;
-	}while( cnt );
+	/* Clear the flag */
+	writew(serial_status, pUart->base + SCFSR);
+	writew(0, pUart->base + SCLSR);
 
-	return -1;
+	/* Re-enable interrupts */
+	writew(control, pUart->base + SCSCR);
+
+	portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
 }
 
-static int qspi_flash_cs_disable(struct qspi_flash *qf)
+static portBASE_TYPE UART_PutByte(UART_Data_t *pUart, int8_t byte)
 {
-	u32 cmnsr;
+	if (xQueueSend(pUart->uart_queue_tx, &byte, MAX_WAIT_MS) == pdPASS) {
+		/* Enable Transmission interrupt on Tx FIFO data empty */
+		taskENTER_CRITICAL();
+		uint16_t control = readw(pUart->base + SCSCR);
+		writew((control | SCSCR_TIE), pUart->base + SCSCR);
+		taskEXIT_CRITICAL();
 
-	cmnsr = qspi_read32(qf, QSPI_CMNSR);
+		return pdTRUE;
+	}
 
-	/* Already low? */
-	if( cmnsr == CMNSR_TEND )
-		return 0;
+	return pdFALSE;
+}
 
-	/* wait for last transfer to complete */
-	if( qspi_flash_wait_for_tend(qf) )
+int R_UART_Send(uint8_t channel, void *const p_data, uint32_t const length)
+{
+	UART_Data_t *pUart;
+	uint32_t len = length;
+	int8_t *pData = (int8_t *)p_data;
+	uint16_t control;
+	int i = 0;
+
+	if (channel > 5)
+		return R_UART_ERROR_CHANNEL;
+
+	pUart = &UART_ChannelData[channel];
+
+	if (pUart->channel_status == UART_CHANNEL_NOT_OPENED)
+		return R_UART_ERROR_CH_NOT_OPENED;
+
+	/* Send each byte in the data, one at a time. */
+	while (--len && UART_PutByte(pUart, *(pData++)) == pdTRUE)
+		;
+
+	/* Disable Tx interrupt */
+	control = readw(pUart->base + SCSCR);
+	writew((control & ~SCSCR_TIE), pUart->base + SCSCR);
+
+	if (len > 0)
+		return R_UART_ERROR;
+
+	return R_UART_SUCCESS;
+}
+
+static portBASE_TYPE UART_GetByte(UART_Data_t *pUart, int8_t *byte)
+{
+	/* Get the next byte from the buffer. Return false if no bytes
+	are available, or arrive before MAX_WAIT_MS expires. */
+	if (xQueueReceive(pUart->uart_queue_rx, byte, MAX_WAIT_MS))
+		return pdTRUE;
+
+	return pdFALSE;
+}
+
+int R_UART_Receive(uint8_t channel, void *p_data, uint32_t length, uint32_t *received)
+{
+	UART_Data_t *pUart;
+	uint32_t rxEd;	/* Data received */
+	uint16_t control;
+	int8_t *pData = (int8_t *)p_data;
+
+	if (channel > 5)
+		return R_UART_ERROR_CHANNEL;
+
+	pUart = &UART_ChannelData[channel];
+
+	if (pUart->channel_status == UART_CHANNEL_NOT_OPENED)
+		return R_UART_ERROR_CH_NOT_OPENED;
+
+	/* Enable Rx interrupt */
+	control = readw(pUart->base + SCSCR);
+	writew((control | SCSCR_RIE), pUart->base + SCSCR);
+
+	rxEd = 0;
+	while (UART_GetByte(pUart, pData++) == pdTRUE)
+		rxEd++;
+
+	if (received != NULL)
+		*received = rxEd;
+
+	/* Disable Rx interrupt */
+	control = readw(pUart->base + SCSCR);
+	writew((control & ~SCSCR_RIE), pUart->base + SCSCR);
+
+	/* Have any error from Rx */
+	if (uart_rx_error) {
+		uart_rx_error = 0;
+		return R_UART_ERROR;
+	}
+
+	return R_UART_SUCCESS;
+}
+
+static int UART_CheckParameters(uint8_t channel, R_UART_Config_t const *p_cfg)
+{
+	if (channel > 5)
+		return R_UART_ERROR_CHANNEL;
+
+	if (UART_ChannelData[channel].channel_status == UART_CHANNEL_OPENED) 
+		return R_UART_ERROR_ALREADY_OPENED;
+
+	if (p_cfg == NULL)
+		return R_UART_ERROR_NULL_PTR;
+
+	if ((p_cfg->clock_source < R_UART_FCK) || (p_cfg->clock_source > R_UART_SCIF_CLK)) 
+		return R_UART_ERROR_CLKS;
+
+	if ((p_cfg->data_size != R_UART_DATA_8BIT) && 
+		(p_cfg->data_size != R_UART_DATA_7BIT))
+		return R_UART_ERROR_DATA_SIZE;
+
+	if ((p_cfg->parity_type < R_UART_NONE_PARITY) || 
+		(p_cfg->parity_type > R_UART_ODD_PARITY))
+		return R_UART_ERROR_PARITY;
+
+	if ((p_cfg->stop_bits != R_UART_STOPBIT_1) && 
+		(p_cfg->stop_bits != R_UART_STOPBIT_2))
+		return R_UART_ERROR_STOPBIT;
+
+	if ((p_cfg->loop_test != R_UART_LOOPBACK_DISABLE) && 
+		(p_cfg->loop_test != R_UART_LOOPBACK_ENABLE))
+		return R_UART_ERROR_LOOP;
+
+	if ((p_cfg->modem_control != R_UART_MODEM_CONTROL_DISABLE) && 
+		(p_cfg->modem_control != R_UART_MODEM_CONTROL_ENABLE))
+		return R_UART_ERROR_MCE;
+
+	if ((p_cfg->rts_trigger < R_UART_RTS_ACTIVE_TRIGGER_15) || 
+		(p_cfg->rts_trigger > R_UART_RTS_ACTIVE_TRIGGER_14))
+		return R_UART_ERROR_RSTRG;
+
+	if ((p_cfg->tx_trigger < R_UART_TX_FIFO_TRIGGER_8) || 
+		(p_cfg->tx_trigger > R_UART_TX_FIFO_TRIGGER_0))
+		return R_UART_ERROR_TX_TRG;
+
+	if ((p_cfg->rx_trigger < R_UART_RX_FIFO_TRIGGER_8) || 
+		(p_cfg->rx_trigger > R_UART_RX_FIFO_TRIGGER_0))
+		return R_UART_ERROR_RX_TRG;
+
+	return 0;
+}
+
+static int UART_Baudrate(R_UART_Config_t const *p_cfg, uint8_t *scscr_cke, 
+					uint8_t *scsmr_cks, uint16_t *cks, uint16_t *val)
+{
+	uint8_t clk = p_cfg->clock_source;
+	uint32_t baud_rate = p_cfg->baud_rate;
+	uint32_t FCK = 66666666, SCKi = 266666666, SCIF_CLK = 14745600;
+	uint16_t temp;
+	uint16_t err, min_err = 0xFFFF;
+	uint16_t div;
+	uint8_t n;
+
+	if (baud_rate > 115200)
 		return -1;
 
-	cmnsr = qspi_read32(qf, QSPI_CMNSR);
-	if( cmnsr == CMNSR_TEND )
-		return 0;
-	
-	/* Make sure CS goes back low (it might have been left high
-	   from the last transfer). It's tricky because basically,
-	   you have to disable RD and WR, then start a dummy transfer. */
-	qspi_write32(qf, QSPI_SMCR, 1);
-	qspi_write32(qf, QSPI_SMCR, 0);
-	qspi_flash_wait_for_tend(qf);
+	if (clk == R_UART_FCK) {
+		*scscr_cke = 0; /* SCK pin input (not used)*/
+		for (n = 0; n <= 3; n++) {
+			if (n == 0) {
+				div = 64  *0.5;
+			} else {
+				div = 64 * (1 << (2 * n - 1));
+			}
+			temp = (float)FCK/(div * baud_rate) + 0.5f;
 
-	/* Check the status of the CS pin */
-	cmnsr = qspi_read32(qf, QSPI_CMNSR);
-	if( cmnsr == CMNSR_TEND )
-		return 0;
-	
-	return -1;
-}
-
-static int qspi_flash_send_data(struct qspi_flash *qf,
-	const u8* buf, unsigned int len, unsigned int keep_cs_low)
-{
-	int ret;
-	u32 smcr;
-	u32 smenr = 0;
-	u32 smwdr0;
-	u32 smwdr1 = 0;
-	int unit;
-	int sslkp = 1;
-
-	/* wait spi transfered */
-	if ((ret = qspi_flash_wait_for_tend(qf)) < 0) {
-		/* timeout */
-		return ret;
-	}
-
-	while (len > 0) {
-
-		if( qf->dual ) {
-			/* Dual memory */
-			if (len >= 8)
-				unit = 8;
-			else
-				unit = len;
-
-			if( unit & 1 ) {
-				/* Can't send odd number of bytes in dual memory mode */
+			if (temp > 256) {
+				if (n != 3)
+					continue;
 				return -1;
 			}
 
-			if( unit == 6 )
-				unit = 4; /* 6 byte transfers not supported */
-
-			smenr &= ~0xF;	/* clear SPIDE bits */
-			smenr |= SPIDE_for_dual[unit];
-		}
-		else {
-			/* Single memory */
-			if (len >= 4)
-				unit = 4;
-			else
-				unit = len;
-			if(unit == 3)
-				unit = 2;	/* 3 byte transfers not supported */
-
-			smenr &= ~0xF;	/* clear SPIDE bits */
-			smenr |= SPIDE_for_single[unit];
-		}
-
-		if( !qf->dual ) {
-			/* Single memory */
-
-			/* set data */
-			smwdr0 = (u32)*buf++;
-			if (unit >= 2)
-			smwdr0 |= (u32)*buf++ << 8;
-			if (unit >= 3)
-			smwdr0 |= (u32)*buf++ << 16;
-			if (unit >= 4)
-			smwdr0 |= (u32)*buf++ << 24;
-		}
-		else
-		{
-			/* Dual memory */
-			if( unit == 8 ) {
-				/* Note that SMWDR1 gets sent out first
-				   when sending 8 bytes */
-				smwdr1 = (u32)*buf++;
-				smwdr1 |= (u32)*buf++ << 8;
-				smwdr1 |= (u32)*buf++ << 16;
-				smwdr1 |= (u32)*buf++ << 24;
-			}
-			/* sending 2 bytes */
-			smwdr0 = (u32)*buf++;
-			smwdr0 |= (u32)*buf++ << 8;
-
-			/* sending 4 bytes */
-			if( unit >= 4) {
-				smwdr0 |= (u32)*buf++ << 16;
-				smwdr0 |= (u32)*buf++ << 24;
-			}
-		}
-
-		/* Write data to send */
-		if (unit == 2){
-			qspi_write16(qf, (u16)smwdr0, QSPI_SMWDR0);
-		}
-		else if (unit == 1){
-			qspi_write8(qf, (u8)smwdr0, QSPI_SMWDR0);
-		}
-		else {
-			qspi_write32(qf, smwdr0, QSPI_SMWDR0);
-		}
-
-		if( unit == 8 ) {
-			/* Dual memory only */
-			qspi_write32(qf, smwdr1, QSPI_SMWDR1);
-		}
-
-		len -= unit;
-		if (len <= 0) {
-			sslkp = 0;
-		}
-
-		/* set params */
-		qspi_write32(qf, 0, QSPI_SMCMR);
-		qspi_write32(qf, 0, QSPI_SMADR);
-		qspi_write32(qf, 0, QSPI_SMOPR);
-		qspi_write32(qf, smenr, QSPI_SMENR);
-
-		/* start spi transfer */
-		smcr = SMCR_SPIE|SMCR_SPIWE;
-		if (sslkp || keep_cs_low)
-			smcr |= SMCR_SSLKP;
-		qspi_write32(qf, smcr, QSPI_SMCR);
-
-		/* wait spi transfered */
-		if ((ret = qspi_flash_wait_for_tend(qf)) < 0) {
-			/* data send timeout */
-			return ret;
-		}
-	}
-	return 0;
-}
-
-static int qspi_flash_recv_data(struct qspi_flash *qf,
-	u8 *buf, unsigned int len, unsigned int keep_cs_low)
-{
-	int ret;
-	u32 smcr;
-	u32 smenr = 0;
-	u32 smrdr0;
-	u32 smrdr1 = 0;
-	int unit;
-	int sslkp = 1;
-	u8 combine = 0;
-
-	/* wait spi transfered */
-	if ((ret = qspi_flash_wait_for_tend(qf)) < 0) {
-		/* xmit timeout */
-		return ret;
-	}
-
-	/* When receiving data from a command, we need to take into account
-	   that there are 2 SPI devices (that each will return values) */
-	if( qf->dual && !qf->disable_combine)
-	{
-		switch (qf->this_cmd) {
-			case 0x9F: /* Read ID */
-			case 0x05: /* Read Status register (CMD_READ_STATUS) */
-			case 0x70: /* Read Status register (CMD_FLAG_STATUS) */
-			case 0x35: /* Read configuration register */
-			case 0x16: /* Read Bank register (CMD_BANKADDR_BRRD) */
-			case 0xC8: /* Read Bank register (CMD_EXTNADDR_RDEAR) */
-			case 0xB5: /* Read NON-Volatile Configuration register (Micron) */
-			case 0x85: /* Read Volatile Configuration register (Micron) */
-				combine = 1;
-				len *= 2;	// get twice as much data.
-				break;
-		}
-	}
-
-	/* Flash devices with this command wait for bit 7 to go high (not LOW) when
-	   erase or writing is done, so we need to AND the results, not OR them,
-	   when running in dual SPI flash mode */
-	if( qf->this_cmd == 0x70 )
-		qf->combine_status_mode = 1; /* AND results (WIP = 1 when ready) */
-	else
-		qf->combine_status_mode = 0; /* OR results (WIP = 0 when ready) */
-
-	/* Reset after each command */
-	qf->disable_combine = 0;
-
-	while (len > 0) {
-		if( qf->dual ) {
-			/* Dual memory */
-			if (len >= 8)
-				unit = 8;
-			else
-				unit = len;
-
-			if( unit & 1 ) {
-				/* ERROR: Can't read odd number of bytes in dual memory mode */
+			if (temp < 1) {
+				if (n != 0)
+					continue; 
 				return -1;
 			}
 
-			if( unit == 6 )
-				unit = 4; /* 6 byte transfers not supported, do 4 then 2 */
+			err = (float)FCK/(temp * div) + 0.5f;
+			err = abs(err - baud_rate);
 
-			smenr = SPIDE_for_dual[unit];
+			if (err >= min_err)
+				continue;
+
+			min_err = err;
+			*val = temp - 1;
+			*scsmr_cks = n;
 		}
-		else {
-			/* Single memory */
-			if (len >= 4)
-				unit = 4;
-			else
-				unit = len;
-			if(unit == 3)
-				unit = 2;	/* 3 byte transfers not supported */
+	}
 
-			smenr = SPIDE_for_single[unit];
-		}
+	if (clk == R_UART_SCK) {
+		*scscr_cke = 2;
+		*cks = CKS_CKS;
+	}
 
-		len -= unit;
-		if (len <= 0) {
-			sslkp = 0;	/* Last transfer */
-		}
+	if (clk == R_UART_BRG_INT) {
+		*scscr_cke = 2;
+		*cks = CKS_XIN;
+		*val = (float)SCKi/(baud_rate * 16) + 0.5f;
+		if (*val > 65535)
+			return -1;
+	}
 
-		/* set params */
-		qspi_write32(qf, 0, QSPI_SMCMR);
-		qspi_write32(qf, 0, QSPI_SMADR);
-		qspi_write32(qf, 0, QSPI_SMOPR);
-		qspi_write32(qf, smenr, QSPI_SMENR);
-
-		/* start spi transfer */
-		smcr = SMCR_SPIE|SMCR_SPIRE|SMCR_SPIWE;
-		if (sslkp | keep_cs_low )
-			smcr |= SMCR_SSLKP;
-		qspi_write32(qf, smcr, QSPI_SMCR);
-
-		/* wait spi transfered */
-		if ((ret = qspi_flash_wait_for_tend(qf)) < 0) {
-			/* data receive timeout */
-			return ret;
-		}
-
-		/* Just read both registers. We'll figure out what parts
-		   are valid later */
-		smrdr0 = qspi_read32(qf, QSPI_SMRDR0);
-		smrdr1 = qspi_read32(qf, QSPI_SMRDR1);
-
-		if( !combine ) {
-			if (unit == 8) {
-				/* Dual Memory */
-				/* SMDR1 has the beginning of the RX data (but
-				   only when 8 bytes are being read) */
-				*buf++ = (u8)(smrdr1 & 0xff);
-				*buf++ = (u8)((smrdr1 >> 8) & 0xff);
-				*buf++ = (u8)((smrdr1 >> 16) & 0xff);
-				*buf++ = (u8)((smrdr1 >> 24) & 0xff);
-			}
-
-			*buf++ = (u8)(smrdr0 & 0xff);
-			if (unit >= 2) {
-				*buf++ = (u8)((smrdr0 >> 8) & 0xff);
-			}
-			if (unit >= 4) {
-				*buf++ = (u8)((smrdr0 >> 16) & 0xff);
-				*buf++ = (u8)((smrdr0 >> 24) & 0xff);
-			}
-
-		}
-		else {
-			/* Dual Memory - Combine 2 streams back into 1 */
-			/* OR/AND together the data coming back so the WIP bit can be
-			   checked for erase/write operations */
-			/* Combine results together */
-			if ( unit == 8 ) {
-				/* SMRDR1 always has the beginning of the RX data stream */
-				if( qf->combine_status_mode) { /* AND results together */
-					*buf++ = (u8)(smrdr1 & 0xff) & (u8)((smrdr1 >> 8) & 0xff);
-					*buf++ = (u8)((smrdr1 >> 16) & 0xff) & (u8)((smrdr1 >> 24) & 0xff);
-					*buf++ = (u8)(smrdr0 & 0xff) & (u8)((smrdr0 >> 8) & 0xff);
-					*buf++ = (u8)((smrdr0 >> 16) & 0xff) & (u8)((smrdr0 >> 24) & 0xff);
-				}
-				else {	/* OR results together */
-					*buf++ = (u8)(smrdr1 & 0xff) | (u8)((smrdr1 >> 8) & 0xff);
-					*buf++ = (u8)((smrdr1 >> 16) & 0xff) | (u8)((smrdr1 >> 24) & 0xff);
-					*buf++ = (u8)(smrdr0 & 0xff) | (u8)((smrdr0 >> 8) & 0xff);
-					*buf++ = (u8)((smrdr0 >> 16) & 0xff) | (u8)((smrdr0 >> 24) & 0xff);
-				}
-			}
-
-			if( unit == 2 ) {
-				if( qf->combine_status_mode) { /* AND results together */
-					*buf++ = (u8)(smrdr0 & 0xff) & (u8)((smrdr0 >> 8) & 0xff);
-				}
-				else {	/* OR results together */
-					*buf++ = (u8)(smrdr0 & 0xff) | (u8)((smrdr0 >> 8) & 0xff);
-				}
-
-			}
-			if (unit == 4) {
-				if( qf->combine_status_mode) { /* AND results together */
-					*buf++ = (u8)(smrdr0 & 0xff) & (u8)((smrdr0 >> 8) & 0xff);
-					*buf++ = (u8)((smrdr0 >> 16) & 0xff) & (u8)((smrdr0 >> 24) & 0xff);
-				}
-				else {	/* OR results together */
-					*buf++ = (u8)(smrdr0 & 0xff) | (u8)((smrdr0 >> 8) & 0xff);
-					*buf++ = (u8)((smrdr0 >> 16) & 0xff) | (u8)((smrdr0 >> 24) & 0xff);
-				}
-			}
-		}
+	if (clk == R_UART_SCIF_CLK) {
+		*scscr_cke = 2;
+		*cks = 0;
+		*val = (float)SCIF_CLK/(baud_rate * 16) + 0.5f;
+		if (*val > 65535)
+			return -1;
 	}
 
 	return 0;
 }
 
-
-static int qspi_flash_send_cmd(struct qspi_flash *qf,
-	u8 *buf, unsigned int len, unsigned int keep_cs_low)
+int R_UART_Init(uint8_t channel, R_UART_Config_t const *p_cfg)
 {
-	u8 dual_cmd[12];
-	int ret;
-
-	qf->this_cmd = buf[0];
-
-	/* If this is a dual SPI Flash, we need to send the same
-	   command to both chips. */
-	if( qf->dual )
-	{
-		int i,j;
-		for(i=0,j=0;i<len;i++) {
-			dual_cmd[j++] = buf[i];
-			dual_cmd[j++] = buf[i];
-		}
-		len *= 2;
-		buf = dual_cmd;
-	}
-	ret = qspi_flash_send_data(qf, buf, len, keep_cs_low);
-
-	return ret;
-}
-
-static int qspi_flash_wait_ready(struct qspi_flash *qf)
-{
-#if defined(S25FL512S_512_256K) || defined(MX25L51245G)
-	/* Spansion, Macronix */
-	u8 cmd = 0x05;	/* Read Status Register-1 */
-#endif
-	u8 status[2] = {0,0};
-	int timeout = 1000000;
-
-	/* Wait for ready */
-	qspi_flash_send_cmd(qf, &cmd, 1, CS_KEEP_LOW);
-	while( timeout ) {
-
-		/* Read Status register(s) */
-		/* For dual SPI, each SPI flash will have a status register that needs
-		 * to be checked. If single SPI, the register is just read twice which
-		 * is fine */
-		qspi_flash_recv_data(qf, status, 2, CS_KEEP_LOW);
-
-		/* Display results (for debug only) */
-		//debugout_PRINT_HEX(status[0]); debugout(','); debugout_PRINT_HEX(status[1]); debugout_NEWLINE();
-
-#if defined(S25FL512S_512_256K) || defined(MX25L51245G)
-		/* Spansion: Work in progress is bit 0. Both need to be 0 */
-#if RZA2MEVB
-		if( !(status[1] & 1) )
-#else
-		if( !(status[0] & 1) && !(status[1] & 1) )
-#endif /* RZA2MEVB */
-			break; /* WIP == 0 */
-#endif
-
-		asm("nop");
-		asm("nop");
-		asm("nop");
-		asm("nop");
-		timeout--;
-	}
-
-	/* End transaction by doing one more read with CS_BACK_HIGH */
-	qspi_flash_recv_data(qf, status, 2, CS_BACK_HIGH);
-
-	/* Check the status register for an Erase or Program Error */
-#if defined(S25FL512S_512_256K)
-	/* Bit 6 is P_ERR for Programming error occurred
-	 * Bit 5 is E_ERR for Erase error has occurred */
-	if( (status[0] & 0x60) || (status[1] & 0x60) )
-	{
-		qf->op_err = 1;
-
-		/* Send Clear Status Register command */
-		cmd = 0x30;
-		qspi_flash_send_cmd(qf, &cmd, 1, CS_BACK_HIGH);
-	}
-#elif defined(MX25L51245G)
-	/* The programming and erase errors are located in Security Register */
-        cmd = 0x2B;
-	qspi_flash_send_cmd(qf, &cmd, 1, CS_KEEP_LOW);
-
-	qspi_flash_recv_data(qf, status, 2, CS_BACK_HIGH);
-	/* Bit 6 is P_ERR for Erase error occurred
-	 * Bit 5 is E_ERR for Programming error has occurred */
-	if( (status[0] & 0x60) || (status[1] & 0x60) ) // Do we have dual? If not second check to be removed
-	{
-		qf->op_err = 1;
-
-		/* There is no clear status command needed. */
-	}
-#endif
-
-	if( timeout == 0 )
-		return -1;
-
-	return 0;
-}
-
-static int qspi_flash_set_config(struct qspi_flash *qf)
-{
-	u32 value;
-
-	/* NOTES: Set swap (SFDE) so the order of bytes D0 to D7 in the SPI RX/TX FIFO are always in the
-	   same order (LSB=D0, MSB=D7) regardless if the SPI did a byte, word, dwrod fetch */
-	value = 
-		CMNCR_MD|	       		/* spi mode */
-		CMNCR_SFDE|			/* swap */
-		CMNCR_MOIIO3(OUT_HIZ)|
-		CMNCR_MOIIO2(OUT_HIZ)|
-		CMNCR_MOIIO1(OUT_HIZ)|
-		CMNCR_MOIIO0(OUT_HIZ)|
-		CMNCR_IO3FV(OUT_HIZ)|
-		CMNCR_IO2FV(OUT_HIZ)|
-		CMNCR_IO0FV(OUT_HIZ)|
-		//CMNCR_CPHAR|CMNCR_CPHAT|CMNCR_CPOL| /* spi mode3 */
-		CMNCR_CPHAR|
-		CMNCR_BSZ(BSZ_SINGLE);
-
-	/* dual memory? */
-	if (qf->dual)
-		value |= CMNCR_BSZ(BSZ_DUAL);	/* s-flash x 2 */
-
-	/* set common */
-	qspi_write32(qf, value, QSPI_CMNCR);
-
-#if 0
-	/* setup delay */
-	qspi_write32(qf,
-		SSLDR_SPNDL(SPBCLK_1_0)|	/* next access delay */
-		SSLDR_SLNDL(SPBCLK_1_0)|	/* SPBSSL negate delay */
-		SSLDR_SCKDL(SPBCLK_1_0),	/* clock delay */
-		QSPI_SSLDR);
-#endif
-
-	/* sets transfer bit rate to 1.39 Mbps (for using with slower logic analyzers) */
-	//qspi_write32(qf, 0x0603, QSPI_SPBCR);
-
-	return 0;
-}
-static int qspi_flash_mode_spi(struct qspi_flash *qf)
-{
-	u32 val;
-
-	/* Turn off all system interrupts */
-	local_irq_save(qf->flags);
-
-	/* Flush all the cache (makes things much more stable) */
-	flush_cache_all();
-
-	qf->drcr_save = qspi_read32(qf, QSPI_DRCR);
-
-	/* Force SSL low by turning off Burst Read */
-	qspi_write32(qf, DRCR_SSLN, QSPI_DRCR);
-
-	/* Disable Read & Write in SPI mode */
-	qspi_write32(qf, 0, QSPI_SMCR);	
-
-	qspi_flash_wait_for_tend(qf);
-
-	/* Check if SSL still low */
-	if (!qspi_is_ssl_negated(qf))
-	{
-		debugout_NEWLINE();
-		debugout('C');
-		debugout('M');
-		debugout('N');
-		debugout('S');
-		debugout('R');
-		debugout('=');
-		debugout_PRINT_HEX( (u8) qspi_read32(qf, QSPI_CMNSR));
-		debugout_NEWLINE();
-
-		local_irq_restore(qf->flags);
-		return -EIO;
-	}
-
-	/* Save the original value */
-	qf->cmncr_save = qspi_read32(qf, QSPI_CMNCR);
-
-	/* Exit XIP */
-	val = qspi_read32(qf, QSPI_CMNCR);
-	val |= CMNCR_MD;	/* SPI operating mode */
-	qspi_write32(qf, val, QSPI_CMNCR);
-
-	/*====================================================*/
-	/* NOW IN SPI MODE. CANNOT EXECUTE ANY CODE FROM QSPI */
-	/*====================================================*/
-
-	/* Register config */
-	qspi_flash_set_config(qf);
-
-	return 0;
-}
-
-static int qspi_flash_mode_xip(struct qspi_flash *qf)
-{
-	u32 val;
-
-	/* End the transfer by putting SSL low (SPI mode) */
-	qspi_flash_cs_disable(qf);
-
-	/* Put DRCR back */
-	qspi_write32(qf, qf->drcr_save, QSPI_DRCR);
-
-	/* Re-enter XIP mode */
-	qspi_write32(qf, qf->cmncr_save, QSPI_CMNCR);
-
-	/* Clear XIP cache */
-	val = qspi_read32(qf, QSPI_DRCR) | DRCR_RCF;
-	qspi_write32(qf, val, QSPI_DRCR);
-	val = qspi_read32(qf, QSPI_DRCR);	// dummy read
-
-	local_irq_restore(qf->flags);
-
-	/*=========================================================*/
-	/* NOW IN XIP MODE. ALL KERNEL FUNCTIONS ARE NOW AVAILABLE */
-	/*=========================================================*/
-
-	return 0;
-}
-
-static int qspi_flash_do_read(struct qspi_flash *qf, u8 *buf, int len)
-{
-#if RZA2MEVB
-	memcpy(buf, qf->mmio + ((qf->op_addr & 0xFFFFFFF) / 4) , len);
-
-	qf->op_addr += len;
-#else
-#if defined(S25FL512S_512_256K) || defined(MX25L51245G)
-	/* Spansion: Read Fast (4-byte Address) - (Requires dummy cycles) */
-	/* Macronix: FAST READ4B (4-byte Address) - (Requires dummy cycles) */
-	u8 cmd[6] = {0x0C};
-#endif
-	int ret;
-
-	/* Insert address into read command */
-	cmd[1] = (qf->op_addr >> 24) & 0xFF;
-	cmd[2] = (qf->op_addr >> 16) & 0xFF;
-	cmd[3] = (qf->op_addr >> 8)  & 0xFF;
-	cmd[4] = (qf->op_addr)       & 0xFF;
-
-#if defined(S25FL512S_512_256K) || defined(MX25L51245G)
-	/* Insert dummy cycles into read command */
-	cmd[5] = 0xFF;	/* 8 dummy cycles (1 bytes) */
-#endif
-
-	/* Enter SPI Mode (exit XIP mode) */
-	ret = qspi_flash_mode_spi(qf);
-	if( ret ) {
-		printk("%s: Cannot enter SPI mode\n",DRIVER_NAME);
-		return ret;
-	}
-
-	qspi_flash_send_cmd(qf, cmd, 6, CS_KEEP_LOW);
-	qspi_flash_recv_data(qf, buf, len, CS_BACK_HIGH);
-
-	/* update address for next time */
-	if ( qf->dual )
-		qf->op_addr += len / 2;	/* 2 bytes per address */
-	else
-		qf->op_addr += len;
-
-	/* Exit SPI Mode (re-enter XIP mode) */
-	qspi_flash_mode_xip(&my_qf);
-#endif /* RZA2MEVB */
-
-	return 0;
-}
-static int qspi_flash_do_erase(struct qspi_flash *qf)
-{
-#if defined(S25FL512S_512_256K) || defined(MX25L51245G)
-	/* Spansion, Macronix */
-	u8 cmd[5] = {0xDC}; /* Erase 256 kB (4-byte Address) */
-	u8 cmd_wren = 0x06;	/* Write Enable command */
-#endif
-	int ret;
-
-	/* Insert address into read command */
-	cmd[1] = (qf->op_addr >> 24) & 0xFF;
-	cmd[2] = (qf->op_addr >> 16) & 0xFF;
-	cmd[3] = (qf->op_addr >> 8)  & 0xFF;
-	cmd[4] = (qf->op_addr)       & 0xFF;
-
-	/* Enter SPI Mode (exit XIP mode) */
-	ret = qspi_flash_mode_spi(qf);
-	if( ret ) {
-		printk("%s: Cannot enter SPI mode\n",DRIVER_NAME);
-		return ret;
-	}
-
-	/* Send Write Enable */
-	qspi_flash_send_cmd(qf, &cmd_wren, 1, CS_BACK_HIGH);
-	/* Send erase command */
-	qspi_flash_send_cmd(qf, cmd, 5, CS_BACK_HIGH);
-	/* Wait for ready */
-	ret = qspi_flash_wait_ready(qf);
-
-	/* Exit SPI Mode (re-enter XIP mode) */
-	qspi_flash_mode_xip(&my_qf);
-
-	return ret;
-}
-static int qspi_flash_do_program(struct qspi_flash *qf, u8 *buf, int len)
-{
-#if defined(S25FL512S_512_256K) || defined(MX25L51245G)
-	/* Spansion, Macronix */
-	u8 cmd[5] = {0x12}; /* Page Program (4-byte Address) */
-	u8 cmd_wren = 0x06;	/* Write Enable */
-#endif
-	int ret;
-	int page_size = FLASH_PAGE_SIZE * (qf->dual + 1);
-
-	/* Enter SPI Mode (exit XIP mode) */
-	ret = qspi_flash_mode_spi(qf);
-	if( ret ) {
-		printk("%s: Cannot enter SPI mode\n",DRIVER_NAME);
-		return ret;
-	}
-
-	while(len)
-	{
-		/* Insert address into read command */
-		cmd[1] = (qf->op_addr >> 24) & 0xFF;
-		cmd[2] = (qf->op_addr >> 16) & 0xFF;
-		cmd[3] = (qf->op_addr >> 8)  & 0xFF;
-		cmd[4] = (qf->op_addr)       & 0xFF;
-
-		/* Send Write Enable */
-		qspi_flash_send_cmd(qf, &cmd_wren, 1, CS_BACK_HIGH);
-				
-		if( prog_buffer_cnt )
-		{
-			/* There is left over data */
-			/* Is enough data to program now? */
-			if( (prog_buffer_cnt + len) >= page_size ) {
-		
-				/* Send program command, address and data */
-				qspi_flash_send_cmd(qf, cmd, 5, CS_KEEP_LOW);
-				qspi_flash_send_data( qf, prog_buffer, prog_buffer_cnt, CS_KEEP_LOW);
-				qspi_flash_send_data( qf, buf, page_size - prog_buffer_cnt, CS_BACK_HIGH);
-				len -= page_size - prog_buffer_cnt;
-				buf += page_size - prog_buffer_cnt;
-				prog_buffer_cnt = 0;
-				/* The address always goes up by 1 device page size regardless of single/dual
-				 * because each SPI flash only gets 1 PAGE amount of data per program command */
-				qf->op_addr += FLASH_PAGE_SIZE;
-			}
-		}
-		else if( len >= page_size ) {
-
-			/* there is enough data to program now */
-			/* Send program command, address and data */
-			qspi_flash_send_cmd(qf, cmd, 5, CS_KEEP_LOW);
-			qspi_flash_send_data( qf, buf, page_size, CS_BACK_HIGH);
-			len -= page_size;
-			buf += page_size;
-
-			/* The address always goes up by 1 device page size regardless of single/dual
-			 * because each SPI flash only gets 1 PAGE amount of data per program command */
-			qf->op_addr += FLASH_PAGE_SIZE;
-
-		}
-		else {
-
-		}
-		/* Wait for ready */
-		ret = qspi_flash_wait_ready(qf);
-		
-		/* Check if an error occured */
-		if ( qf->op_err )
+	UART_Data_t *pUart;
+	uint16_t data;
+	uint16_t cks = 0;
+	uint16_t val = 0;
+	uint8_t scscr_cke = 0; 
+	uint8_t scsmr_cks = 0;
+	int error;
+
+	/* Check parameters */
+	error = UART_CheckParameters(channel, p_cfg);
+	if (error) 
+		return error;
+
+	/* Check baud rate */
+	error = UART_Baudrate(p_cfg, &scscr_cke, &scsmr_cks, &cks, &val);
+	if (error)
+		return R_UART_ERROR_BAUDRATE;
+
+	/* Update config */
+	UART_ChannelData[channel].p_cfg = (R_UART_Config_t *)p_cfg;
+	pUart = &UART_ChannelData[channel];
+
+	/* Enable LifeC */
+	R_LifeC_obtain_peripheral(pUart->lifec);
+
+	/* Power On */
+	modulePowerOnd(pUart->mstpb);
+
+	/* Disable Transmission/Reception */
+	data = readw(pUart->base + SCSCR);
+	data &= ~(SCSCR_TE | SCSCR_RE); 
+	writew(data, pUart->base + SCSCR);
+
+	/* Enable Transmit/Receive FIFO Data Register reset */
+	data = readw(pUart->base + SCFCR);
+	data |= SCFCR_TFRST | SCFCR_RFRST;
+	writew(data, pUart->base + SCFCR);
+
+	/* Clear Error, Receive Data Ready, Break Detect, Receive FIFO Data Full bit */
+	data = readw(pUart->base + SCFSR);
+	data &= ~(SCFSR_ER | SCFSR_DR | SCFSR_BRK | SCFSR_RDF);
+	writew(data, pUart->base + SCFSR);
+
+	/* Clear Timeout, Overrun Error bit */
+	data = readw(pUart->base + SCLSR);
+	data &= ~(SCLSR_TO | SCLSR_ORER);
+	writew(data, pUart->base + SCLSR);
+
+	/* Choose Clock Source and disable interrupts registers */
+	data = readw(pUart->base + SCSCR);
+	data |= SCSCR_CKE(scscr_cke);
+	data &= ~(SCSCR_TIE | SCSCR_RIE | SCSCR_TOIE);
+	writew(data, pUart->base + SCSCR);
+
+	/* Set Serial Mode Register */
+	data = (pUart->p_cfg->data_size == R_UART_DATA_7BIT ? SCSMR_CHR : 0);
+	switch (pUart->p_cfg->parity_type) {
+		case R_UART_NONE_PARITY:
+			data &= ~SCSMR_PE;
 			break;
-		
-		if( len < page_size ) {
-
-			/* we don't have enough for another page. save for next time.  */
-			while(len) {
-				prog_buffer[prog_buffer_cnt++] = *buf++;
-				len--;
-			}
-		}
-
-		if( ret )
+		case R_UART_ODD_PARITY:
+			data |= SCSMR_PE | SCSMR_ODD;
 			break;
-	}
-
-	/* Exit SPI Mode (re-enter XIP mode) */
-	qspi_flash_mode_xip(&my_qf);
-
-	return ret;
-}
-
-static int qspi_flash_open(struct inode * inode, struct file * filp)
-{
-	/* Called when someone opens a handle to this device */
-	return 0;
-}
-
-static int qspi_flash_release(struct inode * inode, struct file * filp)
-{
-	/* Called when someone closes a handle to this device */
-	return 0;
-}
-
-/* File Read Operation */
-/*
-
-buf: The buffer to fill with you data
-length: The size of the buffer that you need to fill
-
-ppos: a pointer to the 'position' index that the file structure is using to know
-	where in the file you are. You need to update this to show that you are
-	moving your way through the file.
-
-return: how many bytes of the buffer you filled. Note, the userland app might keep
-	asking for more data until you return 0.
-*/
-static ssize_t qspi_flash_read(struct file * file, char __user * buf, size_t length, loff_t *ppos)
-{
-	u8 *out_buf;
-	int err;
-	int odd_number_of_bytes = 0;
-	int page_size;
-	u8 status;
-
-	DPRINTK("%s called. length=%d, *ppos=%ld\n",__func__, length, (long int)*ppos);
-
-	if( my_qf.op == OP_READ) {
-		
-		/* Odd number of bytes in dual mode */
-		if( my_qf.dual && (length & 1) ) {
-			odd_number_of_bytes = 1;
-			length += 1;
-		}
-
-		out_buf = kmalloc(length, GFP_KERNEL);
-		if (!out_buf) {
-			my_qf.op = OP_IDLE;
-			return -ENOMEM;
-		}
-		
-		err = qspi_flash_do_read(&my_qf, out_buf, length);
-
-		if( my_qf.op_err ) {
-			my_qf.op = OP_IDLE;
-			kfree(out_buf);
-			return -EIO;
-		}
-
-		/* extra byte at end */
-		if( odd_number_of_bytes ) {
-			length -= 1;
-			
-			/* drop out of read mode because next address will not be correct anymore */
-			my_qf.op = OP_IDLE;
-		}
-
-		err = copy_to_user(buf, out_buf, length);
-		kfree(out_buf);
-		
-		if (err != 0 ) {
-			my_qf.op = OP_IDLE;
-			return -EFAULT;
-		}
-		
-		*ppos += length;
-		return length;
-	}
-
-	/* End the write command */
-	if( my_qf.op == OP_PROG) {
-		
-		/* Do we have any pending data? */
-		if( prog_buffer_cnt ) {
-
-			/* fill the rest of the data buffer with 0xFF */
-			page_size = FLASH_PAGE_SIZE * (my_qf.dual + 1);
-			while( prog_buffer_cnt < page_size )
-				prog_buffer[prog_buffer_cnt++] = 0xFF;
-			prog_buffer_cnt = 0;
-
-			/* Send our final data */
-			qspi_flash_do_program(&my_qf, prog_buffer, page_size);
-		}
-
-		/* Return programming status */
-		my_qf.op = OP_IDLE;
-		status = my_qf.op_err;
-		my_qf.op_err = 0;
-		err = copy_to_user(buf, &status, 1);
-		if (err != 0 ) {
-			return -EFAULT;
-		}
-
-		*ppos += 1;
-		return 1;
-	}
-
-	if( my_qf.op == OP_ERASE ) {
-		/* Return erase status */
-		my_qf.op = OP_IDLE;
-		status = my_qf.op_err;
-		my_qf.op_err = 0;
-		err = copy_to_user(buf, &status, 1);
-		if (err != 0 ) {
-			return -EFAULT;
-		}
-		*ppos += 1;
-		return 1;
-	}
-
-	my_qf.op = OP_IDLE;
-	my_qf.op_err = 0;
-
-	return 0;
-}
-
-/* File Write Operation */
-static ssize_t qspi_flash_write(struct file * file, const char __user * buf,  size_t count, loff_t *ppos)
-{
-	u8 *in_buf;
-
-	DPRINTK("%s called. count=%d, *ppos=%ld\n",__func__, count, (long int)*ppos);
-
-	DPRINTK("(BEFORE) op=%d,addr=0x%X,dual=%d,prog_buffer_cnt=%d,op_err=%d\n",my_qf.op,my_qf.op_addr,my_qf.dual,prog_buffer_cnt,my_qf.op_err);
-
-	/* Operation already had an error. Need to READ to reset */
-	if ( my_qf.op_err ) {
-		//*ppos += count;
-		//return count;
-		return -EIO;
-	}
-
-	/* any write after a read cancels a read */
-	if( my_qf.op == OP_READ)
-	{
-		my_qf.op = OP_IDLE;
-		my_qf.op_addr = 0;
-		my_qf.op_err = 0;
-	}
-
-	in_buf = memdup_user(buf, count);
-	if(IS_ERR(in_buf))
-		return PTR_ERR(in_buf);
-
-	/* Continuation of a write command */
-	if( my_qf.op == OP_PROG ) {
-		qspi_flash_do_program(&my_qf, in_buf, count);
-		goto out;
-	}
-
-	if( my_qf.op != OP_IDLE ) {
-		/* don't accept new command till last status is read */
-		goto err_inval;
-	}
-
-	/* new command */
-	if( in_buf[0] == 'r' ) /* "rd" */
-	{
-		if ( count < 6 )
-			goto err_inval;;	
-		my_qf.op = OP_READ;
-		my_qf.op_addr = *(u32 *)(in_buf + 2 );
-		/* user will get the data when they do a file read */
-	}
-	else if( in_buf[0] == 'e' ) /* "er" */
-	{
-		if ( count < 6 )
-			goto err_inval;
-		my_qf.op = OP_ERASE;
-		my_qf.op_addr = *(u32 *)(in_buf + 2 );
-		qspi_flash_do_erase(&my_qf);
-	}
-	else if( in_buf[0] == 'p' ) /* "pr" */
-	{
-		if ( count < 6 )
-			goto err_inval;
-		my_qf.op = OP_PROG;
-		my_qf.op_addr = *(u32 *)(in_buf + 2 );
-		
-		if( count > 6 )
-			qspi_flash_do_program(&my_qf, in_buf + 6, count - 6);
-	}
-	else if( in_buf[0] == 'd' ) /* dual mode: "d0  or d1" */
-	{
-		if ( count < 2 )
-			goto err_inval;	
-		my_qf.dual = in_buf[1] - '0';
-	}
-	else {
-		/* invalid command */
-		goto err_inval;
-	}
-
-out:
-	kfree(in_buf);
-	*ppos += count;
-
-	DPRINTK("(AFTER) op=%d,addr=0x%X,dual=%d,prog_buffer_cnt=%d,op_err=%d\n",my_qf.op,my_qf.op_addr,my_qf.dual,prog_buffer_cnt,my_qf.op_err);
-
-	return count;
-
-err_inval:
-	pr_err("invalid command or bad argument\n");
-	kfree(in_buf);
-
-	return -EINVAL;	
-}
-
-/* Define which file operations are supported */
-/* The full list is in include/linux/fs.h */
-struct file_operations qspi_flash_fops = {
-	.owner		=	THIS_MODULE,
-	.llseek		=	NULL,
-	.read		=	qspi_flash_read,
-	.write		=	qspi_flash_write,
-	.unlocked_ioctl	=	NULL,
-	.open		=	qspi_flash_open,
-	.release	=	qspi_flash_release,
-};
-
-/************************* sysfs attribute files ************************/
-/* For a misc driver, these sysfs files will show up under:
-	/sys/devices/virtual/misc/qspi_flash/
-*/
-static ssize_t qspi_flash_show_dual(struct device *dev,
-		struct device_attribute *attr, char *buf)
-{
-	struct qspi_flash *pdata = dev_get_drvdata(dev);
-	int count;
-
-	count = sprintf(buf, "%d\n", pdata->dual);
-
-	/* Return the number characters (bytes) copied to the buffer */
-	return count;
-}
-
-static ssize_t qspi_flash_store_dual(struct device *dev,
-		struct device_attribute *attr, const char *buf,
-		size_t count)
-{
-	struct qspi_flash *pdata = dev_get_drvdata(dev);
-
-	/* Scan in our argument(s) */
-	sscanf(buf, "%d", &pdata->dual);
-
-	/* Return the number of characters (bytes) we used from the buffer */
-	return count;
-}
-
-static struct device_attribute qspi_flash_device_attributes[] = {
-	__ATTR(	dual,0660,qspi_flash_show_dual,qspi_flash_store_dual),
-};
-
-/* This 'init' function of the driver will run when the system is booting.
-   It will only run once no matter how many 'devices' this driver will
-   control. Its main job to register the driver interface (file I/O).
-   Only after the kernel finds a 'device' that needs to use this driver
-   will the 'probe' function be called.
-   A 'device' is registered in the system after a platform_device_register()
-   in your board-xxxx.c is called.
-   If this is a simple driver that will only ever control 1 device,
-	   you can do the device registration in the init routine and avoid having
-   to edit your board-xxx.c file.
-
-  For more info, read:
-	https://www.kernel.org/doc/Documentation/driver-model/platform.txt
-*/
-static int __init qspi_flash_init(void)
-{
-	int ret;
-	int i;
-	u8 cmd = 0x9F; /* Read Identification (RDID 9Fh) */
-	u8 id[5];
-
-#if RZA2MEVB
-	my_qf.mmio = ioremap(0x20000000, 0x10000000); /* To map up to 256Mb sizes */
-	if (my_qf.mmio == NULL) {
-		ret = -ENOMEM;
-		printk("mmio ioremap error.\n");
-		goto clean_up;
-	}
-#endif /* RZA2MEVB */
-
-	my_qf.reg = ioremap(QSPI0_BASE, 0x100);
-	if (my_qf.reg == NULL) {
-		ret = -ENOMEM;
-		printk("ioremap error.\n");
-		goto clean_up;
-	}
-
-	my_dev.minor = MISC_DYNAMIC_MINOR;
-	my_dev.name = "qspi_flash";	// will show up as /dev/qspi_flash
-	my_dev.fops = &qspi_flash_fops;
-	ret = misc_register(&my_dev);
-	if (ret) {
-		printk(KERN_ERR "Misc Device Registration Failed\n");
-		goto clean_up;
-	}
-
-	/* Save the major/minor number that was assigned */
-	major_num = MISC_MAJOR;	/* same for all misc devices */
-	minor_num = my_dev.minor;
-
-	/* NOTE: The device_create_file() feature can only be used with GPL drivers */
-	for (i = 0; i < ARRAY_SIZE(qspi_flash_device_attributes); i++) {
-		ret = device_create_file(my_dev.this_device, &qspi_flash_device_attributes[i]);
-		if (ret < 0) {
-			printk(KERN_ERR "device_create_file error\n");
+		case R_UART_EVEN_PARITY:
+			data |= SCSMR_PE;
+			data &= ~SCSMR_ODD;
 			break;
-		}
+		default:
+			;
+	}
+	data |= (pUart->p_cfg->stop_bits == R_UART_STOPBIT_2 ? SCSMR_STOP : 0);
+	data |= SCSMR_CKS(scsmr_cks);
+	writew(data, pUart->base + SCSMR);
+
+	/* Set baud rate register */
+	if (pUart->p_cfg->clock_source == R_UART_FCK) { /* internal clock */
+		writew((uint8_t)val, pUart->base + SCBRR);
+	} else { /* external clock */
+		writew(cks, pUart->base + CKS);
+		writew(val, pUart->base + DL);
 	}
 
-	/* Set defaults */
-#if RZA2MEVB
-	my_qf.dual = 0;
-#else
-	my_qf.dual = 1;
-#endif /* RZA2MEVB */
+	/* Wait 1-bit interval */
+	delay_us((1000000 + pUart->p_cfg->baud_rate - 1)/pUart->p_cfg->baud_rate);
 
-	debugout(' ');	/* dummy call to set up ioremap */
+	/* Set Serial Status Register */
+	data = (pUart->p_cfg->loop_test == R_UART_LOOPBACK_ENABLE ? SCFCR_LOOP : 0);
+	data |= (pUart->p_cfg->modem_control == R_UART_MODEM_CONTROL_ENABLE ? SCFCR_MCE : 0);
+	data |= SCFCR_RSTRG(pUart->p_cfg->rts_trigger);
+	data |= SCFCR_RTRG(pUart->p_cfg->rx_trigger);
+	data |= SCFCR_TTRG(pUart->p_cfg->tx_trigger);
+	data &= ~(SCFCR_TFRST | SCFCR_RFRST);
+	writew(data, pUart->base + SCFCR);
 
-	/* Enter SPI Mode (exit XIP mode) */
-	ret = qspi_flash_mode_spi(&my_qf);
-	if( ret ) {
-		printk("%s: Cannot enter SPI mode\n",DRIVER_NAME);
-		ret = -EIO;
-		goto clean_up;
-	}
+	/* Enable transmit, receive */
+	data = readw(pUart->base + SCSCR); 
+	data |= SCSCR_TE | SCSCR_RE; 
+	writew(data, pUart->base + SCSCR);
 
-	/* Read the ID of the connected SPI flash */
-	/* [0]=Manf, [1]=device, [2]=memory size */
-	qspi_flash_send_cmd(&my_qf, &cmd, 1, CS_KEEP_LOW);
-	qspi_flash_recv_data(&my_qf, id, 5, CS_BACK_HIGH);
+	/* Create the queues used to hold Rx/Tx data. */
+	pUart->uart_queue_rx = xQueueCreate(QUEUE_LENGTH, sizeof(uint8_t));
+	vTraceSetQueueName(pUart->uart_queue_rx, "uartRx");
+	pUart->uart_queue_tx = xQueueCreate(QUEUE_LENGTH + 1, sizeof(uint8_t));
+	vTraceSetQueueName(pUart->uart_queue_tx, "uartTx");
 
-	/* Exit SPI Mode (re-enter XIP mode) */
-	qspi_flash_mode_xip(&my_qf);
+	/* Set up interrupt handler */
+	Irq_SetupEntry(pUart->irq_id, UART_IrqHandler, pUart);
+	IRQ_Enable(pUart->irq_id);
 
-#if defined(S25FL512S_512_256K)
-	/* Spansion S25FL512S */
-	DPRINTK("Flash ID = %02X %02X %02X %02X %02X\n",id[0],id[1],id[2],id[3],id[4]);
-	if( (id[0] == 0x01) && /* Spansion */
-	    (id[1] == 0x02) && (id[2] == 0x20) && /* S25FL512S */
-	    (id[3] == 0x4D) && (id[4] == 0x00) ) /* Wrt Page=512B, Ers Sector=256KB */
-	{
-		printk("%s: Detected Spansion S25FL512S (512B/256kB)\n", DRIVER_NAME);
-	}
-	else
-		printk("%s: Warning - SPI Device is not a Spansion S25FL512S\n", DRIVER_NAME);
-#elif defined(MX25L51245G)
-	/* Macronix MX25L51245G */
-	DPRINTK("Flash ID = %02X %02X %02X %02X %02X\n",id[0],id[1],id[2],id[3],id[4]);
-
-#if RZA2MEVB
-	if( (id[3] == 0xC2) && /* Macronix */
-	    (id[1] == 0x20) && (id[2] == 0x1A) )
-#else
-	if( (id[0] == 0xC2) && /* Macronix */
-	    (id[1] == 0x20) && (id[2] == 0x1A) )
-#endif /* RZA2MEVB */
-	{
-		printk("%s: Detected Macronix MX25L51245G (256/64kB)\n", DRIVER_NAME);
-	}
-	else
-		printk("%s: Warning - SPI Device is not Macronix MX25L51245G\n", DRIVER_NAME);
-#endif
-
-	printk("%s: version %s\n", DRIVER_NAME, DRIVER_VERSION);
-
-	return 0;
-
-clean_up:
-	if (my_qf.reg)
-		iounmap(my_qf.reg);
-
-#if RZA2MEVB
-	if (my_qf.mmio)
-		iounmap(my_qf.mmio);
-#endif /* RZA2MEVB */
-
-	/* Remove our sysfs files */
-	for (i = 0; i < ARRAY_SIZE(qspi_flash_device_attributes); i++)
-		device_remove_file(my_dev.this_device, &qspi_flash_device_attributes[i]);
-
-	misc_deregister(&my_dev);
-
-	return ret;
+	/* Update channel status */
+	UART_ChannelData[channel].channel_status = UART_CHANNEL_OPENED;
+	
+	return R_UART_SUCCESS;
 }
 
-static void __exit qspi_flash_exit(void)
+int R_UART_Release(uint8_t channel)
 {
-	int i;
+	UART_Data_t *pUart;
 
-	if (my_qf.reg)
-		iounmap(my_qf.reg);
+	/* Check channel error */
+	if (channel > 5)
+		return R_UART_ERROR_CHANNEL;
 
-#if RZA2MEVB
-	if (my_qf.mmio)
-		iounmap(my_qf.mmio);
-#endif /* RZA2MEVB */
+	if (UART_ChannelData[channel].channel_status == UART_CHANNEL_NOT_OPENED)
+		return R_UART_ERROR_CH_NOT_OPENED;
 
-	/* Remove our sysfs files */
-	for (i = 0; i < ARRAY_SIZE(qspi_flash_device_attributes); i++)
-		device_remove_file(my_dev.this_device, &qspi_flash_device_attributes[i]);
+	/* Update channel status */
+	UART_ChannelData[channel].channel_status = UART_CHANNEL_NOT_OPENED;
+	pUart = &UART_ChannelData[channel];
 
-	misc_deregister(&my_dev);
+	/* Disable interrupt */
+	IRQ_Disable(pUart->irq_id);
+
+	/* Power Off */
+	modulePowerOffd(pUart->mstpb);
+
+	/* Disable LifeC */
+	R_LifeC_release_peripheral(pUart->lifec);
+
+	return R_UART_SUCCESS;
 }
-
-module_init(qspi_flash_init);
-module_exit(qspi_flash_exit);
-MODULE_LICENSE("GPL v2");
-MODULE_AUTHOR("Chris Brandt");
-MODULE_ALIAS("platform:qspi_flash");
-MODULE_DESCRIPTION("qspi_flash: Program QSPI in XIP mode");
-MODULE_INFO(intree, "Y");
