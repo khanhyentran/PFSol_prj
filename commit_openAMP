@@ -1,0 +1,18 @@
+Use: 
+Fix compilation error.Add missing semicolon.
+https://github.com/OpenAMP/open-amp/commit/278bcd2d1095261b89839dadf17b33f4c6a46d76
+
+remoteproc: fix IAR C-STAT tool reports 
+https://github.com/OpenAMP/open-amp/commit/a1701c474e0666415845eb75ef71b10952d79bb0
+
+fix error return of virtio_create_virtqueues
+https://github.com/OpenAMP/open-amp/commit/652e675e192839f22fae4a55acb4e42c1070f867
+
+rpmsg: virtio: fix get buffer size return 
+https://github.com/OpenAMP/open-amp/commit/0798f22ed23cddb62d66f10e79e7b84618ab08eb
+
+rpmsg: don't return error when no more buffer available but wait 
+https://github.com/OpenAMP/open-amp/commit/80ad0aa6985570b2b3970edae6268500899e88a4
+
+openamp: rpmsg_send() shouldn't check buffer size when get buffer failed 
+https://github.com/OpenAMP/open-amp/commit/d4adf2a5cf64d02ef8397a368ef2bd1e850a577b
