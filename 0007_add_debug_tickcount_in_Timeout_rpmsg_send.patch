@@ -1,0 +1,25 @@
+From d510654f707178c0807eba164d898be65e406e7f Mon Sep 17 00:00:00 2001
+From: Khanh Tran <khanh.tran.te@renesas.com>
+Date: Thu, 22 Apr 2021 09:34:37 +0700
+Subject: [PATCH] Add printout debug info of tick_count in TIMEOUT case of
+ rpmsg_send
+
+---
+ lib/rpmsg/rpmsg_virtio.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/lib/rpmsg/rpmsg_virtio.c b/lib/rpmsg/rpmsg_virtio.c
+index 2e9b161..23d96d7 100644
+--- a/lib/rpmsg/rpmsg_virtio.c
++++ b/lib/rpmsg/rpmsg_virtio.c
+@@ -337,6 +337,7 @@ static int rpmsg_virtio_send_offchannel_raw(struct rpmsg_device *rdev,
+ 			break;
+ 		metal_sleep_usec(RPMSG_TICKS_PER_INTERVAL);
+ 		tick_count--;
++		printf("tick_count %d\n", tick_count);
+ 	}
+ 	if (!buffer)
+ 		return RPMSG_ERR_NO_BUFF;
+-- 
+2.7.4
+
