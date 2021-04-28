@@ -1,0 +1,34 @@
+From d949b067c60932dab52cdbeaede7338eec186950 Mon Sep 17 00:00:00 2001
+From: Chien Nguyen <chien.nguyen.eb@rvc.renesas.com>
+Date: Fri, 20 Sep 2019 13:16:12 +0700
+Subject: [PATCH] Add Preempt RT modification for fair.c on Linux 4.19.36
+
+When applying Preempt RT patch of Linux 4.19.37 to Linux 4.19.36
+there are modifications of some parts of kernel/sched/fair.c that cannot be applied.
+This patch file applies those parts for Linux 4.19.36
+
+Signed-off-by: Chien Nguyen <chien.nguyen.eb@rvc.renesas.com>
+---
+ kernel/sched/fair.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/kernel/sched/fair.c b/kernel/sched/fair.c
+index 029a518..167a996 100644
+--- a/kernel/sched/fair.c
++++ b/kernel/sched/fair.c
+@@ -4852,10 +4852,11 @@ static enum hrtimer_restart sched_cfs_period_timer(struct hrtimer *timer)
+ {
+ 	struct cfs_bandwidth *cfs_b =
+ 		container_of(timer, struct cfs_bandwidth, period_timer);
++	unsigned long flags;
+ 	int overrun;
+ 	int idle = 0;
+ 
+-	raw_spin_lock(&cfs_b->lock);
++	raw_spin_lock_irqsave(&cfs_b->lock, flags);
+ 	for (;;) {
+ 		overrun = hrtimer_forward_now(timer, cfs_b->period);
+ 		if (!overrun)
+-- 
+1.9.1
+

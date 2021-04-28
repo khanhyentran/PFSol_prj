@@ -1,0 +1,106 @@
+****************************************
+Apply Preempt RT patch for Linux
+****************************************
+This guiline shows how to apply Preempt RT patch for Linux kernel 4.19 on RZ/A2M Evaluation Board Kit.
+Current Linux kernel: 4.19.36
+Preempt RT patch: patch-4.19.37-rt19.patch
+
+I. Prepare and build environment (Please move to II. if you already build the environment)
+
+1. Prepare environment to build:
+	$ git clone https://github.com/renesas-rz/rza_linux-4.19_bsp.git
+	$ cd rza_linux-4.19_bsp
+	$ export WORK=$(pwd)
+
+	$ ./build.sh config
+	Select "rza2mevb RZ/A2M Eval Board (RZ/A2M)", then Save.
+
+2. Building Buildroot:
+	$ ./build.sh buildroot
+		============== Building buildroot ==============
+		What version of Buildroot do you want to use?
+		1. Buildroot-2017.02.10 (EOL)
+		2. Buildroot-2018.02.12 (EOL)
+		3. Buildroot-2019.02.x  (updates until March 2020)
+		(select number)=>
+		=> Choose "3"
+
+		1. Use the default Linaro toolchain (recommended)
+		2. Install Buildroot and then let me decide in the configuration menu (advanced)
+		=> Choose "1"
+
+3. Building U-boot:
+	$ ./build.sh u-boot
+
+4. Building kernel:
+	$ ./build.sh kernel xipImage
+
+II. Apply Preempt RT patch
+
+1. Download and copy Preempt RT patch to kernel directory
+- Download load Preempt RT patch at:
+cdn.kernel.org/pub/linux/kernel/projects/rt/4.19/older/patch-4.19.37-rt19.patch.xz
+
+- Extract and copy the patch file to $WORK/output/linux-4.19/
+
+2. Apply Preempt RT patch:
+- Checkout kernel source to kernel 4.19.36
+	$ cd $WORK/output/linux-4.19/
+	$ git checkout 20678b043f0b520505fec675e51ee97210f3d004 -b tmp
+
+- Apply the Preempt RT patch:
+	$ patch -p1 < patch-4.19.37-rt19.patch
+	
+- Copy following patch files to $WORK/output/linux-4.19/:
+	+ 0001-Add-Preempt-RT-modification-for-fair.c-on-Linux-4.19.patch (1)
+    + 0002-Clear-NACKF-flag-in-INTRIICNAKI-interrupt-processing.patch (2)
+		
+	(1): Add Preempt RT modifications that patch-4.19.37-rt19.patch could not
+		 apply to current kernel (4.19.36).
+	(2): Fix booting hang up issue when there is no touch LCD connected to RZ/A2M board.
+  
+- Apply the patch files:
+	$ cd $WORK/output/linux-4.19/
+	$ patch -p1 < 0001-Add-Preempt-RT-modification-for-fair.c-on-Linux-4.19.patch
+	$ patch -p1 < 0002-Clear-NACKF-flag-in-INTRIICNAKI-interrupt-processing.patch
+	
+3. Re-build the kernel
+- Enable Preempt RT type:
+	$ cd $WORK
+	$ ./build.sh kernel menuconfig
+	
+go to: > General setup > Preemption Model 
+=> Choose 1 among below options for Preempt type:
+												( ) No Forced Preemption (Server)
+												( ) Voluntary Kernel Preemption (Desktop)
+												( ) Preemptible Kernel (Low-Latency Desktop)
+												( ) Preemptible Kernel (Basic RT)
+												(X) Fully Preemptible Kernel (RT)
+
+Press Enter to choose the type.
+Save then exit the menuconfig.
+
+- Re-build the kernel
+	$ ./build.sh kernel xipImage
+	
+III. Re-program binary files (only re-program kernel if you already programed u-boot, device tree, filesystem)
+	$ cd $WORK
+	- Program u-boot:
+	$ ./build.sh jlink u-boot 0x20000000
+	
+	- Program device tree:
+	$ ./build.sh jlink dtb 0x200C0000
+	
+	- Program kernel:
+	$ cd $WORK
+	$ ./build.sh jlink xipImage 0x20200000
+	
+	- Program filesystem:
+	$ cd $WORK
+	$ ./build.sh jlink rootfs_axfs 0x20800000
+	
+- Restart the board to start new kernel:
+	At u-boot prompt: => run xha_boot
+	
+--- End ---
+

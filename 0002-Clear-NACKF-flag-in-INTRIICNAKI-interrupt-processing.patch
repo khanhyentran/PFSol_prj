@@ -1,0 +1,31 @@
+From 50097ce938e68f21a030c1f3b84005c68e9fa8ef Mon Sep 17 00:00:00 2001
+From: Chien Nguyen <chien.nguyen.eb@rvc.renesas.com>
+Date: Tue, 24 Sep 2019 10:04:36 +0700
+Subject: [PATCH] Clear NACKF flag in INTRIICNAKI interrupt processing
+
+NACKF flag should be cleared in INTRIICNAKI interrupt processing as description in HW manual.
+When applying Preempt RT patch, if there is no touch screen connected, INTRIICNAKI interrupt
+will run continuously and cause hang up issue when booting.
+By clearing NACKF flag, INTRIICNAKI interrupt does not run continuously and hang up issue is fixed.
+
+Signed-off-by: Chien Nguyen <chien.nguyen.eb@rvc.renesas.com>
+---
+ drivers/i2c/busses/i2c-riic.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/drivers/i2c/busses/i2c-riic.c b/drivers/i2c/busses/i2c-riic.c
+index b75ff14..1613c04 100644
+--- a/drivers/i2c/busses/i2c-riic.c
++++ b/drivers/i2c/busses/i2c-riic.c
+@@ -203,6 +203,8 @@ static irqreturn_t riic_tend_isr(int irq, void *data)
+ 	if (readb(riic->base + RIIC_ICSR2) & ICSR2_NACKF) {
+ 		/* We got a NACKIE */
+ 		readb(riic->base + RIIC_ICDRR);	/* dummy read */
++		/* Clear NACKF Flag */
++		riic_clear_set_bit(riic, ICSR2_NACKF, 0, RIIC_ICSR2);
+ 		riic->err = -ENXIO;
+ 	} else if (riic->bytes_left) {
+ 		return IRQ_NONE;
+-- 
+1.9.1
+
