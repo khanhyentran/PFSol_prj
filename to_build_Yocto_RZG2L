@@ -1,0 +1,59 @@
+Date: 2020 Mar/E
+
+1. Released source code information 
+
+- Kernel:
+Link: https://github.com/renesas-rz/rzg_linux-cip_private
+Branch: rvc/rzg2l-cip33-dbg
+CommitID: 61e438c1bbde0c0b2b6b61b9c7359a88d4f3cabb
+(RVC local repo: https://172.29.143.231/RZG/cip_kernel_devel)
+
+- TF-A :
+Link: https://github.com/renesas-rz/rzg_trusted-firmware-a_private
+Branch:rvc/rzg2l_init
+CommitID: bd5a8003dca1a1a12a5daab2fe18dad0e090d0ce
+(RVC local repo: https://172.29.143.231/RZG/rzg_trusted-firmware-a)
+
+- U-boot
+Link: https://github.com/renesas-rz/rzg_u-boot_private
+Branch: develop/rzg2l_init
+CommitID: ae49cb76cbeddabd826ff0dc7e35379681adc653
+(RVC local repo: https://172.29.143.231/RZG/u-boot)
+
+- Yocto recipes: 
+Link: https://github.com/renesas-rz/meta-rzg2-private
+Branch: rvc/rzg2l_init
+CommitID: d1a6a5dd4b18e3e1a4d5356759ebe67a349c65dc
+(RVC local repo: https://172.29.143.231/RZG/meta-rzg2)
+
+- meta-debian.tar.xz: in this folder. 
+
+2. How to build
+
+- Checkout corresponding poky, meta-openembedded, meta-rzg2, meta-debian
+cp ${RELEASE_DIR}/meta-debian.tar.xz ./; tar xf meta_debian.tar.xz 
+git clone https://git.yoctoproject.org/git/poky
+cd poky
+git checkout -b dunfell-23.0.5  dunfell-23.0.5
+git cherry-pick 9e444
+cd ..
+
+git clone https://github.com/openembedded/meta-openembedded
+cd meta-openembedded
+git checkout cc6fc6b1641ab23089c1e3bba11e0c6394f0867c
+cd ..
+
+git clone https://github.com/renesas-rz/meta-rzg2-private.git -b rvc/rzg2l_init
+
+- Build
+source poky/oe-init-build-env
+cp ../meta-rzg2/docs/sample/conf/rzg2l-smarc/minimal-bsp/*   ./conf/
+bitbake core-image-minimal
+
+- Build output: kernel Image, device tree, rootfs. There's also u-boot.bin, user must manual generate to FIP image(we 'll support to generate later).
+
+3. Change
+
+- In u-boot, kernel&dtb load address are changed to 0x48080000 and 0x48000000, so bootcmd now is changed to: 
+"ext4load mmc 1:1 0x48080000 Image; ext4load mmc 1:1 0x48000000 r9a07g044l-g2lsmarc.dtb; booti 0x48080000 - 0x48000000"
+
